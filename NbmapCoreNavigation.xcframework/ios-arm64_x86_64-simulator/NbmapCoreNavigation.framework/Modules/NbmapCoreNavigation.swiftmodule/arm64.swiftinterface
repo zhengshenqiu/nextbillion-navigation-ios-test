@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.5.2 effective-4.1.50 (swiftlang-1300.0.47.5 clang-1300.0.29.30)
-// swift-module-flags: -target arm64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 4 -enforce-exclusivity=checked -O -module-name NbmapCoreNavigation
+// swift-compiler-version: Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)
+// swift-module-flags: -target arm64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name NbmapCoreNavigation
 import AVFoundation
 import CarPlay
 import CommonCrypto
@@ -78,8 +78,8 @@ public enum AttributeValue : Swift.Equatable, Swift.CustomStringConvertible, Swi
   }
 }
 extension NbmapCoreNavigation.AttributeValue : Swift.Codable {
-  public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
 }
 extension NbmapCoreNavigation.Google_Protobuf_ListValue : Swift.ExpressibleByArrayLiteral {
   public typealias Element = NbmapCoreNavigation.Google_Protobuf_Value
@@ -136,13 +136,17 @@ public struct Google_Protobuf_FieldMask {
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
   public init()
 }
+extension NbmapCoreNavigation.Google_Protobuf_FieldMask : @unchecked Swift.Sendable {
+}
 extension NbmapCoreNavigation.Google_Protobuf_FieldMask : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_FieldMask, rhs: NbmapCoreNavigation.Google_Protobuf_FieldMask) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public protocol Tracer : AnyObject {
   func spanBuilder(spanName: Swift.String) -> NbmapCoreNavigation.SpanBuilder
@@ -236,13 +240,17 @@ public struct Google_Protobuf_SourceContext {
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
   public init()
 }
+extension NbmapCoreNavigation.Google_Protobuf_SourceContext : @unchecked Swift.Sendable {
+}
 extension NbmapCoreNavigation.Google_Protobuf_SourceContext : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_SourceContext, rhs: NbmapCoreNavigation.Google_Protobuf_SourceContext) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public protocol SpanProcessor {
   var isStartRequired: Swift.Bool { get }
@@ -392,13 +400,27 @@ public struct Opentelemetry_Proto_Common_V1_InstrumentationScope {
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
   public init()
 }
+extension NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_AnyValue : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_AnyValue.OneOf_Value : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_ArrayValue : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_KeyValueList : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_KeyValue : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_InstrumentationScope : @unchecked Swift.Sendable {
+}
 extension NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_AnyValue : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_AnyValue, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_AnyValue) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_ArrayValue : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -406,7 +428,9 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_ArrayValue : NbmapCo
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_ArrayValue, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_ArrayValue) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_KeyValueList : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -414,7 +438,9 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_KeyValueList : Nbmap
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_KeyValueList, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_KeyValueList) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_KeyValue : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -422,7 +448,9 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_KeyValue : NbmapCore
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_KeyValue, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_KeyValue) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_InstrumentationScope : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -430,7 +458,9 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_InstrumentationScope
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_InstrumentationScope, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_InstrumentationScope) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 open class BoundCounterMetric<T> {
   public init()
@@ -527,10 +557,10 @@ public enum SignStandard {
   }
 }
 extension NbmapDirections.RouteStep {
-  open var isMotorway: Swift.Bool {
+  public var isMotorway: Swift.Bool {
     get
   }
-  open var lastInstruction: NbmapDirections.SpokenInstruction? {
+  public var lastInstruction: NbmapDirections.SpokenInstruction? {
     get
   }
   public var shape: Turf.LineString? {
@@ -541,7 +571,7 @@ extension NbmapDirections.RouteStep {
   }
 }
 public protocol AnyExtensionField : Swift.CustomDebugStringConvertible {
-  var hashValue: Swift.Int { get }
+  func hash(into hasher: inout Swift.Hasher)
   var protobufExtension: NbmapCoreNavigation.AnyMessageExtension { get }
   func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   mutating func decodeExtensionField<T>(decoder: inout T) throws where T : NbmapCoreNavigation.NDecoder
@@ -569,14 +599,14 @@ public struct OptionalExtensionField<T> : NbmapCoreNavigation.ExtensionField whe
   public var debugDescription: Swift.String {
     get
   }
-  public var hashValue: Swift.Int {
-    get
-  }
+  public func hash(into hasher: inout Swift.Hasher)
   public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public struct RepeatedExtensionField<T> : NbmapCoreNavigation.ExtensionField where T : NbmapCoreNavigation.FieldType {
   public typealias BaseType = T.BaseType
@@ -585,9 +615,7 @@ public struct RepeatedExtensionField<T> : NbmapCoreNavigation.ExtensionField whe
   public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.RepeatedExtensionField<T>, rhs: NbmapCoreNavigation.RepeatedExtensionField<T>) -> Swift.Bool
   public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.RepeatedExtensionField<T>.ValueType)
-  public var hashValue: Swift.Int {
-    get
-  }
+  public func hash(into hasher: inout Swift.Hasher)
   public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public var debugDescription: Swift.String {
     get
@@ -595,7 +623,9 @@ public struct RepeatedExtensionField<T> : NbmapCoreNavigation.ExtensionField whe
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public struct PackedExtensionField<T> : NbmapCoreNavigation.ExtensionField where T : NbmapCoreNavigation.FieldType {
   public typealias BaseType = T.BaseType
@@ -604,9 +634,7 @@ public struct PackedExtensionField<T> : NbmapCoreNavigation.ExtensionField where
   public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.PackedExtensionField<T>, rhs: NbmapCoreNavigation.PackedExtensionField<T>) -> Swift.Bool
   public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.PackedExtensionField<T>.ValueType)
-  public var hashValue: Swift.Int {
-    get
-  }
+  public func hash(into hasher: inout Swift.Hasher)
   public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public var debugDescription: Swift.String {
     get
@@ -614,7 +642,9 @@ public struct PackedExtensionField<T> : NbmapCoreNavigation.ExtensionField where
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public struct OptionalEnumExtensionField<E> : NbmapCoreNavigation.ExtensionField where E : NbmapCoreNavigation.Enum, E.RawValue == Swift.Int {
   public typealias BaseType = E
@@ -626,14 +656,14 @@ public struct OptionalEnumExtensionField<E> : NbmapCoreNavigation.ExtensionField
   public var debugDescription: Swift.String {
     get
   }
-  public var hashValue: Swift.Int {
-    get
-  }
+  public func hash(into hasher: inout Swift.Hasher)
   public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public struct RepeatedEnumExtensionField<E> : NbmapCoreNavigation.ExtensionField where E : NbmapCoreNavigation.Enum, E.RawValue == Swift.Int {
   public typealias BaseType = E
@@ -642,9 +672,7 @@ public struct RepeatedEnumExtensionField<E> : NbmapCoreNavigation.ExtensionField
   public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.RepeatedEnumExtensionField<E>, rhs: NbmapCoreNavigation.RepeatedEnumExtensionField<E>) -> Swift.Bool
   public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.RepeatedEnumExtensionField<E>.ValueType)
-  public var hashValue: Swift.Int {
-    get
-  }
+  public func hash(into hasher: inout Swift.Hasher)
   public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public var debugDescription: Swift.String {
     get
@@ -652,7 +680,9 @@ public struct RepeatedEnumExtensionField<E> : NbmapCoreNavigation.ExtensionField
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public struct PackedEnumExtensionField<E> : NbmapCoreNavigation.ExtensionField where E : NbmapCoreNavigation.Enum, E.RawValue == Swift.Int {
   public typealias BaseType = E
@@ -661,9 +691,7 @@ public struct PackedEnumExtensionField<E> : NbmapCoreNavigation.ExtensionField w
   public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.PackedEnumExtensionField<E>, rhs: NbmapCoreNavigation.PackedEnumExtensionField<E>) -> Swift.Bool
   public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.PackedEnumExtensionField<E>.ValueType)
-  public var hashValue: Swift.Int {
-    get
-  }
+  public func hash(into hasher: inout Swift.Hasher)
   public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public var debugDescription: Swift.String {
     get
@@ -671,7 +699,9 @@ public struct PackedEnumExtensionField<E> : NbmapCoreNavigation.ExtensionField w
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public struct OptionalMessageExtensionField<M> : NbmapCoreNavigation.ExtensionField where M : NbmapCoreNavigation.Message, M : Swift.Equatable {
   public typealias BaseType = M
@@ -683,9 +713,7 @@ public struct OptionalMessageExtensionField<M> : NbmapCoreNavigation.ExtensionFi
   public var debugDescription: Swift.String {
     get
   }
-  public var hashValue: Swift.Int {
-    get
-  }
+  public func hash(into hasher: inout Swift.Hasher)
   public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
@@ -693,7 +721,9 @@ public struct OptionalMessageExtensionField<M> : NbmapCoreNavigation.ExtensionFi
   public var isInitialized: Swift.Bool {
     get
   }
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public struct RepeatedMessageExtensionField<M> : NbmapCoreNavigation.ExtensionField where M : NbmapCoreNavigation.Message, M : Swift.Equatable {
   public typealias BaseType = M
@@ -702,9 +732,7 @@ public struct RepeatedMessageExtensionField<M> : NbmapCoreNavigation.ExtensionFi
   public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.RepeatedMessageExtensionField<M>, rhs: NbmapCoreNavigation.RepeatedMessageExtensionField<M>) -> Swift.Bool
   public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.RepeatedMessageExtensionField<M>.ValueType)
-  public var hashValue: Swift.Int {
-    get
-  }
+  public func hash(into hasher: inout Swift.Hasher)
   public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public var debugDescription: Swift.String {
     get
@@ -715,7 +743,9 @@ public struct RepeatedMessageExtensionField<M> : NbmapCoreNavigation.ExtensionFi
   public var isInitialized: Swift.Bool {
     get
   }
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public struct OptionalGroupExtensionField<G> : NbmapCoreNavigation.ExtensionField where G : NbmapCoreNavigation.Message, G : Swift.Hashable {
   public typealias BaseType = G
@@ -724,9 +754,7 @@ public struct OptionalGroupExtensionField<G> : NbmapCoreNavigation.ExtensionFiel
   public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.OptionalGroupExtensionField<G>, rhs: NbmapCoreNavigation.OptionalGroupExtensionField<G>) -> Swift.Bool
   public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.OptionalGroupExtensionField<G>.ValueType)
-  public var hashValue: Swift.Int {
-    get
-  }
+  public func hash(into hasher: inout Swift.Hasher)
   public var debugDescription: Swift.String {
     get
   }
@@ -737,7 +765,9 @@ public struct OptionalGroupExtensionField<G> : NbmapCoreNavigation.ExtensionFiel
   public var isInitialized: Swift.Bool {
     get
   }
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public struct RepeatedGroupExtensionField<G> : NbmapCoreNavigation.ExtensionField where G : NbmapCoreNavigation.Message, G : Swift.Hashable {
   public typealias BaseType = G
@@ -746,9 +776,7 @@ public struct RepeatedGroupExtensionField<G> : NbmapCoreNavigation.ExtensionFiel
   public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.RepeatedGroupExtensionField<G>, rhs: NbmapCoreNavigation.RepeatedGroupExtensionField<G>) -> Swift.Bool
   public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.RepeatedGroupExtensionField<G>.ValueType)
-  public var hashValue: Swift.Int {
-    get
-  }
+  public func hash(into hasher: inout Swift.Hasher)
   public var debugDescription: Swift.String {
     get
   }
@@ -759,7 +787,9 @@ public struct RepeatedGroupExtensionField<G> : NbmapCoreNavigation.ExtensionFiel
   public var isInitialized: Swift.Bool {
     get
   }
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public protocol ITelemetryDataSource {
   var version: Swift.String? { get }
@@ -862,9 +892,7 @@ extension Swift.Array where Element == CoreLocation.CLLocationCoordinate2D {
 public struct ExtensionFieldValueSet : Swift.Hashable {
   public static func == (lhs: NbmapCoreNavigation.ExtensionFieldValueSet, rhs: NbmapCoreNavigation.ExtensionFieldValueSet) -> Swift.Bool
   public init()
-  public var hashValue: Swift.Int {
-    get
-  }
+  public func hash(into hasher: inout Swift.Hasher)
   public func traverse<V>(visitor: inout V, start: Swift.Int, end: Swift.Int) throws where V : NbmapCoreNavigation.Visitor
   public subscript(index: Swift.Int) -> NbmapCoreNavigation.AnyExtensionField? {
     get
@@ -873,7 +901,9 @@ public struct ExtensionFieldValueSet : Swift.Hashable {
   public var isInitialized: Swift.Bool {
     get
   }
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public protocol RouterDelegate : AnyObject, NbmapCoreNavigation.UnimplementedLogging {
   func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
@@ -925,9 +955,7 @@ public protocol Enum : Swift.Hashable, Swift.RawRepresentable {
   var rawValue: Swift.Int { get }
 }
 extension NbmapCoreNavigation.Enum {
-  public var hashValue: Swift.Int {
-    get
-  }
+  public func hash(into hasher: inout Swift.Hasher)
 }
 @_inheritsConvenienceInitializers @objc(NBNavigationLocationManager) open class NavigationLocationManager : CoreLocation.CLLocationManager, Foundation.NSCopying {
   @objc public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
@@ -956,13 +984,17 @@ public struct Google_Protobuf_Timestamp {
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
   public init()
 }
+extension NbmapCoreNavigation.Google_Protobuf_Timestamp : @unchecked Swift.Sendable {
+}
 extension NbmapCoreNavigation.Google_Protobuf_Timestamp : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_Timestamp, rhs: NbmapCoreNavigation.Google_Protobuf_Timestamp) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_Value : Swift.ExpressibleByIntegerLiteral {
   public typealias IntegerLiteralType = Swift.Int64
@@ -1378,13 +1410,17 @@ public struct Google_Protobuf_Duration {
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
   public init()
 }
+extension NbmapCoreNavigation.Google_Protobuf_Duration : @unchecked Swift.Sendable {
+}
 extension NbmapCoreNavigation.Google_Protobuf_Duration : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_Duration, rhs: NbmapCoreNavigation.Google_Protobuf_Duration) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public struct Opentelemetry_Proto_Resource_V1_Resource {
   public var attributes: [NbmapCoreNavigation.Opentelemetry_Proto_Common_V1_KeyValue]
@@ -1392,13 +1428,17 @@ public struct Opentelemetry_Proto_Resource_V1_Resource {
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
   public init()
 }
+extension NbmapCoreNavigation.Opentelemetry_Proto_Resource_V1_Resource : @unchecked Swift.Sendable {
+}
 extension NbmapCoreNavigation.Opentelemetry_Proto_Resource_V1_Resource : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Resource_V1_Resource, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Resource_V1_Resource) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public protocol CounterMetric {
   associatedtype T
@@ -1538,6 +1578,10 @@ public enum Google_Protobuf_Syntax : NbmapCoreNavigation.Enum {
     get
   }
 }
+extension NbmapCoreNavigation.Google_Protobuf_Syntax : Swift.CaseIterable {
+  public static var allCases: [NbmapCoreNavigation.Google_Protobuf_Syntax]
+  public typealias AllCases = [NbmapCoreNavigation.Google_Protobuf_Syntax]
+}
 public struct Google_Protobuf_Type {
   public var name: Swift.String
   public var fields: [NbmapCoreNavigation.Google_Protobuf_Field]
@@ -1610,6 +1654,14 @@ public struct Google_Protobuf_Field {
   }
   public init()
 }
+extension NbmapCoreNavigation.Google_Protobuf_Field.Kind : Swift.CaseIterable {
+  public static var allCases: [NbmapCoreNavigation.Google_Protobuf_Field.Kind]
+  public typealias AllCases = [NbmapCoreNavigation.Google_Protobuf_Field.Kind]
+}
+extension NbmapCoreNavigation.Google_Protobuf_Field.Cardinality : Swift.CaseIterable {
+  public static var allCases: [NbmapCoreNavigation.Google_Protobuf_Field.Cardinality]
+  public typealias AllCases = [NbmapCoreNavigation.Google_Protobuf_Field.Cardinality]
+}
 public struct Google_Protobuf_Enum {
   public var name: Swift.String
   public var enumvalue: [NbmapCoreNavigation.Google_Protobuf_EnumValue]
@@ -1646,6 +1698,22 @@ public struct Google_Protobuf_Option {
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
   public init()
 }
+extension NbmapCoreNavigation.Google_Protobuf_Syntax : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_Type : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_Field : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_Field.Kind : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_Field.Cardinality : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_Enum : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_EnumValue : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_Option : @unchecked Swift.Sendable {
+}
 extension NbmapCoreNavigation.Google_Protobuf_Syntax : NbmapCoreNavigation._ProtoNameProviding {
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
 }
@@ -1655,7 +1723,9 @@ extension NbmapCoreNavigation.Google_Protobuf_Type : NbmapCoreNavigation.Message
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_Type, rhs: NbmapCoreNavigation.Google_Protobuf_Type) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_Field : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -1663,7 +1733,9 @@ extension NbmapCoreNavigation.Google_Protobuf_Field : NbmapCoreNavigation.Messag
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_Field, rhs: NbmapCoreNavigation.Google_Protobuf_Field) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_Field.Kind : NbmapCoreNavigation._ProtoNameProviding {
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
@@ -1677,7 +1749,9 @@ extension NbmapCoreNavigation.Google_Protobuf_Enum : NbmapCoreNavigation.Message
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_Enum, rhs: NbmapCoreNavigation.Google_Protobuf_Enum) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_EnumValue : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -1685,7 +1759,9 @@ extension NbmapCoreNavigation.Google_Protobuf_EnumValue : NbmapCoreNavigation.Me
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_EnumValue, rhs: NbmapCoreNavigation.Google_Protobuf_EnumValue) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_Option : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -1693,7 +1769,9 @@ extension NbmapCoreNavigation.Google_Protobuf_Option : NbmapCoreNavigation.Messa
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_Option, rhs: NbmapCoreNavigation.Google_Protobuf_Option) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public struct Attribute : Swift.Codable {
   public struct Value : Swift.Codable {
@@ -1779,13 +1857,33 @@ public struct Google_Protobuf_BytesValue {
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
   public init()
 }
+extension NbmapCoreNavigation.Google_Protobuf_DoubleValue : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_FloatValue : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_Int64Value : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_UInt64Value : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_Int32Value : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_UInt32Value : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_BoolValue : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_StringValue : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_BytesValue : @unchecked Swift.Sendable {
+}
 extension NbmapCoreNavigation.Google_Protobuf_DoubleValue : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_DoubleValue, rhs: NbmapCoreNavigation.Google_Protobuf_DoubleValue) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_FloatValue : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -1793,7 +1891,9 @@ extension NbmapCoreNavigation.Google_Protobuf_FloatValue : NbmapCoreNavigation.M
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_FloatValue, rhs: NbmapCoreNavigation.Google_Protobuf_FloatValue) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_Int64Value : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -1801,7 +1901,9 @@ extension NbmapCoreNavigation.Google_Protobuf_Int64Value : NbmapCoreNavigation.M
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_Int64Value, rhs: NbmapCoreNavigation.Google_Protobuf_Int64Value) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_UInt64Value : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -1809,7 +1911,9 @@ extension NbmapCoreNavigation.Google_Protobuf_UInt64Value : NbmapCoreNavigation.
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_UInt64Value, rhs: NbmapCoreNavigation.Google_Protobuf_UInt64Value) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_Int32Value : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -1817,7 +1921,9 @@ extension NbmapCoreNavigation.Google_Protobuf_Int32Value : NbmapCoreNavigation.M
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_Int32Value, rhs: NbmapCoreNavigation.Google_Protobuf_Int32Value) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_UInt32Value : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -1825,7 +1931,9 @@ extension NbmapCoreNavigation.Google_Protobuf_UInt32Value : NbmapCoreNavigation.
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_UInt32Value, rhs: NbmapCoreNavigation.Google_Protobuf_UInt32Value) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_BoolValue : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -1833,7 +1941,9 @@ extension NbmapCoreNavigation.Google_Protobuf_BoolValue : NbmapCoreNavigation.Me
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_BoolValue, rhs: NbmapCoreNavigation.Google_Protobuf_BoolValue) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_StringValue : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -1841,7 +1951,9 @@ extension NbmapCoreNavigation.Google_Protobuf_StringValue : NbmapCoreNavigation.
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_StringValue, rhs: NbmapCoreNavigation.Google_Protobuf_StringValue) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_BytesValue : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -1849,7 +1961,9 @@ extension NbmapCoreNavigation.Google_Protobuf_BytesValue : NbmapCoreNavigation.M
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_BytesValue, rhs: NbmapCoreNavigation.Google_Protobuf_BytesValue) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public struct Resource : Swift.Equatable, Swift.Hashable, Swift.Codable {
   public var attributes: [Swift.String : NbmapCoreNavigation.AttributeValue]
@@ -2017,6 +2131,10 @@ public struct Opentelemetry_Proto_Trace_V1_ConstantSampler {
   }
   public init()
 }
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ConstantSampler.ConstantDecision : Swift.CaseIterable {
+  public static var allCases: [NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ConstantSampler.ConstantDecision]
+  public typealias AllCases = [NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ConstantSampler.ConstantDecision]
+}
 public struct Opentelemetry_Proto_Trace_V1_TraceIdRatioBased {
   public var samplingRatio: Swift.Double
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
@@ -2027,13 +2145,27 @@ public struct Opentelemetry_Proto_Trace_V1_RateLimitingSampler {
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
   public init()
 }
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_TraceConfig : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_TraceConfig.OneOf_Sampler : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ConstantSampler : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ConstantSampler.ConstantDecision : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_TraceIdRatioBased : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_RateLimitingSampler : @unchecked Swift.Sendable {
+}
 extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_TraceConfig : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_TraceConfig, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_TraceConfig) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ConstantSampler : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -2041,7 +2173,9 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ConstantSampler : Nbm
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ConstantSampler, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ConstantSampler) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ConstantSampler.ConstantDecision : NbmapCoreNavigation._ProtoNameProviding {
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
@@ -2052,7 +2186,9 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_TraceIdRatioBased : N
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_TraceIdRatioBased, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_TraceIdRatioBased) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_RateLimitingSampler : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -2060,7 +2196,9 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_RateLimitingSampler :
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_RateLimitingSampler, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_RateLimitingSampler) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public struct NavigationEngineConfig {
   public init()
@@ -2191,13 +2329,17 @@ public struct Google_Protobuf_Any {
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
   public init()
 }
+extension NbmapCoreNavigation.Google_Protobuf_Any : @unchecked Swift.Sendable {
+}
 extension NbmapCoreNavigation.Google_Protobuf_Any : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_Any, rhs: NbmapCoreNavigation.Google_Protobuf_Any) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public enum ExportResult {
   case success
@@ -2482,6 +2624,18 @@ public struct Google_Protobuf_FieldDescriptorProto {
     }
   }
   public init()
+}
+extension NbmapCoreNavigation.Google_Protobuf_FieldDescriptorProto.TypeEnum : Swift.CaseIterable {
+  public typealias AllCases = [NbmapCoreNavigation.Google_Protobuf_FieldDescriptorProto.TypeEnum]
+  public static var allCases: [NbmapCoreNavigation.Google_Protobuf_FieldDescriptorProto.TypeEnum] {
+    get
+  }
+}
+extension NbmapCoreNavigation.Google_Protobuf_FieldDescriptorProto.Label : Swift.CaseIterable {
+  public typealias AllCases = [NbmapCoreNavigation.Google_Protobuf_FieldDescriptorProto.Label]
+  public static var allCases: [NbmapCoreNavigation.Google_Protobuf_FieldDescriptorProto.Label] {
+    get
+  }
 }
 public struct Google_Protobuf_OneofDescriptorProto {
   public var name: Swift.String {
@@ -2827,6 +2981,12 @@ public struct Google_Protobuf_FileOptions : NbmapCoreNavigation.ExtensibleMessag
   public init()
   public var _protobuf_extensionFieldValues: NbmapCoreNavigation.ExtensionFieldValueSet
 }
+extension NbmapCoreNavigation.Google_Protobuf_FileOptions.OptimizeMode : Swift.CaseIterable {
+  public typealias AllCases = [NbmapCoreNavigation.Google_Protobuf_FileOptions.OptimizeMode]
+  public static var allCases: [NbmapCoreNavigation.Google_Protobuf_FileOptions.OptimizeMode] {
+    get
+  }
+}
 public struct Google_Protobuf_MessageOptions : NbmapCoreNavigation.ExtensibleMessage {
   public var messageSetWireFormat: Swift.Bool {
     get
@@ -2994,6 +3154,30 @@ public struct Google_Protobuf_FieldOptions : NbmapCoreNavigation.ExtensibleMessa
   public init()
   public var _protobuf_extensionFieldValues: NbmapCoreNavigation.ExtensionFieldValueSet
 }
+extension NbmapCoreNavigation.Google_Protobuf_FieldOptions.CType : Swift.CaseIterable {
+  public typealias AllCases = [NbmapCoreNavigation.Google_Protobuf_FieldOptions.CType]
+  public static var allCases: [NbmapCoreNavigation.Google_Protobuf_FieldOptions.CType] {
+    get
+  }
+}
+extension NbmapCoreNavigation.Google_Protobuf_FieldOptions.JSType : Swift.CaseIterable {
+  public typealias AllCases = [NbmapCoreNavigation.Google_Protobuf_FieldOptions.JSType]
+  public static var allCases: [NbmapCoreNavigation.Google_Protobuf_FieldOptions.JSType] {
+    get
+  }
+}
+extension NbmapCoreNavigation.Google_Protobuf_FieldOptions.OptionRetention : Swift.CaseIterable {
+  public typealias AllCases = [NbmapCoreNavigation.Google_Protobuf_FieldOptions.OptionRetention]
+  public static var allCases: [NbmapCoreNavigation.Google_Protobuf_FieldOptions.OptionRetention] {
+    get
+  }
+}
+extension NbmapCoreNavigation.Google_Protobuf_FieldOptions.OptionTargetType : Swift.CaseIterable {
+  public typealias AllCases = [NbmapCoreNavigation.Google_Protobuf_FieldOptions.OptionTargetType]
+  public static var allCases: [NbmapCoreNavigation.Google_Protobuf_FieldOptions.OptionTargetType] {
+    get
+  }
+}
 public struct Google_Protobuf_OneofOptions : NbmapCoreNavigation.ExtensibleMessage {
   public var uninterpretedOption: [NbmapCoreNavigation.Google_Protobuf_UninterpretedOption]
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
@@ -3090,6 +3274,12 @@ public struct Google_Protobuf_MethodOptions : NbmapCoreNavigation.ExtensibleMess
   }
   public init()
   public var _protobuf_extensionFieldValues: NbmapCoreNavigation.ExtensionFieldValueSet
+}
+extension NbmapCoreNavigation.Google_Protobuf_MethodOptions.IdempotencyLevel : Swift.CaseIterable {
+  public typealias AllCases = [NbmapCoreNavigation.Google_Protobuf_MethodOptions.IdempotencyLevel]
+  public static var allCases: [NbmapCoreNavigation.Google_Protobuf_MethodOptions.IdempotencyLevel] {
+    get
+  }
 }
 public struct Google_Protobuf_UninterpretedOption {
   public var name: [NbmapCoreNavigation.Google_Protobuf_UninterpretedOption.NamePart]
@@ -3245,6 +3435,84 @@ public struct Google_Protobuf_GeneratedCodeInfo {
   }
   public init()
 }
+extension NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo.Annotation.Semantic : Swift.CaseIterable {
+  public typealias AllCases = [NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo.Annotation.Semantic]
+  public static var allCases: [NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo.Annotation.Semantic] {
+    get
+  }
+}
+extension NbmapCoreNavigation.Google_Protobuf_FileDescriptorSet : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_FileDescriptorProto : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_DescriptorProto : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_DescriptorProto.ExtensionRange : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_DescriptorProto.ReservedRange : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_ExtensionRangeOptions : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_FieldDescriptorProto : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_FieldDescriptorProto.TypeEnum : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_FieldDescriptorProto.Label : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_OneofDescriptorProto : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_EnumDescriptorProto : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_EnumDescriptorProto.EnumReservedRange : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_EnumValueDescriptorProto : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_ServiceDescriptorProto : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_MethodDescriptorProto : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_FileOptions : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_FileOptions.OptimizeMode : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_MessageOptions : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_FieldOptions : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_FieldOptions.CType : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_FieldOptions.JSType : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_FieldOptions.OptionRetention : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_FieldOptions.OptionTargetType : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_OneofOptions : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_EnumOptions : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_EnumValueOptions : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_ServiceOptions : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_MethodOptions : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_MethodOptions.IdempotencyLevel : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_UninterpretedOption : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_UninterpretedOption.NamePart : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_SourceCodeInfo : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_SourceCodeInfo.Location : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo.Annotation : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo.Annotation.Semantic : @unchecked Swift.Sendable {
+}
 extension NbmapCoreNavigation.Google_Protobuf_FileDescriptorSet : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
@@ -3254,7 +3522,9 @@ extension NbmapCoreNavigation.Google_Protobuf_FileDescriptorSet : NbmapCoreNavig
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_FileDescriptorSet, rhs: NbmapCoreNavigation.Google_Protobuf_FileDescriptorSet) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_FileDescriptorProto : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3265,7 +3535,9 @@ extension NbmapCoreNavigation.Google_Protobuf_FileDescriptorProto : NbmapCoreNav
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_FileDescriptorProto, rhs: NbmapCoreNavigation.Google_Protobuf_FileDescriptorProto) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_DescriptorProto : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3276,7 +3548,9 @@ extension NbmapCoreNavigation.Google_Protobuf_DescriptorProto : NbmapCoreNavigat
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_DescriptorProto, rhs: NbmapCoreNavigation.Google_Protobuf_DescriptorProto) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_DescriptorProto.ExtensionRange : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3287,7 +3561,9 @@ extension NbmapCoreNavigation.Google_Protobuf_DescriptorProto.ExtensionRange : N
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_DescriptorProto.ExtensionRange, rhs: NbmapCoreNavigation.Google_Protobuf_DescriptorProto.ExtensionRange) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_DescriptorProto.ReservedRange : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3295,7 +3571,9 @@ extension NbmapCoreNavigation.Google_Protobuf_DescriptorProto.ReservedRange : Nb
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_DescriptorProto.ReservedRange, rhs: NbmapCoreNavigation.Google_Protobuf_DescriptorProto.ReservedRange) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_ExtensionRangeOptions : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3306,7 +3584,9 @@ extension NbmapCoreNavigation.Google_Protobuf_ExtensionRangeOptions : NbmapCoreN
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_ExtensionRangeOptions, rhs: NbmapCoreNavigation.Google_Protobuf_ExtensionRangeOptions) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_FieldDescriptorProto : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3317,7 +3597,9 @@ extension NbmapCoreNavigation.Google_Protobuf_FieldDescriptorProto : NbmapCoreNa
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_FieldDescriptorProto, rhs: NbmapCoreNavigation.Google_Protobuf_FieldDescriptorProto) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_FieldDescriptorProto.TypeEnum : NbmapCoreNavigation._ProtoNameProviding {
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
@@ -3334,7 +3616,9 @@ extension NbmapCoreNavigation.Google_Protobuf_OneofDescriptorProto : NbmapCoreNa
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_OneofDescriptorProto, rhs: NbmapCoreNavigation.Google_Protobuf_OneofDescriptorProto) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_EnumDescriptorProto : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3345,7 +3629,9 @@ extension NbmapCoreNavigation.Google_Protobuf_EnumDescriptorProto : NbmapCoreNav
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_EnumDescriptorProto, rhs: NbmapCoreNavigation.Google_Protobuf_EnumDescriptorProto) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_EnumDescriptorProto.EnumReservedRange : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3353,7 +3639,9 @@ extension NbmapCoreNavigation.Google_Protobuf_EnumDescriptorProto.EnumReservedRa
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_EnumDescriptorProto.EnumReservedRange, rhs: NbmapCoreNavigation.Google_Protobuf_EnumDescriptorProto.EnumReservedRange) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_EnumValueDescriptorProto : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3364,7 +3652,9 @@ extension NbmapCoreNavigation.Google_Protobuf_EnumValueDescriptorProto : NbmapCo
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_EnumValueDescriptorProto, rhs: NbmapCoreNavigation.Google_Protobuf_EnumValueDescriptorProto) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_ServiceDescriptorProto : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3375,7 +3665,9 @@ extension NbmapCoreNavigation.Google_Protobuf_ServiceDescriptorProto : NbmapCore
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_ServiceDescriptorProto, rhs: NbmapCoreNavigation.Google_Protobuf_ServiceDescriptorProto) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_MethodDescriptorProto : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3386,7 +3678,9 @@ extension NbmapCoreNavigation.Google_Protobuf_MethodDescriptorProto : NbmapCoreN
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_MethodDescriptorProto, rhs: NbmapCoreNavigation.Google_Protobuf_MethodDescriptorProto) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_FileOptions : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3397,7 +3691,9 @@ extension NbmapCoreNavigation.Google_Protobuf_FileOptions : NbmapCoreNavigation.
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_FileOptions, rhs: NbmapCoreNavigation.Google_Protobuf_FileOptions) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_FileOptions.OptimizeMode : NbmapCoreNavigation._ProtoNameProviding {
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
@@ -3411,7 +3707,9 @@ extension NbmapCoreNavigation.Google_Protobuf_MessageOptions : NbmapCoreNavigati
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_MessageOptions, rhs: NbmapCoreNavigation.Google_Protobuf_MessageOptions) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_FieldOptions : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3422,7 +3720,9 @@ extension NbmapCoreNavigation.Google_Protobuf_FieldOptions : NbmapCoreNavigation
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_FieldOptions, rhs: NbmapCoreNavigation.Google_Protobuf_FieldOptions) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_FieldOptions.CType : NbmapCoreNavigation._ProtoNameProviding {
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
@@ -3445,7 +3745,9 @@ extension NbmapCoreNavigation.Google_Protobuf_OneofOptions : NbmapCoreNavigation
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_OneofOptions, rhs: NbmapCoreNavigation.Google_Protobuf_OneofOptions) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_EnumOptions : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3456,7 +3758,9 @@ extension NbmapCoreNavigation.Google_Protobuf_EnumOptions : NbmapCoreNavigation.
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_EnumOptions, rhs: NbmapCoreNavigation.Google_Protobuf_EnumOptions) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_EnumValueOptions : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3467,7 +3771,9 @@ extension NbmapCoreNavigation.Google_Protobuf_EnumValueOptions : NbmapCoreNaviga
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_EnumValueOptions, rhs: NbmapCoreNavigation.Google_Protobuf_EnumValueOptions) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_ServiceOptions : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3478,7 +3784,9 @@ extension NbmapCoreNavigation.Google_Protobuf_ServiceOptions : NbmapCoreNavigati
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_ServiceOptions, rhs: NbmapCoreNavigation.Google_Protobuf_ServiceOptions) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_MethodOptions : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3489,7 +3797,9 @@ extension NbmapCoreNavigation.Google_Protobuf_MethodOptions : NbmapCoreNavigatio
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_MethodOptions, rhs: NbmapCoreNavigation.Google_Protobuf_MethodOptions) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_MethodOptions.IdempotencyLevel : NbmapCoreNavigation._ProtoNameProviding {
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
@@ -3503,7 +3813,9 @@ extension NbmapCoreNavigation.Google_Protobuf_UninterpretedOption : NbmapCoreNav
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_UninterpretedOption, rhs: NbmapCoreNavigation.Google_Protobuf_UninterpretedOption) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_UninterpretedOption.NamePart : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3514,7 +3826,9 @@ extension NbmapCoreNavigation.Google_Protobuf_UninterpretedOption.NamePart : Nbm
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_UninterpretedOption.NamePart, rhs: NbmapCoreNavigation.Google_Protobuf_UninterpretedOption.NamePart) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_SourceCodeInfo : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3522,7 +3836,9 @@ extension NbmapCoreNavigation.Google_Protobuf_SourceCodeInfo : NbmapCoreNavigati
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_SourceCodeInfo, rhs: NbmapCoreNavigation.Google_Protobuf_SourceCodeInfo) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_SourceCodeInfo.Location : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3530,7 +3846,9 @@ extension NbmapCoreNavigation.Google_Protobuf_SourceCodeInfo.Location : NbmapCor
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_SourceCodeInfo.Location, rhs: NbmapCoreNavigation.Google_Protobuf_SourceCodeInfo.Location) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3538,7 +3856,9 @@ extension NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo : NbmapCoreNavig
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo, rhs: NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo.Annotation : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3546,7 +3866,9 @@ extension NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo.Annotation : Nbm
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo.Annotation, rhs: NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo.Annotation) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo.Annotation.Semantic : NbmapCoreNavigation._ProtoNameProviding {
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
@@ -3655,9 +3977,7 @@ extension NbmapCoreNavigation.Google_Protobuf_Any {
   public init(textFormatString: Swift.String, extensions: NbmapCoreNavigation.ExtensionMap? = nil) throws
   public init(textFormatString: Swift.String, options: NbmapCoreNavigation.TextFormatDecodingOptions, extensions: NbmapCoreNavigation.ExtensionMap? = nil) throws
   public func isA<M>(_ type: M.Type) -> Swift.Bool where M : NbmapCoreNavigation.Message
-  public var hashValue: Swift.Int {
-    get
-  }
+  public func hash(into hasher: inout Swift.Hasher)
 }
 public class DispatchTimer {
   public enum State {
@@ -3715,6 +4035,10 @@ public enum Google_Protobuf_NullValue : NbmapCoreNavigation.Enum {
     get
   }
 }
+extension NbmapCoreNavigation.Google_Protobuf_NullValue : Swift.CaseIterable {
+  public static var allCases: [NbmapCoreNavigation.Google_Protobuf_NullValue]
+  public typealias AllCases = [NbmapCoreNavigation.Google_Protobuf_NullValue]
+}
 public struct Google_Protobuf_Struct {
   public var fields: [Swift.String : NbmapCoreNavigation.Google_Protobuf_Value]
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
@@ -3763,6 +4087,16 @@ public struct Google_Protobuf_ListValue {
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
   public init()
 }
+extension NbmapCoreNavigation.Google_Protobuf_NullValue : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_Struct : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_Value : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_Value.OneOf_Kind : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_ListValue : @unchecked Swift.Sendable {
+}
 extension NbmapCoreNavigation.Google_Protobuf_NullValue : NbmapCoreNavigation._ProtoNameProviding {
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
 }
@@ -3772,7 +4106,9 @@ extension NbmapCoreNavigation.Google_Protobuf_Struct : NbmapCoreNavigation.Messa
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_Struct, rhs: NbmapCoreNavigation.Google_Protobuf_Struct) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_Value : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3780,7 +4116,9 @@ extension NbmapCoreNavigation.Google_Protobuf_Value : NbmapCoreNavigation.Messag
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_Value, rhs: NbmapCoreNavigation.Google_Protobuf_Value) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_ListValue : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -3788,7 +4126,9 @@ extension NbmapCoreNavigation.Google_Protobuf_ListValue : NbmapCoreNavigation.Me
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_ListValue, rhs: NbmapCoreNavigation.Google_Protobuf_ListValue) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public struct JSONEncodingOptions {
   public var alwaysPrintEnumsAsInts: Swift.Bool
@@ -3892,13 +4232,17 @@ public struct Google_Protobuf_Empty {
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
   public init()
 }
+extension NbmapCoreNavigation.Google_Protobuf_Empty : @unchecked Swift.Sendable {
+}
 extension NbmapCoreNavigation.Google_Protobuf_Empty : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_Empty, rhs: NbmapCoreNavigation.Google_Protobuf_Empty) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers open class ConfigurationRequestParams : ObjectiveC.NSObject {
   @objc convenience override dynamic public init()
@@ -3997,13 +4341,21 @@ public struct Google_Protobuf_Mixin {
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
   public init()
 }
+extension NbmapCoreNavigation.Google_Protobuf_Api : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_Method : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Google_Protobuf_Mixin : @unchecked Swift.Sendable {
+}
 extension NbmapCoreNavigation.Google_Protobuf_Api : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_Api, rhs: NbmapCoreNavigation.Google_Protobuf_Api) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_Method : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -4011,7 +4363,9 @@ extension NbmapCoreNavigation.Google_Protobuf_Method : NbmapCoreNavigation.Messa
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_Method, rhs: NbmapCoreNavigation.Google_Protobuf_Method) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Google_Protobuf_Mixin : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -4019,7 +4373,9 @@ extension NbmapCoreNavigation.Google_Protobuf_Mixin : NbmapCoreNavigation.Messag
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Google_Protobuf_Mixin, rhs: NbmapCoreNavigation.Google_Protobuf_Mixin) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public struct W3CTraceContextPropagator : NbmapCoreNavigation.TextMapPropagator {
   public init()
@@ -4059,10 +4415,17 @@ extension NbmapCoreNavigation.Message {
   public func serializedData(partial: Swift.Bool = false) throws -> Foundation.Data
   @inlinable public init(serializedData data: Foundation.Data, extensions: NbmapCoreNavigation.ExtensionMap? = nil, partial: Swift.Bool = false, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws {
     self.init()
-    try merge(serializedData: data, extensions: extensions, partial: partial, options: options)
+    try merge(contiguousBytes: data, extensions: extensions, partial: partial, options: options)
+  }
+  @inlinable public init<Bytes>(contiguousBytes bytes: Bytes, extensions: NbmapCoreNavigation.ExtensionMap? = nil, partial: Swift.Bool = false, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws where Bytes : Foundation.ContiguousBytes {
+    self.init()
+    try merge(contiguousBytes: bytes, extensions: extensions, partial: partial, options: options)
   }
   @inlinable public mutating func merge(serializedData data: Foundation.Data, extensions: NbmapCoreNavigation.ExtensionMap? = nil, partial: Swift.Bool = false, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws {
-    try data.withUnsafeBytes { (body: UnsafeRawBufferPointer) in
+    try merge(contiguousBytes: data, extensions: extensions, partial: partial, options: options)
+  }
+  @inlinable public mutating func merge<Bytes>(contiguousBytes bytes: Bytes, extensions: NbmapCoreNavigation.ExtensionMap? = nil, partial: Swift.Bool = false, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws where Bytes : Foundation.ContiguousBytes {
+    try bytes.withUnsafeBytes { (body: UnsafeRawBufferPointer) in
       try _merge(rawBuffer: body, extensions: extensions, partial: partial, options: options)
     }
   }
@@ -4308,8 +4671,8 @@ extension NbmapCoreNavigation.Status : Swift.CustomStringConvertible {
   }
 }
 extension NbmapCoreNavigation.Status : Swift.Codable {
-  public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
 }
 extension NbmapCoreNavigation.Message {
   public func textFormatString() -> Swift.String
@@ -4880,7 +5243,7 @@ extension NbmapCoreNavigation.Meter {
   @objc deinit
 }
 extension Foundation.NSAttributedString.Key {
-  public static let quantity: Foundation.NSAttributedStringKey
+  public static let quantity: Foundation.NSAttributedString.Key
 }
 @objc(NBDistanceFormatter) open class DistanceFormatter : Foundation.LengthFormatter {
   public var unit: Foundation.LengthFormatter.Unit {
@@ -4893,7 +5256,7 @@ extension Foundation.NSAttributedString.Key {
   @objc override dynamic open func string(fromMeters numberInMeters: Swift.Double) -> Swift.String
   @available(iOS 10.0, *)
   @objc(measurementOfDistance:) public func measurement(of distance: CoreLocation.CLLocationDistance) -> Foundation.Measurement<Foundation.UnitLength>
-  @objc override dynamic open func attributedString(for obj: Any, withDefaultAttributes attrs: [Foundation.NSAttributedStringKey : Any]? = nil) -> Foundation.NSAttributedString?
+  @objc override dynamic open func attributedString(for obj: Any, withDefaultAttributes attrs: [Foundation.NSAttributedString.Key : Any]? = nil) -> Foundation.NSAttributedString?
   @objc deinit
 }
 public struct SpanId : Swift.Equatable, Swift.Comparable, Swift.Hashable, Swift.CustomStringConvertible, Swift.Codable {
@@ -5542,13 +5905,21 @@ public struct Opentelemetry_Proto_Collector_Trace_V1_ExportTracePartialSuccess {
   public var unknownFields: NbmapCoreNavigation.UnknownStorage
   public init()
 }
+extension NbmapCoreNavigation.Opentelemetry_Proto_Collector_Trace_V1_ExportTraceServiceRequest : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Collector_Trace_V1_ExportTraceServiceResponse : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Collector_Trace_V1_ExportTracePartialSuccess : @unchecked Swift.Sendable {
+}
 extension NbmapCoreNavigation.Opentelemetry_Proto_Collector_Trace_V1_ExportTraceServiceRequest : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Collector_Trace_V1_ExportTraceServiceRequest, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Collector_Trace_V1_ExportTraceServiceRequest) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Opentelemetry_Proto_Collector_Trace_V1_ExportTraceServiceResponse : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -5556,7 +5927,9 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Collector_Trace_V1_ExportTrace
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Collector_Trace_V1_ExportTraceServiceResponse, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Collector_Trace_V1_ExportTraceServiceResponse) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Opentelemetry_Proto_Collector_Trace_V1_ExportTracePartialSuccess : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -5564,7 +5937,9 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Collector_Trace_V1_ExportTrace
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Collector_Trace_V1_ExportTracePartialSuccess, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Collector_Trace_V1_ExportTracePartialSuccess) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public typealias LocationDistance = CoreLocation.CLLocationDistance
 public typealias DistanceIndex = (distance: NbmapCoreNavigation.LocationDistance, index: Swift.Int)
@@ -5705,6 +6080,10 @@ public struct Opentelemetry_Proto_Trace_V1_Span {
   }
   public init()
 }
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span.SpanKind : Swift.CaseIterable {
+  public static var allCases: [NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span.SpanKind]
+  public typealias AllCases = [NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span.SpanKind]
+}
 public struct Opentelemetry_Proto_Trace_V1_Status {
   public var message: Swift.String
   public var code: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Status.StatusCode
@@ -5723,13 +6102,37 @@ public struct Opentelemetry_Proto_Trace_V1_Status {
   }
   public init()
 }
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Status.StatusCode : Swift.CaseIterable {
+  public static var allCases: [NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Status.StatusCode]
+  public typealias AllCases = [NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Status.StatusCode]
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_TracesData : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ResourceSpans : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ScopeSpans : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span.SpanKind : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span.Event : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span.Link : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Status : @unchecked Swift.Sendable {
+}
+extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Status.StatusCode : @unchecked Swift.Sendable {
+}
 extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_TracesData : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_TracesData, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_TracesData) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ResourceSpans : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -5737,7 +6140,9 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ResourceSpans : Nbmap
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ResourceSpans, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ResourceSpans) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ScopeSpans : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -5745,7 +6150,9 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ScopeSpans : NbmapCor
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ScopeSpans, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_ScopeSpans) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -5753,7 +6160,9 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span : NbmapCoreNavig
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span.SpanKind : NbmapCoreNavigation._ProtoNameProviding {
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
@@ -5764,7 +6173,9 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span.Event : NbmapCor
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span.Event, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span.Event) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span.Link : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -5772,7 +6183,9 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span.Link : NbmapCore
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span.Link, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Span.Link) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Status : NbmapCoreNavigation.Message, NbmapCoreNavigation._MessageImplementationBase, NbmapCoreNavigation._ProtoNameProviding {
   public static let protoMessageName: Swift.String
@@ -5780,7 +6193,9 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Status : NbmapCoreNav
   public mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public static func == (lhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Status, rhs: NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Status) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Status.StatusCode : NbmapCoreNavigation._ProtoNameProviding {
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
@@ -6252,16 +6667,14 @@ public protocol Message : Swift.CustomDebugStringConvertible {
   var unknownFields: NbmapCoreNavigation.UnknownStorage { get set }
   mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
-  var hashValue: Swift.Int { get }
+  func hash(into hasher: inout Swift.Hasher)
   func isEqualTo(message: NbmapCoreNavigation.Message) -> Swift.Bool
 }
 extension NbmapCoreNavigation.Message {
   public var isInitialized: Swift.Bool {
     get
   }
-  public var hashValue: Swift.Int {
-    get
-  }
+  public func hash(into hasher: inout Swift.Hasher)
   public var debugDescription: Swift.String {
     get
   }
@@ -6682,10 +7095,6 @@ public class DeviceDataSource : NbmapCoreNavigation.IDeviceDataSource {
     get
   }
   @objc deinit
-}
-extension Foundation.Data {
-  @usableFromInline
-  internal func withUnsafeBytes<T>(_ body: (Swift.UnsafeRawBufferPointer) throws -> T) rethrows -> T
 }
 public protocol BinaryFormattable {
   func fromByteArray(bytes: [Swift.UInt8]) -> NbmapCoreNavigation.SpanContext?
