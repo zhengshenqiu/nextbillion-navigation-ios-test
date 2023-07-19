@@ -569,6 +569,9 @@ extension NbmapDirections.RouteStep {
   public var isEnterRoundabout: Swift.Bool {
     get
   }
+  public var isUturn: Swift.Bool {
+    get
+  }
 }
 public protocol AnyExtensionField : Swift.CustomDebugStringConvertible {
   func hash(into hasher: inout Swift.Hasher)
@@ -6414,6 +6417,7 @@ public struct OpenTelemetryContextProvider {
 public var RouteControllerMaximumDistanceBeforeRecalculating: Swift.Double
 public var RouteControllerMinimumDistanceBeforeRecalculating: Swift.Double
 public var RouteControllerMaximumAllowedDegreeOffsetForTurnCompletion: Swift.Double
+public var RouteControllerMaximumAllowedDegreeOffsetForUTurn: Swift.Double
 public var RouteControllerMediumAlertInterval: Swift.Double
 public var RouteControllerHighAlertInterval: Swift.Double
 public var RouteControllerManeuverZoneRadius: Swift.Double
