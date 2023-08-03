@@ -2009,6 +2009,7 @@ public protocol OffRouteDetector {
   func userOffRouteStatus(_ location: CoreLocation.CLLocation, routeProgress: NbmapCoreNavigation.RouteProgress) -> NbmapCoreNavigation.OffRouteStatus
   var delegate: NbmapCoreNavigation.OffRouteDetectorDelegate? { get set }
   func newRouteHasBeenSet()
+  func updateLastReroutePoint(location: CoreLocation.CLLocation)
 }
 public class NBOffRouteDetector : NbmapCoreNavigation.OffRouteDetector {
   weak public var delegate: NbmapCoreNavigation.OffRouteDetectorDelegate?
@@ -2025,6 +2026,7 @@ public class NBOffRouteDetector : NbmapCoreNavigation.OffRouteDetector {
     get
   }
   public func reroutingTolerance(location: CoreLocation.CLLocation, routeProgress: NbmapCoreNavigation.RouteProgress) -> CoreLocation.CLLocationDistance
+  public func updateLastReroutePoint(location: CoreLocation.CLLocation)
   public func newRouteHasBeenSet()
   @objc deinit
 }
@@ -4143,7 +4145,10 @@ extension CoreLocation.CLLocation {
     get
   }
   convenience public init(dictionary: [Swift.String : Any])
+  public func isCloseToManuver(_ maximumDistance: CoreLocation.CLLocationDistance, of routeStep: NbmapDirections.RouteStep) -> Swift.Bool
+  public func isWithin(_ maximumDistance: CoreLocation.CLLocationDistance, of routeStep: NbmapDirections.RouteStep) -> Swift.Bool
   public func coordinates(for legProgress: NbmapCoreNavigation.RouteLegProgress) -> [CoreLocation.CLLocationCoordinate2D]
+  public func nearbyCoordinates(for legProgress: NbmapCoreNavigation.RouteLegProgress) -> [CoreLocation.CLLocationCoordinate2D]
   public var toRecordDic: [Swift.String : Any] {
     get
   }
