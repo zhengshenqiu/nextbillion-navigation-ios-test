@@ -1179,18 +1179,6 @@ SWIFT_PROTOCOL_NAMED("NavigationMapViewDelegate")
 /// returns:
 /// An NGLStyleLayer that the map applies to all routes.
 - (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView routeStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
-/// Asks the receiver to return an NGLStyleLayer for waypoints, given an identifier and source.
-/// This method is invoked when the map view loads and any time waypoints are added.
-/// \param mapView The NavigationMapView.
-///
-/// \param identifier The style identifier.
-///
-/// \param source The Layer source containing the waypoint data that this method would style.
-///
-///
-/// returns:
-/// An NGLStyleLayer that the map applies to all waypoints.
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView waypointStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
 /// Asks the receiver to return an NGLStyleLayer for waypoint symbols, given an identifier and source.
 /// This method is invoked when the map view loads and any time waypoints are added.
 /// \param mapView The NavigationMapView.
@@ -1202,7 +1190,7 @@ SWIFT_PROTOCOL_NAMED("NavigationMapViewDelegate")
 ///
 /// returns:
 /// An NGLStyleLayer that the map applies to all waypoint symbols.
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView waypointSymbolStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView waypointSymbolStyleLayerWithIdentifier:(NSString * _Nonnull)identifier waypoints:(NSArray<NBWaypoint *> * _Nonnull)waypoints source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
 /// Asks the receiver to return an NGLStyleLayer for route casings, given an identifier and source.
 /// This method is invoked when the map view loads and anytime routes are added.
 /// note:
@@ -1404,14 +1392,15 @@ SWIFT_CLASS_NAMED("NavigationViewController")
 
 
 
+
 @class NGLAnnotationImage;
 @class NGLAnnotationView;
 
 @interface NBNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NGLMapViewDelegate>
 - (NGLAnnotationImage * _Nullable)mapView:(NGLMapView * _Nonnull)mapView imageForAnnotation:(id <NGLAnnotation> _Nonnull)annotation SWIFT_WARN_UNUSED_RESULT;
 - (NGLAnnotationView * _Nullable)mapView:(NGLMapView * _Nonnull)mapView viewForAnnotation:(id <NGLAnnotation> _Nonnull)annotation SWIFT_WARN_UNUSED_RESULT;
+- (void)mapView:(NGLMapView * _Nonnull)mapView didSelectAnnotation:(id <NGLAnnotation> _Nonnull)annotation;
 @end
-
 
 
 @interface NBNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBStyleManagerDelegate>
@@ -1425,11 +1414,11 @@ SWIFT_CLASS_NAMED("NavigationViewController")
 @interface NBNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBNavigationMapViewDelegate>
 - (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView routeStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
 - (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView routeCasingStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView waypointStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView waypointSymbolStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView waypointSymbolStyleLayerWithIdentifier:(NSString * _Nonnull)identifier waypoints:(NSArray<NBWaypoint *> * _Nonnull)waypoints source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
 - (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView shapeForWaypoints:(NSArray<NBWaypoint *> * _Nonnull)waypoints legIndex:(NSInteger)legIndex SWIFT_WARN_UNUSED_RESULT;
 - (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView shapeForRoutes:(NSArray<NBNavRoute *> * _Nonnull)routes SWIFT_WARN_UNUSED_RESULT;
 - (void)navigationMapView:(NBNavigationMapView * _Nonnull)mapView didSelectRoute:(NBNavRoute * _Nonnull)route;
+- (void)navigationMapView:(NBNavigationMapView * _Nonnull)mapView didSelectWaypoint:(NBWaypoint * _Nonnull)waypoint;
 - (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView simplifiedShapeForRoute:(NBNavRoute * _Nonnull)route SWIFT_WARN_UNUSED_RESULT;
 - (void)mapView:(NGLMapView * _Nonnull)mapView didFinishLoadingStyle:(NGLStyle * _Nonnull)style;
 @end
@@ -3046,18 +3035,6 @@ SWIFT_PROTOCOL_NAMED("NavigationMapViewDelegate")
 /// returns:
 /// An NGLStyleLayer that the map applies to all routes.
 - (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView routeStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
-/// Asks the receiver to return an NGLStyleLayer for waypoints, given an identifier and source.
-/// This method is invoked when the map view loads and any time waypoints are added.
-/// \param mapView The NavigationMapView.
-///
-/// \param identifier The style identifier.
-///
-/// \param source The Layer source containing the waypoint data that this method would style.
-///
-///
-/// returns:
-/// An NGLStyleLayer that the map applies to all waypoints.
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView waypointStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
 /// Asks the receiver to return an NGLStyleLayer for waypoint symbols, given an identifier and source.
 /// This method is invoked when the map view loads and any time waypoints are added.
 /// \param mapView The NavigationMapView.
@@ -3069,7 +3046,7 @@ SWIFT_PROTOCOL_NAMED("NavigationMapViewDelegate")
 ///
 /// returns:
 /// An NGLStyleLayer that the map applies to all waypoint symbols.
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView waypointSymbolStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView waypointSymbolStyleLayerWithIdentifier:(NSString * _Nonnull)identifier waypoints:(NSArray<NBWaypoint *> * _Nonnull)waypoints source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
 /// Asks the receiver to return an NGLStyleLayer for route casings, given an identifier and source.
 /// This method is invoked when the map view loads and anytime routes are added.
 /// note:
@@ -3271,14 +3248,15 @@ SWIFT_CLASS_NAMED("NavigationViewController")
 
 
 
+
 @class NGLAnnotationImage;
 @class NGLAnnotationView;
 
 @interface NBNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NGLMapViewDelegate>
 - (NGLAnnotationImage * _Nullable)mapView:(NGLMapView * _Nonnull)mapView imageForAnnotation:(id <NGLAnnotation> _Nonnull)annotation SWIFT_WARN_UNUSED_RESULT;
 - (NGLAnnotationView * _Nullable)mapView:(NGLMapView * _Nonnull)mapView viewForAnnotation:(id <NGLAnnotation> _Nonnull)annotation SWIFT_WARN_UNUSED_RESULT;
+- (void)mapView:(NGLMapView * _Nonnull)mapView didSelectAnnotation:(id <NGLAnnotation> _Nonnull)annotation;
 @end
-
 
 
 @interface NBNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBStyleManagerDelegate>
@@ -3292,11 +3270,11 @@ SWIFT_CLASS_NAMED("NavigationViewController")
 @interface NBNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBNavigationMapViewDelegate>
 - (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView routeStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
 - (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView routeCasingStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView waypointStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView waypointSymbolStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView waypointSymbolStyleLayerWithIdentifier:(NSString * _Nonnull)identifier waypoints:(NSArray<NBWaypoint *> * _Nonnull)waypoints source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
 - (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView shapeForWaypoints:(NSArray<NBWaypoint *> * _Nonnull)waypoints legIndex:(NSInteger)legIndex SWIFT_WARN_UNUSED_RESULT;
 - (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView shapeForRoutes:(NSArray<NBNavRoute *> * _Nonnull)routes SWIFT_WARN_UNUSED_RESULT;
 - (void)navigationMapView:(NBNavigationMapView * _Nonnull)mapView didSelectRoute:(NBNavRoute * _Nonnull)route;
+- (void)navigationMapView:(NBNavigationMapView * _Nonnull)mapView didSelectWaypoint:(NBWaypoint * _Nonnull)waypoint;
 - (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView simplifiedShapeForRoute:(NBNavRoute * _Nonnull)route SWIFT_WARN_UNUSED_RESULT;
 - (void)mapView:(NGLMapView * _Nonnull)mapView didFinishLoadingStyle:(NGLStyle * _Nonnull)style;
 @end

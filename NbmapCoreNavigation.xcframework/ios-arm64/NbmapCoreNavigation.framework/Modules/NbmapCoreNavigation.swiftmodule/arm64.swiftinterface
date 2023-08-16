@@ -915,7 +915,7 @@ public protocol RouterDelegate : AnyObject, NbmapCoreNavigation.UnimplementedLog
   func routeController(_ routeController: NbmapCoreNavigation.RouteController, didRerouteAlong route: NbmapDirections.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
   func routeController(_ routeController: NbmapCoreNavigation.RouteController, didFailToRerouteWith error: Swift.Error)
   func routeController(_ router: NbmapCoreNavigation.RouteController, didUpdate progress: NbmapCoreNavigation.RouteProgress, with location: CoreLocation.CLLocation, rawLocation: CoreLocation.CLLocation)
-  func routeController(_ routeController: NbmapCoreNavigation.RouteController, didArriveAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  func routeController(_ routeController: NbmapCoreNavigation.RouteController, didArriveAt waypoint: NbmapDirections.Waypoint)
   func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
   func routeControllerShouldDisableBatteryMonitoring(_ routeController: NbmapCoreNavigation.RouteController) -> Swift.Bool
   func routeController(_ router: NbmapCoreNavigation.RouteController, didPassVisualInstructionPoint instruction: NbmapDirections.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
@@ -929,7 +929,7 @@ extension NbmapCoreNavigation.RouterDelegate {
   public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didRerouteAlong route: NbmapDirections.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
   public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didFailToRerouteWith error: Swift.Error)
   public func routeController(_ router: NbmapCoreNavigation.RouteController, didUpdate progress: NbmapCoreNavigation.RouteProgress, with location: CoreLocation.CLLocation, rawLocation: CoreLocation.CLLocation)
-  public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didArriveAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didArriveAt waypoint: NbmapDirections.Waypoint)
   public func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
   public func routeControllerShouldDisableBatteryMonitoring(_ routeController: NbmapCoreNavigation.RouteController) -> Swift.Bool
   public func routeController(_ router: NbmapCoreNavigation.RouteController, didPassVisualInstructionPoint instruction: NbmapDirections.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
@@ -2223,6 +2223,7 @@ public struct NavigationEngineConfig {
   public var navigationRerouteRequestResponseInterval: Foundation.TimeInterval
   public var manuallyEndNavigationUponCompletion: Swift.Bool
   public var minimumDistanceBeforeRerouting: CoreLocation.CLLocationDistance
+  public var minimumDistanceTravelAway: CoreLocation.CLLocationDistance
   public var maximumDistanceBeforeRerouting: CoreLocation.CLLocationDistance
   public var minimumDurationBeforeRerouting: Swift.Int
   public var isDebugLoggingEnabled: Swift.Bool
@@ -3900,7 +3901,6 @@ public enum SpanKind : Swift.String, Swift.Equatable, Swift.Codable {
   public enum DefaultBehavior {
     public static let shouldRerouteFromLocation: Swift.Bool
     public static let shouldDiscardLocation: Swift.Bool
-    public static let didArriveAtWaypoint: Swift.Bool
     public static let shouldPreventReroutesWhenArrivingAtWaypoint: Swift.Bool
     public static let shouldDisableBatteryMonitoring: Swift.Bool
   }
@@ -4148,7 +4148,7 @@ extension CoreLocation.CLLocation {
   public func isCloseToManuver(_ maximumDistance: CoreLocation.CLLocationDistance, of routeStep: NbmapDirections.RouteStep) -> Swift.Bool
   public func isWithin(_ maximumDistance: CoreLocation.CLLocationDistance, of routeStep: NbmapDirections.RouteStep) -> Swift.Bool
   public func coordinates(for legProgress: NbmapCoreNavigation.RouteLegProgress) -> [CoreLocation.CLLocationCoordinate2D]
-  public func nearbyCoordinates(for legProgress: NbmapCoreNavigation.RouteLegProgress) -> [CoreLocation.CLLocationCoordinate2D]
+  public func nearbyCoordinates(for routeProgress: NbmapCoreNavigation.RouteProgress) -> [CoreLocation.CLLocationCoordinate2D]
   public var toRecordDic: [Swift.String : Any] {
     get
   }
@@ -4613,7 +4613,7 @@ extension NbmapCoreNavigation.NBNavigationService : NbmapCoreNavigation.RouterDe
   @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didRerouteAlong route: NbmapDirections.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
   @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didFailToRerouteWith error: Swift.Error)
   @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldDiscard location: CoreLocation.CLLocation) -> Swift.Bool
-  @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didArriveAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didArriveAt waypoint: NbmapDirections.Waypoint)
   public func routeController(_ router: NbmapCoreNavigation.RouteController, didRefresh progress: NbmapCoreNavigation.RouteProgress)
 }
 extension NbmapCoreNavigation.NBNavigationService : CoreLocation.CLLocationManagerDelegate {
@@ -5391,6 +5391,9 @@ public struct SpanContext : Swift.Equatable, Swift.CustomStringConvertible, Swif
     get
   }
   public var priorStep: NbmapDirections.RouteStep? {
+    get
+  }
+  public var priorStepWithoutLastStepOfLeg: NbmapDirections.RouteStep? {
     get
   }
   public var upcomingStep: NbmapDirections.RouteStep? {
@@ -6421,6 +6424,8 @@ public struct OpenTelemetryContextProvider {
 }
 public var RouteControllerMaximumDistanceBeforeRecalculating: Swift.Double
 public var RouteControllerMinimumDistanceBeforeRecalculating: Swift.Double
+public var RouteControllerMinimumDistanceTravelAway: Swift.Double
+public var RouteControllerArriveDistanceNotification: Swift.Double
 public var RouteControllerMaximumAllowedDegreeOffsetForTurnCompletion: Swift.Double
 public var RouteControllerMaximumAllowedDegreeOffsetForUTurn: Swift.Double
 public var RouteControllerMediumAlertInterval: Swift.Double
@@ -6719,7 +6724,7 @@ public protocol NavigationServiceDelegate : AnyObject, NbmapCoreNavigation.Unimp
   func navigationService(_ service: NbmapCoreNavigation.NavigationService, didUpdate progress: NbmapCoreNavigation.RouteProgress, with location: CoreLocation.CLLocation, rawLocation: CoreLocation.CLLocation)
   func navigationService(_ service: NbmapCoreNavigation.NavigationService, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
   func navigationService(_ service: NbmapCoreNavigation.NavigationService, willArriveAt waypoint: NbmapDirections.Waypoint, after remainingTimeInterval: Foundation.TimeInterval, distance: CoreLocation.CLLocationDistance)
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, didArriveAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  func navigationService(_ service: NbmapCoreNavigation.NavigationService, didArriveAt waypoint: NbmapDirections.Waypoint)
   func navigationService(_ service: NbmapCoreNavigation.NavigationService, didPassVisualInstructionPoint instruction: NbmapDirections.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
   func navigationService(_ service: NbmapCoreNavigation.NavigationService, didPassSpokenInstructionPoint instruction: NbmapDirections.SpokenInstruction, routeProgress: NbmapCoreNavigation.RouteProgress)
   func navigationServiceDidChangeAuthorization(_ service: NbmapCoreNavigation.NavigationService, didChangeAuthorizationFor locationManager: CoreLocation.CLLocationManager)
@@ -6743,7 +6748,7 @@ extension NbmapCoreNavigation.NavigationServiceDelegate {
   public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didPassVisualInstructionPoint instruction: NbmapDirections.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
   public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didPassSpokenInstructionPoint instruction: NbmapDirections.SpokenInstruction, routeProgress: NbmapCoreNavigation.RouteProgress)
   public func navigationService(_ service: NbmapCoreNavigation.NavigationService, willArriveAt waypoint: NbmapDirections.Waypoint, after remainingTimeInterval: Foundation.TimeInterval, distance: CoreLocation.CLLocationDistance)
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didArriveAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didArriveAt waypoint: NbmapDirections.Waypoint)
   public func navigationService(_ service: NbmapCoreNavigation.NavigationService, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
   public func navigationServiceDidChangeAuthorization(_ service: NbmapCoreNavigation.NavigationService, didChangeAuthorizationFor locationManager: CoreLocation.CLLocationManager)
   public func navigationServiceShouldDisableBatteryMonitoring(_ service: NbmapCoreNavigation.NavigationService) -> Swift.Bool

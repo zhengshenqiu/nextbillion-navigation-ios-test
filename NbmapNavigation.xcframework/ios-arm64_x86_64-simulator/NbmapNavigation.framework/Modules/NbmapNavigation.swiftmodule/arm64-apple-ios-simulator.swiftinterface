@@ -227,7 +227,7 @@ extension NbmapNavigation.NavigationViewController : NbmapCoreNavigation.Navigat
   @_Concurrency.MainActor(unsafe) public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didRerouteAlong route: NbmapDirections.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
   @_Concurrency.MainActor(unsafe) public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didFailToRerouteWith error: Swift.Error)
   @_Concurrency.MainActor(unsafe) public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didRefresh routeProgress: NbmapCoreNavigation.RouteProgress)
-  @_Concurrency.MainActor(unsafe) public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didArriveAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  @_Concurrency.MainActor(unsafe) public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didArriveAt waypoint: NbmapDirections.Waypoint)
   @_Concurrency.MainActor(unsafe) public func navigationService(_ service: NbmapCoreNavigation.NavigationService, willBeginSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
   @_Concurrency.MainActor(unsafe) public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didBeginSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
   @_Concurrency.MainActor(unsafe) public func navigationService(_ service: NbmapCoreNavigation.NavigationService, willEndSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
@@ -256,11 +256,11 @@ extension NbmapNavigation.NavigationViewController : NbmapNavigation.CarPlayConn
 extension NbmapNavigation.NavigationViewController : NbmapNavigation.NavigationMapViewDelegate {
   @_Concurrency.MainActor(unsafe) @objc dynamic public func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, routeStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
   @_Concurrency.MainActor(unsafe) @objc dynamic public func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, routeCasingStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
-  @_Concurrency.MainActor(unsafe) @objc dynamic public func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, waypointStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
-  @_Concurrency.MainActor(unsafe) @objc dynamic public func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, waypointSymbolStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, waypointSymbolStyleLayerWithIdentifier identifier: Swift.String, waypoints: [NbmapDirections.Waypoint], source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
   @_Concurrency.MainActor(unsafe) @objc dynamic public func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, shapeFor waypoints: [NbmapDirections.Waypoint], legIndex: Swift.Int) -> Nbmap.NGLShape?
   @_Concurrency.MainActor(unsafe) @objc dynamic public func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, shapeFor routes: [NbmapDirections.Route]) -> Nbmap.NGLShape?
   @_Concurrency.MainActor(unsafe) @objc dynamic public func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, didSelect route: NbmapDirections.Route)
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, didSelect waypoint: NbmapDirections.Waypoint)
   @_Concurrency.MainActor(unsafe) @objc dynamic public func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, simplifiedShapeFor route: NbmapDirections.Route) -> Nbmap.NGLShape?
   @_Concurrency.MainActor(unsafe) public func navigationMapView(_ mapView: Nbmap.NGLMapView, imageFor annotation: Nbmap.NGLAnnotation) -> Nbmap.NGLAnnotationImage?
   @_Concurrency.MainActor(unsafe) public func navigationMapView(_ mapView: Nbmap.NGLMapView, viewFor annotation: Nbmap.NGLAnnotation) -> Nbmap.NGLAnnotationView?
@@ -270,6 +270,7 @@ extension NbmapNavigation.NavigationViewController : NbmapNavigation.NavigationM
 extension NbmapNavigation.NavigationViewController : Nbmap.NGLMapViewDelegate {
   @_Concurrency.MainActor(unsafe) @objc dynamic public func mapView(_ mapView: Nbmap.NGLMapView, imageFor annotation: Nbmap.NGLAnnotation) -> Nbmap.NGLAnnotationImage?
   @_Concurrency.MainActor(unsafe) @objc dynamic public func mapView(_ mapView: Nbmap.NGLMapView, viewFor annotation: Nbmap.NGLAnnotation) -> Nbmap.NGLAnnotationView?
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func mapView(_ mapView: Nbmap.NGLMapView, didSelect annotation: Nbmap.NGLAnnotation)
 }
 extension NbmapNavigation.NavigationMapView {
   @_Concurrency.MainActor(unsafe) public func updateRouteLine(routeProgress: NbmapCoreNavigation.RouteProgress, coordinate: CoreLocation.CLLocationCoordinate2D?, routes: [NbmapDirections.Route], shouldRedraw: Swift.Bool = false)
@@ -428,8 +429,7 @@ extension NbmapNavigation.NavigationMapView : NbmapNavigation.NavigationCameraDe
 }
 @objc(NBNavigationMapViewDelegate) public protocol NavigationMapViewDelegate {
   @objc optional func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, routeStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
-  @objc optional func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, waypointStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
-  @objc optional func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, waypointSymbolStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
+  @objc optional func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, waypointSymbolStyleLayerWithIdentifier identifier: Swift.String, waypoints: [NbmapDirections.Waypoint], source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
   @objc optional func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, routeCasingStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
   @objc optional func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, alternativeRouteStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
   @objc optional func navigationMapView(_ mapView: NbmapNavigation.NavigationMapView, alternativeRouteCasingStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
@@ -1288,7 +1288,7 @@ public protocol NavigationCameraDelegate {
 }
 public protocol NavigationViewControllerDelegate : NbmapNavigation.VisualInstructionDelegate {
   func navigationViewControllerDidDismiss(_ navigationViewController: NbmapNavigation.NavigationViewController, byCanceling canceled: Swift.Bool)
-  func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didArriveAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didArriveAt waypoint: NbmapDirections.Waypoint)
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didUpdate progress: NbmapCoreNavigation.RouteProgress, with location: CoreLocation.CLLocation, rawLocation: CoreLocation.CLLocation)
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didRefresh routeProgress: NbmapCoreNavigation.RouteProgress)
@@ -1299,10 +1299,10 @@ public protocol NavigationViewControllerDelegate : NbmapNavigation.VisualInstruc
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, routeCasingStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, shapeFor routes: [NbmapDirections.Route]) -> Nbmap.NGLShape?
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, simplifiedShapeFor route: NbmapDirections.Route) -> Nbmap.NGLShape?
-  func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, waypointStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
-  func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, waypointSymbolStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
+  func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, waypointSymbolStyleLayerWithIdentifier identifier: Swift.String, waypoints: [NbmapDirections.Waypoint], source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, shapeFor waypoints: [NbmapDirections.Waypoint], legIndex: Swift.Int) -> Nbmap.NGLShape?
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didSelect route: NbmapDirections.Route)
+  func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didSelect waypoint: NbmapDirections.Waypoint)
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, imageFor annotation: Nbmap.NGLAnnotation) -> Nbmap.NGLAnnotationImage?
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, viewFor annotation: Nbmap.NGLAnnotation) -> Nbmap.NGLAnnotationView?
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, mapViewUserAnchorPoint mapView: NbmapNavigation.NavigationMapView) -> CoreGraphics.CGPoint
@@ -1315,10 +1315,11 @@ public protocol NavigationViewControllerDelegate : NbmapNavigation.VisualInstruc
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didFailToTakeAlternativeRouteAt location: CoreLocation.CLLocation?)
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didSubmitArrivalFeedback feedback: NbmapCoreNavigation.EndOfRouteFeedback)
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didSelect annotation: Nbmap.NGLAnnotation)
 }
 extension NbmapNavigation.NavigationViewControllerDelegate {
   public func navigationViewControllerDidDismiss(_ navigationViewController: NbmapNavigation.NavigationViewController, byCanceling canceled: Swift.Bool)
-  public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didArriveAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didArriveAt waypoint: NbmapDirections.Waypoint)
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didUpdate progress: NbmapCoreNavigation.RouteProgress, with location: CoreLocation.CLLocation, rawLocation: CoreLocation.CLLocation)
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didRefresh routeProgress: NbmapCoreNavigation.RouteProgress)
@@ -1326,12 +1327,12 @@ extension NbmapNavigation.NavigationViewControllerDelegate {
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didRerouteAlong route: NbmapDirections.Route)
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didFailToRerouteWith error: Swift.Error)
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didSelect route: NbmapDirections.Route)
+  public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didSelect waypoint: NbmapDirections.Waypoint)
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, routeStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, routeCasingStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, shapeFor routes: [NbmapDirections.Route]) -> Nbmap.NGLShape?
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, simplifiedShapeFor route: NbmapDirections.Route) -> Nbmap.NGLShape?
-  public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, waypointStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
-  public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, waypointSymbolStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
+  public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, waypointSymbolStyleLayerWithIdentifier identifier: Swift.String, waypoints: [NbmapDirections.Waypoint], source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, shapeFor waypoints: [NbmapDirections.Waypoint], legIndex: Swift.Int) -> Nbmap.NGLShape?
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, imageFor annotation: Nbmap.NGLAnnotation) -> Nbmap.NGLAnnotationImage?
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, viewFor annotation: Nbmap.NGLAnnotation) -> Nbmap.NGLAnnotationView?
@@ -1345,6 +1346,7 @@ extension NbmapNavigation.NavigationViewControllerDelegate {
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didFailToTakeAlternativeRouteAt location: CoreLocation.CLLocation?)
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didSubmitArrivalFeedback feedback: NbmapCoreNavigation.EndOfRouteFeedback)
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didSelect annotation: Nbmap.NGLAnnotation)
 }
 public enum DissolvedRouteLineStyle : Swift.Int {
   case DISSOLVED_TYPE_COLOR
@@ -1598,8 +1600,19 @@ extension NbmapNavigation.CarPlayManagerDelegate {
   @objc override dynamic public init()
   @objc deinit
 }
+public enum PointSide {
+  case left
+  case right
+  case unknown
+  public static func == (a: NbmapNavigation.PointSide, b: NbmapNavigation.PointSide) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
 @_hasMissingDesignatedInitializers public class ReroutingCheckUtils {
-  public static func checkLocationFarawayFomRoute(location: CoreLocation.CLLocation, visiblePolylines: [Turf.Polyline], legProgress: NbmapCoreNavigation.RouteLegProgress) -> Swift.Bool
+  public static func checkLocationFarawayFomRoute(location: CoreLocation.CLLocation, visiblePolylines: [Turf.Polyline], routeProgress: NbmapCoreNavigation.RouteProgress) -> Swift.Bool
+  public static func calculateTargetPointSide(pointA: CoreLocation.CLLocationCoordinate2D, pointC: CoreLocation.CLLocationCoordinate2D, pointB: CoreLocation.CLLocationCoordinate2D) -> NbmapNavigation.PointSide
   @objc deinit
 }
 public typealias UserCourseView = UIKit.UIView & NbmapNavigation.CourseUpdatable
@@ -2095,6 +2108,8 @@ extension NbmapNavigation.ViewportDataSourceType : Swift.Hashable {}
 extension NbmapNavigation.StyleType : Swift.Equatable {}
 extension NbmapNavigation.StyleType : Swift.Hashable {}
 extension NbmapNavigation.StyleType : Swift.RawRepresentable {}
+extension NbmapNavigation.PointSide : Swift.Equatable {}
+extension NbmapNavigation.PointSide : Swift.Hashable {}
 extension NbmapNavigation.SpokenInstructionErrorCode : Swift.Equatable {}
 extension NbmapNavigation.SpokenInstructionErrorCode : Swift.Hashable {}
 extension NbmapNavigation.SpokenInstructionErrorCode : Swift.RawRepresentable {}
