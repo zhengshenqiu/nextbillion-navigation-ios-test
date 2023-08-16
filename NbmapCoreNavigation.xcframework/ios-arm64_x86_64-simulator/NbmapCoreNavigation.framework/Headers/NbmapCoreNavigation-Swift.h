@@ -409,7 +409,7 @@ SWIFT_CLASS("_TtC19NbmapCoreNavigation19NBNavigationService")
 - (void)routeController:(RouteController * _Nonnull)routeController didRerouteAlong:(NBNavRoute * _Nonnull)route at:(CLLocation * _Nullable)location proactive:(BOOL)proactive;
 - (void)routeController:(RouteController * _Nonnull)routeController didFailToRerouteWith:(NSError * _Nonnull)error;
 - (BOOL)routeController:(RouteController * _Nonnull)routeController shouldDiscard:(CLLocation * _Nonnull)location SWIFT_WARN_UNUSED_RESULT;
-- (BOOL)routeController:(RouteController * _Nonnull)routeController didArriveAt:(NBWaypoint * _Nonnull)waypoint SWIFT_WARN_UNUSED_RESULT;
+- (void)routeController:(RouteController * _Nonnull)routeController didArriveAt:(NBWaypoint * _Nonnull)waypoint;
 @end
 
 
@@ -1140,7 +1140,7 @@ SWIFT_CLASS("_TtC19NbmapCoreNavigation19NBNavigationService")
 - (void)routeController:(RouteController * _Nonnull)routeController didRerouteAlong:(NBNavRoute * _Nonnull)route at:(CLLocation * _Nullable)location proactive:(BOOL)proactive;
 - (void)routeController:(RouteController * _Nonnull)routeController didFailToRerouteWith:(NSError * _Nonnull)error;
 - (BOOL)routeController:(RouteController * _Nonnull)routeController shouldDiscard:(CLLocation * _Nonnull)location SWIFT_WARN_UNUSED_RESULT;
-- (BOOL)routeController:(RouteController * _Nonnull)routeController didArriveAt:(NBWaypoint * _Nonnull)waypoint SWIFT_WARN_UNUSED_RESULT;
+- (void)routeController:(RouteController * _Nonnull)routeController didArriveAt:(NBWaypoint * _Nonnull)waypoint;
 @end
 
 
