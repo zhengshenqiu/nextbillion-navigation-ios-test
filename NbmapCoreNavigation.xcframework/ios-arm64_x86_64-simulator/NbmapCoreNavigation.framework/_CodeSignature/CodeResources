@@ -26,23 +26,23 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		mVUU93nEyniXsY8sAmdwX56lFqA=
+		gDiq4X1ltOZtiRnEQ/NIrM/BE+Y=
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		3NCdtZTvs47juzVWm0GUXlp5lQo=
+		vlRzMixWslel3DAnzGpl6PjTyxs=
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/Project/arm64.swiftsourceinfo</key>
 		<data>
-		3NCdtZTvs47juzVWm0GUXlp5lQo=
+		vlRzMixWslel3DAnzGpl6PjTyxs=
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		CNuUW66kPA8eJhQybywExzLDTqc=
+		CVIpTczahJsMRCzUQNMV9rD6Las=
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/Project/x86_64.swiftsourceinfo</key>
 		<data>
-		CNuUW66kPA8eJhQybywExzLDTqc=
+		CVIpTczahJsMRCzUQNMV9rD6Las=
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		W3cMmoERnuWHIy0qQUoH1rKsEN4=
+		CPj3jvnDVGK/MDXogDjXkp14+CQ=
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -66,7 +66,7 @@
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		W3cMmoERnuWHIy0qQUoH1rKsEN4=
+		CPj3jvnDVGK/MDXogDjXkp14+CQ=
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -78,7 +78,7 @@
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		71XdAA1LmkVgof56iBhs3hHsVW8=
+		SfLrF0QgE5ivU3VSh7ZrohzaP+E=
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -90,7 +90,7 @@
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		71XdAA1LmkVgof56iBhs3hHsVW8=
+		SfLrF0QgE5ivU3VSh7ZrohzaP+E=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -98,7 +98,7 @@
 		</data>
 		<key>NbmapCoreNavigation.bundle/configuration.json</key>
 		<data>
-		l7ffSCdRPICN41hiqscjQAtZgdo=
+		BEBPhwp+YLCgr1Fw/mzlGPzXJg4=
 		</data>
 		<key>ar.lproj/Localizable.strings</key>
 		<dict>
@@ -295,28 +295,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			h+kcWt94N25X/+2LOj6PR7+6YYLPplhIf0VX/UlJC9I=
+			aCx+E4QUtYSN9f5YF+lktzWQ39Y/N/218T9YxpO85ZA=
 			</data>
 		</dict>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/Project/arm64.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			h+kcWt94N25X/+2LOj6PR7+6YYLPplhIf0VX/UlJC9I=
+			aCx+E4QUtYSN9f5YF+lktzWQ39Y/N/218T9YxpO85ZA=
 			</data>
 		</dict>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			qQ+kJqLMSKyjV7SSf1q+B6IeS77coYnU8XPEc1nQFbI=
+			giKsITgFlcOj4tvZRXxQ33gR5xRJ20vxcGIFBhOIvVQ=
 			</data>
 		</dict>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/Project/x86_64.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			qQ+kJqLMSKyjV7SSf1q+B6IeS77coYnU8XPEc1nQFbI=
+			giKsITgFlcOj4tvZRXxQ33gR5xRJ20vxcGIFBhOIvVQ=
 			</data>
 		</dict>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
@@ -337,7 +337,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			E/j0SciCFiaO0MOHRbFySYPCpWxf87CBgmiZEE6yj5U=
+			Zcuoo0JQVF0CAPHfCSaVk+ikbY5Sv3TQrj6Xs0Vfp4w=
 			</data>
 		</dict>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/arm64.swiftdoc</key>
@@ -358,7 +358,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			E/j0SciCFiaO0MOHRbFySYPCpWxf87CBgmiZEE6yj5U=
+			Zcuoo0JQVF0CAPHfCSaVk+ikbY5Sv3TQrj6Xs0Vfp4w=
 			</data>
 		</dict>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -379,7 +379,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			uUHddhf0J3YsfiSJ9QhHDHi4paFM8v8+U593cSqGp34=
+			09ICcfATIieFHVfKQtfjTF3uHB3K5p3AE3gLPznh6iY=
 			</data>
 		</dict>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/x86_64.swiftdoc</key>
@@ -400,7 +400,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			uUHddhf0J3YsfiSJ9QhHDHi4paFM8v8+U593cSqGp34=
+			09ICcfATIieFHVfKQtfjTF3uHB3K5p3AE3gLPznh6iY=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -414,7 +414,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			k3sePRQemSfKlyzv57MDKfo68qwLmuRmwVCyYUSkDu4=
+			Ukvb6+cG1MbYhk8/6jzQp+JkemzUtnfLV7W0r/8Tmb0=
 			</data>
 		</dict>
 		<key>ar.lproj/Localizable.strings</key>
