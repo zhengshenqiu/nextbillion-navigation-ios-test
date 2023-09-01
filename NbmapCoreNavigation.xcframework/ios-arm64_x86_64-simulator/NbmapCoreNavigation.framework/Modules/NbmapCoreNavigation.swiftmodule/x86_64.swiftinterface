@@ -2004,6 +2004,7 @@ public protocol OffRouteDetectorDelegate : ObjectiveC.NSObjectProtocol {
   func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
   func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
   func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldAdvanceStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
+  func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldForwardStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
 }
 public protocol OffRouteDetector {
   func userOffRouteStatus(_ location: CoreLocation.CLLocation, routeProgress: NbmapCoreNavigation.RouteProgress) -> NbmapCoreNavigation.OffRouteStatus
@@ -3947,6 +3948,7 @@ extension NbmapCoreNavigation.RouteController : NbmapCoreNavigation.OffRouteDete
   public func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
   public func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
   public func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldAdvanceStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
+  public func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldForwardStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
 }
 extension NbmapCoreNavigation.RouteController : NbmapCoreNavigation.RerouteDelegate {
   public func willRerouteFrom(location: CoreLocation.CLLocation)
