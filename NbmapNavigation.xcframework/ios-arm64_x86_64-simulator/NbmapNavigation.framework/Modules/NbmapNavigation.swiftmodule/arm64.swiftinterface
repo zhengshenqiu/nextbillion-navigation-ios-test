@@ -158,14 +158,8 @@ public typealias ContainerViewController = UIKit.UIViewController & NbmapNavigat
   @_Concurrency.MainActor(unsafe) public func traversingTunnel() -> Swift.Bool
   @_Concurrency.MainActor(unsafe) public var usesNightStyleWhileInTunnel: Swift.Bool
   @_Concurrency.MainActor(unsafe) public var navigationDataEventTracking: NbmapCoreNavigation.NavigationEventTracking?
-  @_Concurrency.MainActor(unsafe) public var routeLineTracksTraversal: Swift.Bool {
-    get
-    set
-  }
-  @_Concurrency.MainActor(unsafe) public var dissolvedRouteLineStyle: NbmapNavigation.DissolvedRouteLineStyle {
-    get
-    set
-  }
+  @_Concurrency.MainActor(unsafe) public var routeLineTracksTraversal: Swift.Bool
+  @_Concurrency.MainActor(unsafe) public var dissolvedRouteLineStyle: NbmapNavigation.DissolvedRouteLineStyle
   @_Concurrency.MainActor(unsafe) public var showsEndOfRouteFeedback: Swift.Bool {
     get
     set
@@ -1299,8 +1293,8 @@ public protocol NavigationViewControllerDelegate : NbmapNavigation.VisualInstruc
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, routeCasingStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, shapeFor routes: [NbmapDirections.Route]) -> Nbmap.NGLShape?
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, simplifiedShapeFor route: NbmapDirections.Route) -> Nbmap.NGLShape?
-  func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, waypointSymbolStyleLayerWithIdentifier identifier: Swift.String, waypoints: [NbmapDirections.Waypoint], source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
-  func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, shapeFor waypoints: [NbmapDirections.Waypoint], legIndex: Swift.Int) -> Nbmap.NGLShape?
+  func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, waypointSymbolStyleLayerWithIdentifier identifier: Swift.String, waypoints: [NbmapDirections.Waypoint], reachedWaypoints: [NbmapDirections.Waypoint]?, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
+  func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, shapeFor waypoints: [NbmapDirections.Waypoint], reachedWaypoints: [NbmapDirections.Waypoint]?, legIndex: Swift.Int) -> Nbmap.NGLShape?
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didSelect route: NbmapDirections.Route)
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, didSelect waypoint: NbmapDirections.Waypoint)
   func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, imageFor annotation: Nbmap.NGLAnnotation) -> Nbmap.NGLAnnotationImage?
@@ -1332,8 +1326,8 @@ extension NbmapNavigation.NavigationViewControllerDelegate {
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, routeCasingStyleLayerWithIdentifier identifier: Swift.String, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, shapeFor routes: [NbmapDirections.Route]) -> Nbmap.NGLShape?
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, simplifiedShapeFor route: NbmapDirections.Route) -> Nbmap.NGLShape?
-  public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, waypointSymbolStyleLayerWithIdentifier identifier: Swift.String, waypoints: [NbmapDirections.Waypoint], source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
-  public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, shapeFor waypoints: [NbmapDirections.Waypoint], legIndex: Swift.Int) -> Nbmap.NGLShape?
+  public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, waypointSymbolStyleLayerWithIdentifier identifier: Swift.String, waypoints: [NbmapDirections.Waypoint], reachedWaypoints: [NbmapDirections.Waypoint]?, source: Nbmap.NGLSource) -> Nbmap.NGLStyleLayer?
+  public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, shapeFor waypoints: [NbmapDirections.Waypoint], reachedWaypoints: [NbmapDirections.Waypoint]?, legIndex: Swift.Int) -> Nbmap.NGLShape?
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, imageFor annotation: Nbmap.NGLAnnotation) -> Nbmap.NGLAnnotationImage?
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, viewFor annotation: Nbmap.NGLAnnotation) -> Nbmap.NGLAnnotationView?
   public func navigationViewController(_ navigationViewController: NbmapNavigation.NavigationViewController, mapViewUserAnchorPoint mapView: NbmapNavigation.NavigationMapView) -> CoreGraphics.CGPoint
