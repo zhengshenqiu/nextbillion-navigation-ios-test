@@ -159,7 +159,6 @@ public typealias ContainerViewController = UIKit.UIViewController & NbmapNavigat
   @_Concurrency.MainActor(unsafe) public var usesNightStyleWhileInTunnel: Swift.Bool
   @_Concurrency.MainActor(unsafe) public var navigationDataEventTracking: NbmapCoreNavigation.NavigationEventTracking?
   @_Concurrency.MainActor(unsafe) public var routeLineTracksTraversal: Swift.Bool
-  @_Concurrency.MainActor(unsafe) public var dissolvedRouteLineStyle: NbmapNavigation.DissolvedRouteLineStyle
   @_Concurrency.MainActor(unsafe) public var showsEndOfRouteFeedback: Swift.Bool {
     get
     set
@@ -268,8 +267,9 @@ extension NbmapNavigation.NavigationViewController : Nbmap.NGLMapViewDelegate {
 }
 extension NbmapNavigation.NavigationMapView {
   @_Concurrency.MainActor(unsafe) public func updateRouteLine(routeProgress: NbmapCoreNavigation.RouteProgress, coordinate: CoreLocation.CLLocationCoordinate2D?, routes: [NbmapDirections.Route], shouldRedraw: Swift.Bool = false)
+  @_Concurrency.MainActor(unsafe) public func updateTraveledRouteLine(_ coordinate: CoreLocation.CLLocationCoordinate2D?)
+  @_Concurrency.MainActor(unsafe) public func updateRoute(_ routeProgress: NbmapCoreNavigation.RouteProgress)
   @_Concurrency.MainActor(unsafe) public func updateUpcomingRoutePointIndex(routeProgress: NbmapCoreNavigation.RouteProgress, coordinate: CoreLocation.CLLocationCoordinate2D?) -> Swift.Bool
-  @_Concurrency.MainActor(unsafe) public func travelAlongRouteLine(to coordinate: CoreLocation.CLLocationCoordinate2D?, by verhence: Swift.Bool = false)
 }
 public protocol InstructionsBannerViewDelegate : NbmapNavigation.VisualInstructionDelegate {
   func didTapInstructionsBanner(_ sender: NbmapNavigation.BaseInstructionsBannerView)
@@ -353,10 +353,7 @@ open class NavigationOptions {
   @objc @_Concurrency.MainActor(unsafe) public var tapGestureDistanceThreshold: CoreGraphics.CGFloat
   @_Concurrency.MainActor(unsafe) weak public var navigationMapDelegate: NbmapNavigation.NavigationMapViewDelegate?
   @_Concurrency.MainActor(unsafe) public var routeLineTracksTraversal: Swift.Bool
-  @_Concurrency.MainActor(unsafe) public var dissolvedRouteLineStyle: NbmapNavigation.DissolvedRouteLineStyle {
-    get
-    set
-  }
+  @_Concurrency.MainActor(unsafe) public var dissolvedRouteLineStyle: NbmapNavigation.DissolvedRouteLineStyle
   @objc public enum DurationSymbolType : Swift.Int {
     case ROUTE_DURATION = 0
     case ROUTE_DURATION_DIFF = 1
@@ -378,9 +375,6 @@ open class NavigationOptions {
   @objc @_Concurrency.MainActor(unsafe) dynamic public var maneuverArrowColor: UIKit.UIColor
   @objc @_Concurrency.MainActor(unsafe) dynamic public var maneuverArrowStrokeColor: UIKit.UIColor
   @objc @_Concurrency.MainActor(unsafe) dynamic public var traversedRouteColor: UIKit.UIColor
-  @_Concurrency.MainActor(unsafe) public var vehiclelocation: NbmapNavigation.LocationSubject! {
-    get
-  }
   @_Concurrency.MainActor(unsafe) public var userLocationStyle: NbmapNavigation.UserLocationStyle? {
     get
     set
@@ -396,6 +390,7 @@ open class NavigationOptions {
   @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder decoder: Foundation.NSCoder)
   @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreGraphics.CGRect, styleURL: Foundation.URL?)
   @_Concurrency.MainActor(unsafe) public init(frame: CoreGraphics.CGRect, navigationCameraType: NbmapNavigation.NavigationCameraType = .mobile)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func reloadStyle(_ sender: Any?)
   @objc deinit
   @objc override dynamic open func prepareForInterfaceBuilder()
   @_Concurrency.MainActor(unsafe) @objc override dynamic open func anchorPoint(forGesture gesture: UIKit.UIGestureRecognizer) -> CoreGraphics.CGPoint
@@ -1260,11 +1255,11 @@ extension Nbmap.NGLAccountManager {
     @objc get
   }
 }
-public protocol NavigationCameraDelegate {
+public protocol NavigationCameraDelegate : AnyObject {
   func navigationCameraStateDidChange(state: NbmapNavigation.NavigationCameraState)
 }
 @objc public class NavigationCamera : ObjectiveC.NSObject, NbmapNavigation.ViewportDataSourceDelegate {
-  public var delegate: NbmapNavigation.NavigationCameraDelegate?
+  weak public var delegate: NbmapNavigation.NavigationCameraDelegate?
   required public init(_ mapView: NbmapNavigation.NavigationMapView, navigationCameraType: NbmapNavigation.NavigationCameraType = .mobile)
   public func viewportDataSource(_ dataSource: NbmapNavigation.ViewportDataSource, didUpdate cameraOptions: [Swift.String : NbmapNavigation.NavMapCameraOption])
   public var viewportDataSource: NbmapNavigation.ViewportDataSource {

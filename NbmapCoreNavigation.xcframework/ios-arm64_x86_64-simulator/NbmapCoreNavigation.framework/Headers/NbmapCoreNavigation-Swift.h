@@ -213,6 +213,12 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 
+SWIFT_CLASS("_TtC19NbmapCoreNavigation23AlternativeRouteManager")
+@interface AlternativeRouteManager : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 
 
 
@@ -942,6 +948,12 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 # pragma pop_macro("any")
 #endif
 
+
+
+SWIFT_CLASS("_TtC19NbmapCoreNavigation23AlternativeRouteManager")
+@interface AlternativeRouteManager : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
 
 
 
