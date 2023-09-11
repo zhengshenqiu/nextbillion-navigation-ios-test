@@ -808,6 +808,7 @@ public struct W3CBaggagePropagator : NbmapCoreNavigation.TextMapBaggagePropagato
 @_hasMissingDesignatedInitializers open class NBFeatureFlag {
   public static func getIsConfigurationServiceEnabled() -> Swift.Bool
   public static func getIsInstrumentationEnabled() -> Swift.Bool
+  public static func getIsTravelledLocationEnabled() -> Swift.Bool
   @objc deinit
 }
 public protocol Logger {
@@ -2071,6 +2072,12 @@ public class TelemetryDataSource : NbmapCoreNavigation.ITelemetryDataSource {
   public var version: Swift.String? {
     get
   }
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class AlternativeRouteManager : ObjectiveC.NSObject {
+  weak public var delegate: NbmapCoreNavigation.AlternativeRouteDelegate?
+  public func getFirstToForkManeuverPoint(routes: [NbmapDirections.Route], currentRoute: NbmapDirections.Route, routeProgress: NbmapCoreNavigation.RouteProgress) -> CoreLocation.CLLocationCoordinate2D?
+  @objc override dynamic public init()
   @objc deinit
 }
 public protocol IntObserverMetricHandle {
@@ -3926,7 +3933,7 @@ public enum SpanKind : Swift.String, Swift.Equatable, Swift.Codable {
   public var resolvedRoutingProvider: NbmapCoreNavigation.RoutingProvider {
     get
   }
-  required public init(from routes: [NbmapDirections.Route], alongIndex index: Swift.Int, customRoutingProvider: NbmapCoreNavigation.RoutingProvider? = nil, navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig? = nil, offRouteDetector: NbmapCoreNavigation.OffRouteDetector? = nil, speedCalibrator: NbmapCoreNavigation.SpeedCalibrator? = nil)
+  required public init(from routes: [NbmapDirections.Route], alongIndex index: Swift.Int, customRoutingProvider: NbmapCoreNavigation.RoutingProvider? = nil, navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig? = nil, offRouteDetector: NbmapCoreNavigation.OffRouteDetector? = nil, speedCalibrator: NbmapCoreNavigation.SpeedCalibrator? = nil, deadReckoning: NbmapCoreNavigation.DeadReckoning? = nil)
   public func finishRouting()
   @objc deinit
   public var location: CoreLocation.CLLocation? {
@@ -5413,6 +5420,7 @@ public struct SpanContext : Swift.Equatable, Swift.CustomStringConvertible, Swif
   public var nearbyShape: Turf.LineString {
     get
   }
+  public var travelledRawLocations: NbmapCoreNavigation.RingBuffer<NbmapDirections.TravelledRawLocation>
   @objc public init(route: NbmapDirections.Route, legIndex: Swift.Int = 0, stepIndex: Swift.Int = 0, spokenInstructionIndex: Swift.Int = 0)
   public var averageCongestionLevelRemainingOnLeg: NbmapDirections.CongestionLevel? {
     get
@@ -5514,6 +5522,21 @@ public class LoggerProviderSdk : NbmapCoreNavigation.LoggerProvider {
   public func loggerBuilder(instrumentationScopeName: Swift.String) -> NbmapCoreNavigation.LoggerBuilder
   @objc deinit
 }
+public struct RoutePoints {
+  public var nestedList: [[[CoreLocation.CLLocationCoordinate2D]]]
+  public var flatList: [CoreLocation.CLLocationCoordinate2D]
+}
+public struct RouteLineGranularDistances {
+  public var distance: Swift.Double
+  public var distanceArray: [NbmapCoreNavigation.RouteLineDistancesIndex]
+}
+public struct RouteLineDistancesIndex {
+  public var point: CoreLocation.CLLocationCoordinate2D
+  public var distanceRemaining: Swift.Double
+}
+public func parseRoutePoints(route: NbmapDirections.Route) -> NbmapCoreNavigation.RoutePoints
+public func calculateGranularDistances(_ coordinates: [CoreLocation.CLLocationCoordinate2D]) -> NbmapCoreNavigation.RouteLineGranularDistances?
+public func calculateDistance(coordinate1: CoreLocation.CLLocationCoordinate2D, coordinate2: CoreLocation.CLLocationCoordinate2D) -> Swift.Double
 public typealias Log = NbmapCoreNavigation.NavigationLog
 public struct NavigationLog {
   public typealias Category = NbmapCoreNavigation.NavigationLogCategory
@@ -5562,6 +5585,7 @@ public struct RingBuffer<T> {
   public mutating func deQueue() -> T?
   public func peek() -> T?
   public func last() -> T?
+  public func toList() -> [T?]
   public mutating func clear()
 }
 extension NbmapCoreNavigation.RingBuffer : Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible {
@@ -6585,6 +6609,9 @@ public enum Samplers {
 public struct StringUtils {
   public static func isPrintableString(_ string: Swift.String) -> Swift.Bool
   public static func isValidMetricName(_ metricName: Swift.String) -> Swift.Bool
+}
+@_hasMissingDesignatedInitializers public class DeadReckoning {
+  @objc deinit
 }
 public protocol MeasureMetric {
   associatedtype T

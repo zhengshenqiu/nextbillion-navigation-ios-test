@@ -1104,6 +1104,7 @@ SWIFT_CLASS_NAMED("NavigationMapView")
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithFrame:(CGRect)frame styleURL:(NSURL * _Nullable)styleURL OBJC_DESIGNATED_INITIALIZER;
+- (void)reloadStyle:(id _Nullable)sender;
 - (void)prepareForInterfaceBuilder;
 - (CGPoint)anchorPointForGesture:(UIGestureRecognizer * _Nonnull)gesture SWIFT_WARN_UNUSED_RESULT;
 - (void)mapViewDidFinishRenderingFrameFullyRendered:(BOOL)fullyRendered;
@@ -2960,6 +2961,7 @@ SWIFT_CLASS_NAMED("NavigationMapView")
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder OBJC_DESIGNATED_INITIALIZER;
 - (nonnull instancetype)initWithFrame:(CGRect)frame styleURL:(NSURL * _Nullable)styleURL OBJC_DESIGNATED_INITIALIZER;
+- (void)reloadStyle:(id _Nullable)sender;
 - (void)prepareForInterfaceBuilder;
 - (CGPoint)anchorPointForGesture:(UIGestureRecognizer * _Nonnull)gesture SWIFT_WARN_UNUSED_RESULT;
 - (void)mapViewDidFinishRenderingFrameFullyRendered:(BOOL)fullyRendered;
