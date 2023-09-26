@@ -5,6 +5,7 @@ import AVFoundation
 import CarPlay
 import CommonCrypto
 import CoreLocation
+import CoreMotion
 import Darwin
 import Dispatch
 import Foundation
@@ -1501,6 +1502,7 @@ public protocol Router : CoreLocation.CLLocationManagerDelegate, NbmapCoreNaviga
   var delegate: NbmapCoreNavigation.RouterDelegate? { get set }
   var simulationModel: Swift.Bool { get set }
   var routingProvider: NbmapCoreNavigation.RoutingProvider { get }
+  func onStationaryStatusUpdate(isMoving: Swift.Bool)
 }
 public struct ArrayWithCapacity<T> {
   public let capacity: Swift.Int
@@ -2006,6 +2008,8 @@ public protocol OffRouteDetectorDelegate : ObjectiveC.NSObjectProtocol {
   func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
   func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldAdvanceStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
   func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldForwardStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
+  func offRouteDetactorEnableStationaryDetector() -> Swift.Bool
+  func offRouteDetactorIsMoving() -> Swift.Bool
 }
 public protocol OffRouteDetector {
   func userOffRouteStatus(_ location: CoreLocation.CLLocation, routeProgress: NbmapCoreNavigation.RouteProgress) -> NbmapCoreNavigation.OffRouteStatus
@@ -2243,6 +2247,7 @@ public struct NavigationEngineConfig {
   public var defaultNavigationCameraPitch: Swift.Double
   public var enableSnapDistanceTracker: Swift.Bool
   public var enableRoadNetworkDetector: Swift.Bool
+  public var enableStationaryDetector: Swift.Bool
 }
 public struct EntryValue : Swift.Equatable {
   public var string: Swift.String {
@@ -3952,6 +3957,8 @@ extension NbmapCoreNavigation.RouteController : CoreLocation.CLLocationManagerDe
   @objc dynamic public func locationManager(_ manager: CoreLocation.CLLocationManager, didUpdateLocations locations: [CoreLocation.CLLocation])
 }
 extension NbmapCoreNavigation.RouteController : NbmapCoreNavigation.OffRouteDetectorDelegate {
+  public func offRouteDetactorEnableStationaryDetector() -> Swift.Bool
+  public func offRouteDetactorIsMoving() -> Swift.Bool
   public func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
   public func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
   public func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldAdvanceStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
@@ -3965,6 +3972,14 @@ extension NbmapCoreNavigation.RouteController : NbmapCoreNavigation.RerouteDeleg
 extension NbmapCoreNavigation.RouteController : NbmapCoreNavigation.AlternativeRouteDelegate {
   public func didSelectNewRoute(route: NbmapDirections.Route)
   public func shouldRefreshRoutes(routes: [NbmapDirections.Route])
+}
+extension NbmapCoreNavigation.RouteController {
+  public func onStationaryStatusUpdate(isMoving: Swift.Bool)
+}
+extension NbmapCoreNavigation.RouteController : NbmapCoreNavigation.SpeedCalibratorDelegate {
+  public func isStationaryDetectionEnable() -> Swift.Bool
+  public func isOnMoving() -> Swift.Bool
+  public func onSpeedChanged(speed: CoreLocation.CLLocationSpeed)
 }
 public struct Version {
   public static let major: Swift.Int
@@ -4558,6 +4573,7 @@ public protocol NavigationService : CoreLocation.CLLocationManagerDelegate, Nbma
   var navigationDataEventTracking: NbmapCoreNavigation.NavigationEventTracking? { get set }
   var navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig { get set }
   var routingProvider: NbmapCoreNavigation.RoutingProvider? { get }
+  var stationaryDetection: NbmapCoreNavigation.StationaryDetection? { get }
 }
 @objc public class NBNavigationService : ObjectiveC.NSObject, NbmapCoreNavigation.NavigationService {
   weak public var delegate: NbmapCoreNavigation.NavigationServiceDelegate?
@@ -4579,6 +4595,7 @@ public protocol NavigationService : CoreLocation.CLLocationManagerDelegate, Nbma
   public var route: NbmapDirections.Route {
     get
   }
+  public var stationaryDetection: NbmapCoreNavigation.StationaryDetection?
   public var poorGPSPatience: Swift.Double {
     get
     set
@@ -4592,7 +4609,7 @@ public protocol NavigationService : CoreLocation.CLLocationManagerDelegate, Nbma
     set
   }
   public func isInTunnel(at location: CoreLocation.CLLocation, along progress: NbmapCoreNavigation.RouteProgress) -> Swift.Bool
-  required public init(routes: [NbmapDirections.Route], routeIndex: Swift.Int, locationSource: NbmapCoreNavigation.NavigationLocationManager? = nil, routerController: NbmapCoreNavigation.Router? = nil, dataTracking: NbmapCoreNavigation.DataTracking? = nil, simulating simulationMode: NbmapCoreNavigation.SimulationMode? = nil, navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig? = nil, routingProvider: NbmapCoreNavigation.RoutingProvider? = nil)
+  required public init(routes: [NbmapDirections.Route], routeIndex: Swift.Int, locationSource: NbmapCoreNavigation.NavigationLocationManager? = nil, routerController: NbmapCoreNavigation.Router? = nil, dataTracking: NbmapCoreNavigation.DataTracking? = nil, simulating simulationMode: NbmapCoreNavigation.SimulationMode? = nil, navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig? = nil, routingProvider: NbmapCoreNavigation.RoutingProvider? = nil, stationarySetection: NbmapCoreNavigation.StationaryDetection? = nil)
   @objc deinit
   @objc public func suspendLocationUpdates()
   public func start()
@@ -4629,6 +4646,10 @@ extension NbmapCoreNavigation.NBNavigationService : CoreLocation.CLLocationManag
   @objc dynamic public func locationManager(_ manager: CoreLocation.CLLocationManager, didUpdateHeading newHeading: CoreLocation.CLHeading)
   @objc dynamic public func locationManager(_ manager: CoreLocation.CLLocationManager, didUpdateLocations locations: [CoreLocation.CLLocation])
   @objc dynamic public func locationManagerDidChangeAuthorization(_ manager: CoreLocation.CLLocationManager)
+}
+extension NbmapCoreNavigation.NBNavigationService : NbmapCoreNavigation.StationaryDetectionDelegate {
+  public func onStatusUpdate(isMoving: Swift.Bool)
+  public func onSensorUpdate(angularSpeed: Swift.Double?, acceleration: Swift.Double?, speed: Swift.Double?)
 }
 public protocol BaggageManagerProvider {
   func create() -> NbmapCoreNavigation.BaggageManager
@@ -5843,6 +5864,26 @@ public func == (left: Swift.String, right: NbmapCoreNavigation.ResourceAttribute
   public func forceFlush() -> NbmapCoreNavigation.ExportResult
   @objc deinit
 }
+public protocol StationaryDetectionDelegate : AnyObject {
+  func onStatusUpdate(isMoving: Swift.Bool)
+  func onSensorUpdate(angularSpeed: Swift.Double?, acceleration: Swift.Double?, speed: Swift.Double?)
+}
+public protocol StationaryDetection {
+  var delegate: NbmapCoreNavigation.StationaryDetectionDelegate? { get set }
+  func attach()
+  func dettach()
+  func isSensorEnabled() -> Swift.Bool
+  func updateLocation(_ location: CoreLocation.CLLocation)
+}
+@_hasMissingDesignatedInitializers public class StationaryDetectionImpl : NbmapCoreNavigation.StationaryDetection {
+  weak public var delegate: NbmapCoreNavigation.StationaryDetectionDelegate?
+  public init()
+  public func updateLocation(_ location: CoreLocation.CLLocation)
+  public func isSensorEnabled() -> Swift.Bool
+  public func attach()
+  public func dettach()
+  @objc deinit
+}
 public enum BinaryDecodingError : Swift.Error {
   case trailingGarbage
   case truncated
@@ -6576,7 +6617,13 @@ public protocol SpeedCalibrator {
   func updateSpeed(with location: CoreLocation.CLLocation, routeProgress: NbmapCoreNavigation.RouteProgress, userStatus: NbmapCoreNavigation.OffRouteStatus)
   func reset(routeProgress: NbmapCoreNavigation.RouteProgress)
   func postSpeed(speed: CoreLocation.CLLocationSpeed?)
+  var delegate: NbmapCoreNavigation.SpeedCalibratorDelegate? { get set }
   func cancel()
+}
+public protocol SpeedCalibratorDelegate : AnyObject {
+  func isStationaryDetectionEnable() -> Swift.Bool
+  func isOnMoving() -> Swift.Bool
+  func onSpeedChanged(speed: CoreLocation.CLLocationSpeed)
 }
 public class DefaultBaggageBuilder : NbmapCoreNavigation.BaggageBuilder {
   public init()

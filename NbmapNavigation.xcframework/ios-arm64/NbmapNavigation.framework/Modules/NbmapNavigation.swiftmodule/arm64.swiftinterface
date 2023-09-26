@@ -96,6 +96,12 @@ public let RestrictedRoadClassAttribute: Swift.String
 public let NavigationViewMinimumVolumeForWarning: Swift.Float
 public var GradientCongestionFadingDistance: Swift.Double
 public typealias CarPlayUserInfo = [Swift.String : Any?]
+public var LEVEL_1_ALERT_DURATION: Swift.Double
+public var LEVEL_2_ALERT_DURATION: Swift.Double
+public var LEVEL_3_ALERT_DURATION: Swift.Double
+public var LEVEL_4_ALERT_DURATION: Swift.Double
+public var LEVEL_5_ALERT_DURATION: Swift.Double
+public var LEVEL_6_ALERT_DURATION: Swift.Double
 extension Foundation.NSAttributedString {
   @available(iOS 10.0, *)
   public func pronounced(_ pronunciation: Swift.String) -> Foundation.NSAttributedString
