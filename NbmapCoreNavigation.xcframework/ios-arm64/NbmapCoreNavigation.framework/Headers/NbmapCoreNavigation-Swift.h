@@ -393,6 +393,7 @@ SWIFT_CLASS("_TtC19NbmapCoreNavigation19NBNavigationService")
 @end
 
 
+
 @class CLLocationManager;
 @class CLHeading;
 @class CLLocation;
@@ -501,6 +502,8 @@ SWIFT_CLASS("_TtC19NbmapCoreNavigation15RouteController")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
+
 
 
 
