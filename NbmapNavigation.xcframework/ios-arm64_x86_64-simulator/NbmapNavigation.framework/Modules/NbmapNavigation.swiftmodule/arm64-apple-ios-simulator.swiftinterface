@@ -83,10 +83,9 @@ extension NbmapNavigation.CarPlayManager : CarPlay.CPSearchTemplateDelegate {
   @objc dynamic public func searchTemplate(_ searchTemplate: CarPlay.CPSearchTemplate, updatedSearchText searchText: Swift.String, completionHandler: @escaping ([CarPlay.CPListItem]) -> Swift.Void)
   @objc dynamic public func searchTemplateSearchButtonPressed(_ searchTemplate: CarPlay.CPSearchTemplate)
   @objc dynamic public func searchTemplate(_ searchTemplate: CarPlay.CPSearchTemplate, selectedResult item: CarPlay.CPListItem, completionHandler: @escaping () -> Swift.Void)
+  public func nbSearchTemplate(_ searchTemplate: CarPlay.CPSearchTemplate, updatedSearchText searchText: Swift.String, completionHandler: @escaping ([CarPlay.CPListItem]) -> Swift.Void)
   @available(iOS 12.0, *)
-  public static func searchTemplate(_ searchTemplate: CarPlay.CPSearchTemplate, updatedSearchText searchText: Swift.String, completionHandler: @escaping ([CarPlay.CPListItem]) -> Swift.Void)
-  @available(iOS 12.0, *)
-  public static func carPlayManager(_ searchTemplate: CarPlay.CPSearchTemplate, selectedResult item: CarPlay.CPListItem, completionHandler: @escaping () -> Swift.Void)
+  public func carPlayManager(_ searchTemplate: CarPlay.CPSearchTemplate, selectedResult item: CarPlay.CPListItem, completionHandler: @escaping () -> Swift.Void)
 }
 public let NBRouteLineWidthByZoomLevel: [Swift.Int : Foundation.NSExpression]
 public var NavigationMapViewMinimumDistanceForOverheadZooming: Swift.Double
@@ -102,6 +101,19 @@ public var LEVEL_3_ALERT_DURATION: Swift.Double
 public var LEVEL_4_ALERT_DURATION: Swift.Double
 public var LEVEL_5_ALERT_DURATION: Swift.Double
 public var LEVEL_6_ALERT_DURATION: Swift.Double
+@objc(NavigationPreviewController) @_Concurrency.MainActor(unsafe) open class NavigationPreviewController : UIKit.UIViewController, Nbmap.NGLMapViewDelegate {
+  @_Concurrency.MainActor(unsafe) public var navigationMapView: NbmapNavigation.NavigationMapView? {
+    get
+    set
+  }
+  @objc(initWithRoute:styles:) @_Concurrency.MainActor(unsafe) public init(route: NbmapDirections.Route, style: NbmapNavigation.Style = DayStyle())
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewWillDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc public func mapViewDidFinishLoadingMap(_ mapView: Nbmap.NGLMapView)
+  @objc deinit
+}
 extension Foundation.NSAttributedString {
   @available(iOS 10.0, *)
   public func pronounced(_ pronunciation: Swift.String) -> Foundation.NSAttributedString
@@ -270,6 +282,9 @@ extension NbmapNavigation.NavigationViewController : Nbmap.NGLMapViewDelegate {
   @_Concurrency.MainActor(unsafe) @objc dynamic public func mapView(_ mapView: Nbmap.NGLMapView, imageFor annotation: Nbmap.NGLAnnotation) -> Nbmap.NGLAnnotationImage?
   @_Concurrency.MainActor(unsafe) @objc dynamic public func mapView(_ mapView: Nbmap.NGLMapView, viewFor annotation: Nbmap.NGLAnnotation) -> Nbmap.NGLAnnotationView?
   @_Concurrency.MainActor(unsafe) @objc dynamic public func mapView(_ mapView: Nbmap.NGLMapView, didSelect annotation: Nbmap.NGLAnnotation)
+}
+extension NbmapDirections.Route {
+  public func isFarawayFrom(cordinate: CoreLocation.CLLocationCoordinate2D, minDistance: CoreLocation.CLLocationDistance = 1000) -> Swift.Bool
 }
 extension NbmapNavigation.NavigationMapView {
   @_Concurrency.MainActor(unsafe) public func updateRouteLine(routeProgress: NbmapCoreNavigation.RouteProgress, coordinate: CoreLocation.CLLocationCoordinate2D?, routes: [NbmapDirections.Route], shouldRedraw: Swift.Bool = false)
@@ -756,6 +771,7 @@ public class CarPlayManager : ObjectiveC.NSObject {
     get
   }
   public static let CarPlayWaypointKey: Swift.String
+  public var recentSearchItems: [CarPlay.CPListItem]?
   public static var isConnectedToCarPlay: Swift.Bool
   public var currentActivity: NbmapNavigation.CarPlayActivity? {
     get
@@ -785,7 +801,7 @@ public class CarPlayManager : ObjectiveC.NSObject {
     get
     set
   }
-  public static var shared: NbmapNavigation.CarPlayManager
+  convenience public init(styles: [NbmapNavigation.Style]? = nil, customRoutingProvider: NbmapCoreNavigation.RoutingProvider? = nil)
   @objc deinit
 }
 @available(iOS 13.0, *)
@@ -1240,6 +1256,7 @@ extension UIKit.UIImage {
     get
     set
   }
+  @_Concurrency.MainActor(unsafe) convenience public init(indications: NbmapDirections.LaneIndication, isUsable: Swift.Bool, direction: NbmapDirections.ManeuverDirection?, showHighlightedColors: Swift.Bool = false)
   @objc @_Concurrency.MainActor(unsafe) required dynamic public init?(coder decoder: Foundation.NSCoder)
   @_Concurrency.MainActor(unsafe) @objc override dynamic open func draw(_ rect: CoreGraphics.CGRect)
   @objc deinit
@@ -1368,6 +1385,11 @@ public enum DissolvedRouteLineStyle : Swift.Int {
   @objc deinit
 }
 @_inheritsConvenienceInitializers @objc(NBStepsInstructionView) @_Concurrency.MainActor(unsafe) open class StepsInstructionView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class StepSwitchContenerView : UIKit.UIView {
   @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreGraphics.CGRect)
   @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
   @objc deinit
@@ -1501,6 +1523,10 @@ open class NavMapCameraOption {
   @_Concurrency.MainActor(unsafe) public func update(for visualInstruction: NbmapDirections.VisualInstructionBanner?, animated: Swift.Bool = true, duration: Foundation.TimeInterval = 0.5, completion: NbmapNavigation.NextBannerView.CompletionHandler? = nil)
   @_Concurrency.MainActor(unsafe) public func show(animated: Swift.Bool = true, duration: Foundation.TimeInterval = 0.5, completion: NbmapNavigation.NextBannerView.CompletionHandler? = nil)
   @_Concurrency.MainActor(unsafe) public func hide(animated: Swift.Bool = true, duration: Foundation.TimeInterval = 0.5, completion: NbmapNavigation.NextBannerView.CompletionHandler? = nil)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) open class StepInstructionView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
   @objc deinit
 }
 public class NavigationViewportDataSource : NbmapNavigation.ViewportDataSource {
