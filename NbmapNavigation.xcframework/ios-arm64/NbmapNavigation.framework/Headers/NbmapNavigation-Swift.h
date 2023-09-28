@@ -382,6 +382,7 @@ SWIFT_CLASS("_TtC15NbmapNavigation14CarPlayManager") SWIFT_AVAILABILITY(ios,intr
 @end
 
 
+
 @class CarPlayNavigationViewController;
 
 /// The <code>CarPlayNavigationDelegate</code> protocol provides methods for reacting to significant events during turn-by-turn navigation with <code>CarPlayNavigationViewController</code>.
@@ -406,23 +407,22 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 - (void)carPlayNavigationViewControllerDidDismiss:(CarPlayNavigationViewController * _Nonnull)carPlayNavigationViewController byCanceling:(BOOL)canceled;
 @end
 
-
-@class UIApplication;
+@class CPTemplateApplicationScene;
 @class CPInterfaceController;
 @class CPWindow;
-
-SWIFT_AVAILABILITY(ios,introduced=12.0)
-@interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPApplicationDelegate>
-- (void)application:(UIApplication * _Nonnull)application didConnectCarInterfaceController:(CPInterfaceController * _Nonnull)interfaceController toWindow:(CPWindow * _Nonnull)window;
-- (void)application:(UIApplication * _Nonnull)application didDisconnectCarInterfaceController:(CPInterfaceController * _Nonnull)interfaceController fromWindow:(CPWindow * _Nonnull)window;
-@end
-
-@class CPTemplateApplicationScene;
 
 SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPTemplateApplicationSceneDelegate>
 - (void)templateApplicationScene:(CPTemplateApplicationScene * _Nonnull)templateApplicationScene didConnectInterfaceController:(CPInterfaceController * _Nonnull)interfaceController toWindow:(CPWindow * _Nonnull)window;
 - (void)templateApplicationScene:(CPTemplateApplicationScene * _Nonnull)templateApplicationScene didDisconnectInterfaceController:(CPInterfaceController * _Nonnull)interfaceController fromWindow:(CPWindow * _Nonnull)window;
+@end
+
+@class UIApplication;
+
+SWIFT_AVAILABILITY(ios,introduced=12.0)
+@interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPApplicationDelegate>
+- (void)application:(UIApplication * _Nonnull)application didConnectCarInterfaceController:(CPInterfaceController * _Nonnull)interfaceController toWindow:(CPWindow * _Nonnull)window;
+- (void)application:(UIApplication * _Nonnull)application didDisconnectCarInterfaceController:(CPInterfaceController * _Nonnull)interfaceController fromWindow:(CPWindow * _Nonnull)window;
 @end
 
 @class CPListTemplate;
@@ -1278,6 +1278,19 @@ SWIFT_PROTOCOL_NAMED("NavigationMapViewDelegate")
 @end
 
 
+SWIFT_CLASS_NAMED("NavigationPreviewController")
+@interface NavigationPreviewController : UIViewController <NGLMapViewDelegate>
+- (nonnull instancetype)initWithRoute:(NBNavRoute * _Nonnull)route styles:(NBStyle * _Nonnull)style OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+- (void)viewWillAppear:(BOOL)animated;
+- (void)viewWillDisappear:(BOOL)animated;
+- (void)viewDidLoad;
+- (void)mapViewDidFinishLoadingMap:(NGLMapView * _Nonnull)mapView;
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
+@end
+
+
+
 /// A view that represents the root view of the NbmapNavigation drop-in UI.
 /// <h2>Components</h2>
 /// <ol>
@@ -1402,12 +1415,12 @@ SWIFT_CLASS_NAMED("NavigationViewController")
 @end
 
 
+
 @interface NBNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBStyleManagerDelegate>
 - (CLLocation * _Nullable)locationForStyleManager:(NBStyleManager * _Nonnull)styleManager SWIFT_WARN_UNUSED_RESULT;
 - (void)styleManager:(NBStyleManager * _Nonnull)styleManager didApply:(NBStyle * _Nonnull)style;
 - (void)styleManagerDidRefreshAppearance:(NBStyleManager * _Nonnull)styleManager;
 @end
-
 
 
 @interface NBNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBNavigationMapViewDelegate>
@@ -1586,6 +1599,13 @@ SWIFT_CLASS("_TtC15NbmapNavigation10StatusView")
 @end
 
 
+SWIFT_CLASS("_TtC15NbmapNavigation19StepInstructionView")
+@interface StepInstructionView : UIView
+- (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 /// :nodoc:
 SWIFT_CLASS_NAMED("StepInstructionsView")
 @interface NBStepInstructionsView : BaseInstructionsBannerView
@@ -1599,6 +1619,13 @@ SWIFT_CLASS_NAMED("StepListIndicatorView")
 @interface NBDraggableView : UIView
 @property (nonatomic, copy) NSArray<UIColor *> * _Nonnull gradientColors;
 - (void)layoutSubviews;
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC15NbmapNavigation22StepSwitchContenerView")
+@interface StepSwitchContenerView : UIView
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
