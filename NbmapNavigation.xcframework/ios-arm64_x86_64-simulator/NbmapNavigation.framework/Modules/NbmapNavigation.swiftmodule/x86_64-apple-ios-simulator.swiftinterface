@@ -288,9 +288,8 @@ extension NbmapDirections.Route {
 }
 extension NbmapNavigation.NavigationMapView {
   @_Concurrency.MainActor(unsafe) public func updateRouteLine(routeProgress: NbmapCoreNavigation.RouteProgress, coordinate: CoreLocation.CLLocationCoordinate2D?, routes: [NbmapDirections.Route], shouldRedraw: Swift.Bool = false)
-  @_Concurrency.MainActor(unsafe) public func updateTraveledRouteLine(_ coordinate: CoreLocation.CLLocationCoordinate2D?)
+  @_Concurrency.MainActor(unsafe) public func updateTraveledRouteLine(routeProgress: NbmapCoreNavigation.RouteProgress)
   @_Concurrency.MainActor(unsafe) public func updateRoute(_ routeProgress: NbmapCoreNavigation.RouteProgress)
-  @_Concurrency.MainActor(unsafe) public func updateUpcomingRoutePointIndex(routeProgress: NbmapCoreNavigation.RouteProgress, coordinate: CoreLocation.CLLocationCoordinate2D?) -> Swift.Bool
 }
 public protocol InstructionsBannerViewDelegate : NbmapNavigation.VisualInstructionDelegate {
   func didTapInstructionsBanner(_ sender: NbmapNavigation.BaseInstructionsBannerView)
