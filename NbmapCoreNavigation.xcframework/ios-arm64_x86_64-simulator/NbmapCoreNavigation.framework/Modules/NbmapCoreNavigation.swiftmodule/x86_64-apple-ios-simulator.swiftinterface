@@ -570,6 +570,9 @@ extension NbmapDirections.RouteStep {
   public var isEnterRoundabout: Swift.Bool {
     get
   }
+  public var isExitoundabout: Swift.Bool {
+    get
+  }
   public var isUturn: Swift.Bool {
     get
   }
@@ -1403,6 +1406,7 @@ public enum OffRouteStatus {
   case OFF_ROUTE_INTERMEDIATE_LOCATION
   case OFF_ROUTE_INTERMEDIATE_BEARING
   case ON_TRACK
+  case OFF_ROUTE_OUT_OF_RADIOUS
   public static func == (a: NbmapCoreNavigation.OffRouteStatus, b: NbmapCoreNavigation.OffRouteStatus) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
@@ -4170,6 +4174,8 @@ extension CoreLocation.CLLocation {
   }
   convenience public init(dictionary: [Swift.String : Any])
   public func isCloseToManuver(_ maximumDistance: CoreLocation.CLLocationDistance, of routeStep: NbmapDirections.RouteStep) -> Swift.Bool
+  public func withinIntersection(routeProgress: NbmapCoreNavigation.RouteProgress, radius: CoreLocation.CLLocationDistance) -> Swift.Bool
+  public func withinDistanceAndBearingInIntersection(routeProgress: NbmapCoreNavigation.RouteProgress, radius: CoreLocation.CLLocationDistance, bearingDiff: CoreLocation.CLLocationDirection) -> Swift.Bool
   public func isWithin(_ maximumDistance: CoreLocation.CLLocationDistance, of routeStep: NbmapDirections.RouteStep) -> Swift.Bool
   public func coordinates(for legProgress: NbmapCoreNavigation.RouteLegProgress) -> [CoreLocation.CLLocationCoordinate2D]
   public func nearbyCoordinates(for routeProgress: NbmapCoreNavigation.RouteProgress) -> [CoreLocation.CLLocationCoordinate2D]
