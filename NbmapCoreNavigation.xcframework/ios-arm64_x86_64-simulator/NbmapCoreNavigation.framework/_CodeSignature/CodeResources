@@ -26,23 +26,23 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		OGR9WjnepIBb30djeWSPFcODBLA=
+		ebzVl2lZroWP2pzk9pD9PgrPCHg=
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		47Bgxyg1T80kJVdfOPggXdhTUUM=
+		v+Jfg9aYO8hfO+BYSaTCMDJvtBo=
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/Project/arm64.swiftsourceinfo</key>
 		<data>
-		47Bgxyg1T80kJVdfOPggXdhTUUM=
+		v+Jfg9aYO8hfO+BYSaTCMDJvtBo=
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		78ZNcORmtyCi15jQBLyTF3f6+g0=
+		pagN6HyobvFyZG9qTMeTUd7ZkRc=
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/Project/x86_64.swiftsourceinfo</key>
 		<data>
-		78ZNcORmtyCi15jQBLyTF3f6+g0=
+		pagN6HyobvFyZG9qTMeTUd7ZkRc=
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		QsS24Uok5eUSB5EtiaxUZxENCtg=
+		JI0KbDQpzpGGly1hvulcFv0GidA=
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -66,7 +66,7 @@
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		QsS24Uok5eUSB5EtiaxUZxENCtg=
+		JI0KbDQpzpGGly1hvulcFv0GidA=
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -78,7 +78,7 @@
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		ym/+ZgTkO+SBl1AlqGJxJWjdS7M=
+		gNCRhfIUKAFt5KJ4XHZabmsoKaQ=
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -90,7 +90,7 @@
 		</data>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		ym/+ZgTkO+SBl1AlqGJxJWjdS7M=
+		gNCRhfIUKAFt5KJ4XHZabmsoKaQ=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -295,28 +295,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			3PuMI5j2G3llFdvvewCPOVQrdu1uoogYbGgR0CdJDiQ=
+			Iirxbxx+cq3ezElHs9veZng1Wr8/ucH474G84SSxL5A=
 			</data>
 		</dict>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/Project/arm64.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			3PuMI5j2G3llFdvvewCPOVQrdu1uoogYbGgR0CdJDiQ=
+			Iirxbxx+cq3ezElHs9veZng1Wr8/ucH474G84SSxL5A=
 			</data>
 		</dict>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			WqLz0TLaqBo+ZJZktZeh67AblzIYyly8rJuefTqReBc=
+			gYRfXJ2VbZlmaswBn10+QqRcOjAMZzPgiSgaqcwWNjg=
 			</data>
 		</dict>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/Project/x86_64.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			WqLz0TLaqBo+ZJZktZeh67AblzIYyly8rJuefTqReBc=
+			gYRfXJ2VbZlmaswBn10+QqRcOjAMZzPgiSgaqcwWNjg=
 			</data>
 		</dict>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
@@ -337,7 +337,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ysB2qrtTf+juXWluLH+/VZT9aTAEVRv9QVo3YJwqVpM=
+			cGVLOqHcpb5+tq6VDEa3hMcKLGZk3ELZHuLGls3hvsc=
 			</data>
 		</dict>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/arm64.swiftdoc</key>
@@ -358,7 +358,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ysB2qrtTf+juXWluLH+/VZT9aTAEVRv9QVo3YJwqVpM=
+			cGVLOqHcpb5+tq6VDEa3hMcKLGZk3ELZHuLGls3hvsc=
 			</data>
 		</dict>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -379,7 +379,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			7dVUndIkb/PCMOMGzP9lkPbtx1EOQ9/5HR2bER9NEiU=
+			Ou+u5DeM8LjJtKvwExw/s6bUxxIKOD4b66bvTncxv1M=
 			</data>
 		</dict>
 		<key>Modules/NbmapCoreNavigation.swiftmodule/x86_64.swiftdoc</key>
@@ -400,7 +400,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			7dVUndIkb/PCMOMGzP9lkPbtx1EOQ9/5HR2bER9NEiU=
+			Ou+u5DeM8LjJtKvwExw/s6bUxxIKOD4b66bvTncxv1M=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
