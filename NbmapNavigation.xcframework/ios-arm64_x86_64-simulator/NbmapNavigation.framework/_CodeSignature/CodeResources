@@ -6,7 +6,7 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		OkzLcLPlbfw3N25mbxTCspuopNA=
+		JNnY0bZR4QVuEjZNAlGse35/F+A=
 		</data>
 		<key>Base.lproj/Localizable.strings</key>
 		<data>
@@ -46,23 +46,23 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		UC+IVdE9SjPzv5YNRAIzlaiIuSQ=
+		88RRYyGxxJLY2cjZ9IlUwFlgHg0=
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		PklnmKOgvYj5uWjqmwtGOcNKHd0=
+		OUQ1qRSWzawumaWLozvdZZUKIyA=
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/Project/arm64.swiftsourceinfo</key>
 		<data>
-		PklnmKOgvYj5uWjqmwtGOcNKHd0=
+		OUQ1qRSWzawumaWLozvdZZUKIyA=
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		EKNW5QlqmSlt3o7ZSdKaPTjDfGM=
+		vi9EnB/1BagkUhib7V+Baqxm5Q0=
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/Project/x86_64.swiftsourceinfo</key>
 		<data>
-		EKNW5QlqmSlt3o7ZSdKaPTjDfGM=
+		vi9EnB/1BagkUhib7V+Baqxm5Q0=
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -74,7 +74,7 @@
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		MbzmLYXy4Vmqd078we5x8KuVaxE=
+		5OR6ZMu6c6mtwGqhOdIlbuvDbuM=
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -86,7 +86,7 @@
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		MbzmLYXy4Vmqd078we5x8KuVaxE=
+		5OR6ZMu6c6mtwGqhOdIlbuvDbuM=
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -98,7 +98,7 @@
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		LJPzbkfr4Q7KeEtj0JD2Gek2IVc=
+		KEZmctN/ueOdExRBXeWX6M7ZOpI=
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -110,7 +110,7 @@
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		LJPzbkfr4Q7KeEtj0JD2Gek2IVc=
+		KEZmctN/ueOdExRBXeWX6M7ZOpI=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -573,7 +573,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			FGsF+TORM3kYJkjp4q2pWB9zsBNoo93Yz65ZzoC25DU=
+			mGGSx0pQkpyklayM7706la+Iv/mglcMpkhuHdhIqdMI=
 			</data>
 		</dict>
 		<key>Base.lproj/Localizable.strings</key>
@@ -643,28 +643,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			f6WCl3EM2Apr5leMnfWfKx1vUyPmjhWWmMzd9tmW6xU=
+			+0ExZlXx3CGb/VIKfR9t1z1yNNxEjsH/EC2LZWOT1qM=
 			</data>
 		</dict>
 		<key>Modules/NbmapNavigation.swiftmodule/Project/arm64.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			f6WCl3EM2Apr5leMnfWfKx1vUyPmjhWWmMzd9tmW6xU=
+			+0ExZlXx3CGb/VIKfR9t1z1yNNxEjsH/EC2LZWOT1qM=
 			</data>
 		</dict>
 		<key>Modules/NbmapNavigation.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			jB85eUAx30TJuZLEQxzyd0huUQ3nCmdLW/ulPexvCJI=
+			NCmVz4AzxhU313XPIM2RCkKLECngwXFyUgG8v1hFcxI=
 			</data>
 		</dict>
 		<key>Modules/NbmapNavigation.swiftmodule/Project/x86_64.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			jB85eUAx30TJuZLEQxzyd0huUQ3nCmdLW/ulPexvCJI=
+			NCmVz4AzxhU313XPIM2RCkKLECngwXFyUgG8v1hFcxI=
 			</data>
 		</dict>
 		<key>Modules/NbmapNavigation.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
@@ -685,7 +685,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			t10umUbfVbHyZBZL7+vUNxfzwBPxha0AxGdOqu/ppEQ=
+			xDjNWr45cEKfGbZcLQIzAs7cfSSwwUoQxgcetbVWmWE=
 			</data>
 		</dict>
 		<key>Modules/NbmapNavigation.swiftmodule/arm64.swiftdoc</key>
@@ -706,7 +706,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			t10umUbfVbHyZBZL7+vUNxfzwBPxha0AxGdOqu/ppEQ=
+			xDjNWr45cEKfGbZcLQIzAs7cfSSwwUoQxgcetbVWmWE=
 			</data>
 		</dict>
 		<key>Modules/NbmapNavigation.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -727,7 +727,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Nv5039q45MOsdggXzEYGw1STKrQLiTLzEiAaBSC+eoc=
+			vcHSPbpercJXAneuJCnz3epUT7myCg/Wd/Jy5E/zo48=
 			</data>
 		</dict>
 		<key>Modules/NbmapNavigation.swiftmodule/x86_64.swiftdoc</key>
@@ -748,7 +748,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Nv5039q45MOsdggXzEYGw1STKrQLiTLzEiAaBSC+eoc=
+			vcHSPbpercJXAneuJCnz3epUT7myCg/Wd/Jy5E/zo48=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
