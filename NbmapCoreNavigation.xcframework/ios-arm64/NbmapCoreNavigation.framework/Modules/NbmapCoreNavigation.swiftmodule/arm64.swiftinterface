@@ -1507,6 +1507,7 @@ public protocol Router : CoreLocation.CLLocationManagerDelegate, NbmapCoreNaviga
   var simulationModel: Swift.Bool { get set }
   var routingProvider: NbmapCoreNavigation.RoutingProvider { get }
   func onStationaryStatusUpdate(isMoving: Swift.Bool)
+  func onLegRemoved(legIndex: Swift.Int)
 }
 public struct ArrayWithCapacity<T> {
   public let capacity: Swift.Int
@@ -1548,8 +1549,8 @@ extension NbmapCoreNavigation.Clock {
 public func == (lhs: NbmapCoreNavigation.Clock, rhs: NbmapCoreNavigation.Clock) -> Swift.Bool
 @_inheritsConvenienceInitializers @objc(NBNavigationRouteOptions) @_objcRuntimeName(NBNavigationRouteOptions) open class NavigationRouteOptions : NbmapDirections.RouteOptions {
   @objc required public init(waypoints: [NbmapDirections.Waypoint], profile: NbmapDirections.NBNavigationMode)
-  @objc convenience public init(locations: [CoreLocation.CLLocation], profileIdentifier: NbmapDirections.NBNavigationMode? = .mode4W)
-  @objc convenience public init(coordinates: [CoreLocation.CLLocationCoordinate2D], profileIdentifier: NbmapDirections.NBNavigationMode? = .mode4W)
+  @objc convenience public init(locations: [CoreLocation.CLLocation], profileIdentifier: NbmapDirections.NBNavigationMode? = .car)
+  @objc convenience public init(coordinates: [CoreLocation.CLLocationCoordinate2D], profileIdentifier: NbmapDirections.NBNavigationMode? = .car)
   @objc required public init?(coder decoder: Foundation.NSCoder)
   override open var apiEndpoint: Foundation.URL {
     get
@@ -3918,6 +3919,7 @@ public enum SpanKind : Swift.String, Swift.Equatable, Swift.Codable {
   public enum DefaultBehavior {
     public static let shouldRerouteFromLocation: Swift.Bool
     public static let shouldDiscardLocation: Swift.Bool
+    public static let didArriveAtWaypoint: Swift.Bool
     public static let shouldPreventReroutesWhenArrivingAtWaypoint: Swift.Bool
     public static let shouldDisableBatteryMonitoring: Swift.Bool
   }
@@ -3979,6 +3981,9 @@ extension NbmapCoreNavigation.RouteController : NbmapCoreNavigation.AlternativeR
 }
 extension NbmapCoreNavigation.RouteController {
   public func onStationaryStatusUpdate(isMoving: Swift.Bool)
+}
+extension NbmapCoreNavigation.RouteController {
+  public func onLegRemoved(legIndex: Swift.Int)
 }
 extension NbmapCoreNavigation.RouteController : NbmapCoreNavigation.SpeedCalibratorDelegate {
   public func isStationaryDetectionEnable() -> Swift.Bool
@@ -5419,6 +5424,7 @@ public struct SpanContext : Swift.Equatable, Swift.CustomStringConvertible, Swif
   @objc public var remainingWaypoints: [NbmapDirections.Waypoint] {
     @objc get
   }
+  @objc public func remainingWaypointsWithoutLeg(removeIndex: Swift.Int) -> [NbmapDirections.Waypoint]
   @objc public var currentLegProgress: NbmapCoreNavigation.RouteLegProgress
   public var priorLeg: NbmapDirections.RouteLeg? {
     get

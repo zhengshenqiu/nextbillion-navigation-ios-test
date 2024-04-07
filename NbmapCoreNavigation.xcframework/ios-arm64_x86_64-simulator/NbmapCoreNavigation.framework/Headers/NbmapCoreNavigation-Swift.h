@@ -511,6 +511,7 @@ SWIFT_CLASS("_TtC19NbmapCoreNavigation15RouteController")
 
 
 
+
 @interface RouteController (SWIFT_EXTENSION(NbmapCoreNavigation)) <CLLocationManagerDelegate>
 - (void)locationManager:(CLLocationManager * _Nonnull)manager didUpdateHeading:(CLHeading * _Nonnull)newHeading;
 - (void)locationManager:(CLLocationManager * _Nonnull)manager didUpdateLocations:(NSArray<CLLocation *> * _Nonnull)locations;
@@ -591,6 +592,8 @@ SWIFT_CLASS_NAMED("RouteProgress")
 @property (nonatomic, readonly) CLLocationDistance distanceRemaining;
 /// Number of waypoints remaining on the current route.
 @property (nonatomic, readonly, copy) NSArray<NBWaypoint *> * _Nonnull remainingWaypoints;
+/// Number of waypoints remaining on the current route.
+- (NSArray<NBWaypoint *> * _Nonnull)remainingWaypointsWithoutLegWithRemoveIndex:(NSInteger)removeIndex SWIFT_WARN_UNUSED_RESULT;
 /// Returns the progress along the current <code>RouteLeg</code>.
 @property (nonatomic, strong) NBRouteLegProgress * _Nonnull currentLegProgress;
 /// Intializes a new <code>RouteProgress</code>.
@@ -1251,6 +1254,7 @@ SWIFT_CLASS("_TtC19NbmapCoreNavigation15RouteController")
 
 
 
+
 @interface RouteController (SWIFT_EXTENSION(NbmapCoreNavigation)) <CLLocationManagerDelegate>
 - (void)locationManager:(CLLocationManager * _Nonnull)manager didUpdateHeading:(CLHeading * _Nonnull)newHeading;
 - (void)locationManager:(CLLocationManager * _Nonnull)manager didUpdateLocations:(NSArray<CLLocation *> * _Nonnull)locations;
@@ -1331,6 +1335,8 @@ SWIFT_CLASS_NAMED("RouteProgress")
 @property (nonatomic, readonly) CLLocationDistance distanceRemaining;
 /// Number of waypoints remaining on the current route.
 @property (nonatomic, readonly, copy) NSArray<NBWaypoint *> * _Nonnull remainingWaypoints;
+/// Number of waypoints remaining on the current route.
+- (NSArray<NBWaypoint *> * _Nonnull)remainingWaypointsWithoutLegWithRemoveIndex:(NSInteger)removeIndex SWIFT_WARN_UNUSED_RESULT;
 /// Returns the progress along the current <code>RouteLeg</code>.
 @property (nonatomic, strong) NBRouteLegProgress * _Nonnull currentLegProgress;
 /// Intializes a new <code>RouteProgress</code>.
