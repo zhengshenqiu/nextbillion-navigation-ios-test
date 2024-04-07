@@ -231,11 +231,126 @@ SWIFT_CLASS_NAMED("StylableLabel")
 @end
 
 
+SWIFT_CLASS("_TtC15NbmapNavigation19ArrivalAddressLabel")
+@interface ArrivalAddressLabel : NBStylableLabel
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC15NbmapNavigation21ArrivalBackgroundView")
+@interface ArrivalBackgroundView : UIView
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC15NbmapNavigation23ArrivalDestinationLabel")
+@interface ArrivalDestinationLabel : NBStylableLabel
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 /// :nodoc:
 SWIFT_CLASS_NAMED("ArrivalTimeLabel")
 @interface NBArrivalTimeLabel : NBStylableLabel
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC15NbmapNavigation17ArrivalTitleLabel")
+@interface ArrivalTitleLabel : NBStylableLabel
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class NSNumber;
+
+/// :nodoc:
+SWIFT_CLASS_NAMED("StylableButton")
+@interface NBStylableButton : UIButton
+@property (nonatomic, strong) UIFont * _Nonnull textFont;
+@property (nonatomic, strong) UIColor * _Nonnull textColor;
+@property (nonatomic, strong) UIColor * _Nonnull borderColor;
+@property (nonatomic) CGFloat borderWidth;
+@property (nonatomic) CGFloat cornerRadius;
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// :nodoc:
+/// <code>NBButton</code> sets the tintColor according to the style.
+SWIFT_CLASS_NAMED("Button")
+@interface NBButton : NBStylableButton
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// :nodoc:
+SWIFT_CLASS_NAMED("ArrivedButton")
+@interface NBArrivedButton : NBButton
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@protocol ArrivedConfirmViewControllerDelegate;
+@class NSString;
+@class NSBundle;
+
+/// A view controller containing a grid of buttons the user can use to denote an issue their current navigation experience.
+SWIFT_CLASS_NAMED("ArrivedConfirmViewController")
+@interface NBArrivedConfirmViewController : UIViewController
+@property (nonatomic, weak) id <ArrivedConfirmViewControllerDelegate> _Nullable delegate;
+- (void)encodeWithCoder:(NSCoder * _Nonnull)aCoder;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (void)viewDidLoad;
+- (void)viewWillAppear:(BOOL)animated;
+- (void)viewDidAppear:(BOOL)animated;
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
+@end
+
+
+/// The <code>ArrivedViewControllerDelegate</code> protocol provides methods for responding to feedback events.
+SWIFT_PROTOCOL("_TtP15NbmapNavigation36ArrivedConfirmViewControllerDelegate_")
+@protocol ArrivedConfirmViewControllerDelegate
+/// Called when the user opens the feedback form.
+- (void)arrivedConfirmViewControllerDidOpen:(NBArrivedConfirmViewController * _Nonnull)arrivedConfirmViewController;
+/// Called when the user submits a feedback event.
+- (void)arrivedConfirmViewControllerDidConfirm:(NBArrivedConfirmViewController * _Nonnull)arrivedConfirmViewController legIndex:(NSInteger)legIndex;
+/// Called when a <code>ArrivedViewController</code> is dismissed for any reason without giving explicit feedback.
+- (void)arrivedConfirmViewControllerDidCancel:(NBArrivedConfirmViewController * _Nonnull)arrivedConfirmViewController legIndex:(NSInteger)legIndex;
+@end
+
+@class NBEventsManager;
+@class UITraitCollection;
+@protocol UIViewControllerTransitionCoordinator;
+@class UIGestureRecognizer;
+@class UITouch;
+
+/// A view controller containing a grid of buttons the user can use to denote an issue their current navigation experience.
+SWIFT_CLASS("_TtC15NbmapNavigation21ArrivedViewController")
+@interface ArrivedViewController : UIViewController <UIGestureRecognizerDelegate>
+/// Initialize a new FeedbackViewController from an <code>EventsManager</code>.
+- (nonnull instancetype)initWithDataTracking:(NBEventsManager * _Nullable)dataTracking OBJC_DESIGNATED_INITIALIZER;
+- (void)encodeWithCoder:(NSCoder * _Nonnull)aCoder;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (void)viewDidLoad;
+- (void)willTransitionToTraitCollection:(UITraitCollection * _Nonnull)newCollection withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nonnull)coordinator;
+- (BOOL)gestureRecognizer:(UIGestureRecognizer * _Nonnull)gestureRecognizer shouldReceiveTouch:(UITouch * _Nonnull)touch SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
+@end
+
+@protocol UIViewControllerAnimatedTransitioning;
+@protocol UIViewControllerInteractiveTransitioning;
+
+@interface ArrivedViewController (SWIFT_EXTENSION(NbmapNavigation)) <UIViewControllerTransitioningDelegate>
+- (id <UIViewControllerAnimatedTransitioning> _Nullable)animationControllerForDismissedController:(UIViewController * _Nonnull)dismissed SWIFT_WARN_UNUSED_RESULT;
+- (id <UIViewControllerAnimatedTransitioning> _Nullable)animationControllerForPresentedController:(UIViewController * _Nonnull)presented presentingController:(UIViewController * _Nonnull)presenting sourceController:(UIViewController * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+- (id <UIViewControllerInteractiveTransitioning> _Nullable)interactionControllerForDismissal:(id <UIViewControllerAnimatedTransitioning> _Nonnull)animator SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -248,7 +363,6 @@ SWIFT_CLASS_NAMED("BannerContainerView")
 - (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
 @end
 
-@class NSNumber;
 
 /// A banner view that contains the current step instruction along a route and responds to tap and
 /// swipe gestures, as the base of <code>InstructionsCardView</code> and <code>InstructionsBannerView</code>.
@@ -270,7 +384,6 @@ SWIFT_PROTOCOL_NAMED("BimodalCache")
 @end
 
 @class NSData;
-@class NSString;
 
 /// A cache which supports storing data
 SWIFT_PROTOCOL_NAMED("BimodalDataCache")
@@ -303,7 +416,6 @@ SWIFT_CLASS_NAMED("BottomBannerView")
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class NSBundle;
 
 /// A user interface element designed to display the estimated arrival time, distance, and time remaining, as well as give the user a control the cancel the navigation session.
 IB_DESIGNABLE
@@ -325,7 +437,13 @@ SWIFT_CLASS("_TtC15NbmapNavigation26BottomBannerViewController")
 @end
 
 
-@class UITraitCollection;
+
+@interface BottomBannerViewController (SWIFT_EXTENSION(NbmapNavigation)) <ArrivedConfirmViewControllerDelegate>
+- (void)arrivedConfirmViewControllerDidOpen:(NBArrivedConfirmViewController * _Nonnull)arrivedConfirmViewController;
+- (void)arrivedConfirmViewControllerDidConfirm:(NBArrivedConfirmViewController * _Nonnull)arrivedConfirmViewController legIndex:(NSInteger)legIndex;
+- (void)arrivedConfirmViewControllerDidCancel:(NBArrivedConfirmViewController * _Nonnull)arrivedConfirmViewController legIndex:(NSInteger)legIndex;
+@end
+
 
 @interface BottomBannerViewController (SWIFT_EXTENSION(NbmapNavigation))
 - (void)traitCollectionDidChange:(UITraitCollection * _Nullable)previousTraitCollection;
@@ -340,27 +458,19 @@ SWIFT_CLASS("_TtC15NbmapNavigation17BottomPaddingView")
 
 
 
-/// :nodoc:
-SWIFT_CLASS_NAMED("StylableButton")
-@interface NBStylableButton : UIButton
-@property (nonatomic, strong) UIFont * _Nonnull textFont;
-@property (nonatomic, strong) UIColor * _Nonnull textColor;
-@property (nonatomic, strong) UIColor * _Nonnull borderColor;
-@property (nonatomic) CGFloat borderWidth;
-@property (nonatomic) CGFloat cornerRadius;
-- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+
+
+SWIFT_CLASS("_TtC15NbmapNavigation16CPNavigationView")
+@interface CPNavigationView : UIView
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder OBJC_DESIGNATED_INITIALIZER;
+- (void)prepareForInterfaceBuilder;
+- (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
 @end
 
 
-/// :nodoc:
-/// <code>NBButton</code> sets the tintColor according to the style.
-SWIFT_CLASS_NAMED("Button")
-@interface NBButton : NBStylableButton
-- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@interface CPNavigationView (SWIFT_EXTENSION(NbmapNavigation))
+- (void)traitCollectionDidChange:(UITraitCollection * _Nullable)previousTraitCollection;
 @end
-
 
 
 
@@ -382,6 +492,8 @@ SWIFT_CLASS("_TtC15NbmapNavigation14CarPlayManager") SWIFT_AVAILABILITY(ios,intr
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
+
 
 
 
@@ -409,9 +521,17 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 - (void)carPlayNavigationViewControllerDidDismiss:(CarPlayNavigationViewController * _Nonnull)carPlayNavigationViewController byCanceling:(BOOL)canceled;
 @end
 
-@class CPTemplateApplicationScene;
+@class UIApplication;
 @class CPInterfaceController;
 @class CPWindow;
+
+SWIFT_AVAILABILITY(ios,introduced=12.0)
+@interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPApplicationDelegate>
+- (void)application:(UIApplication * _Nonnull)application didConnectCarInterfaceController:(CPInterfaceController * _Nonnull)interfaceController toWindow:(CPWindow * _Nonnull)window;
+- (void)application:(UIApplication * _Nonnull)application didDisconnectCarInterfaceController:(CPInterfaceController * _Nonnull)interfaceController fromWindow:(CPWindow * _Nonnull)window;
+@end
+
+@class CPTemplateApplicationScene;
 
 SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPTemplateApplicationSceneDelegate>
@@ -419,13 +539,6 @@ SWIFT_AVAILABILITY(ios,introduced=13.0)
 - (void)templateApplicationScene:(CPTemplateApplicationScene * _Nonnull)templateApplicationScene didDisconnectInterfaceController:(CPInterfaceController * _Nonnull)interfaceController fromWindow:(CPWindow * _Nonnull)window;
 @end
 
-@class UIApplication;
-
-SWIFT_AVAILABILITY(ios,introduced=12.0)
-@interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPApplicationDelegate>
-- (void)application:(UIApplication * _Nonnull)application didConnectCarInterfaceController:(CPInterfaceController * _Nonnull)interfaceController toWindow:(CPWindow * _Nonnull)window;
-- (void)application:(UIApplication * _Nonnull)application didDisconnectCarInterfaceController:(CPInterfaceController * _Nonnull)interfaceController fromWindow:(CPWindow * _Nonnull)window;
-@end
 
 @class CPListTemplate;
 @class CPListItem;
@@ -434,6 +547,7 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPListTemplateDelegate>
 - (void)listTemplate:(CPListTemplate * _Nonnull)listTemplate didSelectListItem:(CPListItem * _Nonnull)item completionHandler:(void (^ _Nonnull)(void))completionHandler;
 @end
+
 
 @class CPTemplate;
 
@@ -471,8 +585,7 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 @end
 
 
-@class NGLMapView;
-@class NGLStyle;
+@class NBNavigationMapView;
 
 /// <code>CarPlayNavigationViewController</code> is a fully-featured turn-by-turn navigation UI for CarPlay.
 /// seealso:
@@ -481,9 +594,15 @@ SWIFT_CLASS("_TtC15NbmapNavigation31CarPlayNavigationViewController") SWIFT_AVAI
 @interface CarPlayNavigationViewController : UIViewController <NGLMapViewDelegate>
 /// The view controller’s delegate.
 @property (nonatomic, weak) id <NBNavigationCarPlayDelegate> _Nullable delegate;
+/// The map view showing the route and the user’s location.
+@property (nonatomic, strong) NBNavigationMapView * _Nonnull navigationMapView;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder SWIFT_UNAVAILABLE;
 - (void)viewDidLoad;
+- (void)viewWillAppear:(BOOL)animated;
+- (void)viewDidAppear:(BOOL)animated;
 - (void)viewWillDisappear:(BOOL)animated;
+- (void)viewDidDisappear:(BOOL)animated;
+- (void)viewDidLayoutSubviews;
 - (void)viewSafeAreaInsetsDidChange;
 /// Begins a navigation session along the given trip.
 /// \param trip The trip to begin navigating along.
@@ -493,14 +612,13 @@ SWIFT_CLASS("_TtC15NbmapNavigation31CarPlayNavigationViewController") SWIFT_AVAI
 /// \param canceled A Boolean value indicating whether this method is being called because the user intends to cancel the trip, as opposed to letting it run to completion.
 ///
 - (void)exitNavigationByCanceling:(BOOL)canceled;
-/// Shows the interface for providing feedback about the route.
-- (void)showFeedback;
 /// A Boolean value indicating whether the map should follow the user’s location and rotate when the course changes.
 /// When this property is true, the map follows the user’s location and rotates when their course changes. Otherwise, the map shows an overview of the route.
 @property (nonatomic) BOOL tracksUserCourse;
-- (void)mapView:(NGLMapView * _Nonnull)mapView didFinishLoadingStyle:(NGLStyle * _Nonnull)style;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
 @end
+
+
 
 @class CPSessionConfiguration;
 
@@ -509,6 +627,133 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 - (void)sessionConfiguration:(CPSessionConfiguration * _Nonnull)sessionConfiguration contentStyleChanged:(CPContentStyle)contentStyle SWIFT_AVAILABILITY(ios,introduced=13.0);
 @end
 
+@class NGLSource;
+@class NGLStyleLayer;
+@class NBWaypoint;
+@class NBNavRoute;
+@class NGLShape;
+
+/// The <code>NavigationMapViewDelegate</code> provides methods for configuring the NavigationMapView, as well as responding to events triggered by the NavigationMapView.
+SWIFT_PROTOCOL_NAMED("NavigationMapViewDelegate")
+@protocol NBNavigationMapViewDelegate
+@optional
+/// Asks the receiver to return an NGLStyleLayer for routes, given an identifier and source.
+/// This method is invoked when the map view loads and any time routes are added.
+/// \param mapView The NavigationMapView.
+///
+/// \param identifier The style identifier.
+///
+/// \param source The Layer source containing the route data that this method would style.
+///
+///
+/// returns:
+/// An NGLStyleLayer that the map applies to all routes.
+- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView routeStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+/// Asks the receiver to return an NGLStyleLayer for waypoint symbols, given an identifier and source.
+/// This method is invoked when the map view loads and any time waypoints are added.
+/// \param mapView The NavigationMapView.
+///
+/// \param identifier The style identifier.
+///
+/// \param source The Layer source containing the waypoint data that this method would style.
+///
+///
+/// returns:
+/// An NGLStyleLayer that the map applies to all waypoint symbols.
+- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView waypointSymbolStyleLayerWithIdentifier:(NSString * _Nonnull)identifier waypoints:(NSArray<NBWaypoint *> * _Nonnull)waypoints source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+/// Asks the receiver to return an NGLStyleLayer for route casings, given an identifier and source.
+/// This method is invoked when the map view loads and anytime routes are added.
+/// note:
+/// Specify a casing to ensure good contrast between the route line and the underlying map layers.
+/// \param mapView The NavigationMapView.
+///
+/// \param identifier The style identifier.
+///
+/// \param source The Layer source containing the route data that this method would style.
+///
+///
+/// returns:
+/// An NGLStyleLayer that the map applies to the route.
+- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView routeCasingStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+/// Asks the receiver to return an NGLStyleLayer for alternative route, given an identifier and source.
+/// This method is invoked when the map view loads and anytime routes are added.
+/// note:
+/// Specify a casing to ensure good contrast between the route line and the underlying map layers.
+/// \param mapView The NavigationMapView.
+///
+/// \param identifier The style identifier.
+///
+/// \param source The Layer source containing the route data that this method would style.
+///
+///
+/// returns:
+/// An NGLStyleLayer that the map applies to the route.
+- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView alternativeRouteStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+/// Asks the receiver to return an NGLStyleLayer for alternative route casings, given an identifier and source.
+/// This method is invoked when the map view loads and anytime routes are added.
+/// note:
+/// Specify a casing to ensure good contrast between the route line and the underlying map layers.
+/// \param mapView The NavigationMapView.
+///
+/// \param identifier The style identifier.
+///
+/// \param source The Layer source containing the route data that this method would style.
+///
+///
+/// returns:
+/// An NGLStyleLayer that the map applies to the route.
+- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView alternativeRouteCasingStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+/// Tells the receiver that the user has selected a route by interacting with the map view.
+/// \param mapView The NavigationMapView.
+///
+/// \param route The route that was selected.
+///
+- (void)navigationMapView:(NBNavigationMapView * _Nonnull)mapView didSelectRoute:(NBNavRoute * _Nonnull)route;
+/// Tells the receiver that a waypoint was selected.
+/// \param mapView The NavigationMapView.
+///
+/// \param waypoint The waypoint that was selected.
+///
+- (void)navigationMapView:(NBNavigationMapView * _Nonnull)mapView didSelectWaypoint:(NBWaypoint * _Nonnull)waypoint;
+/// Asks the receiver to return an NGLShape that describes the geometry of the route.
+/// note:
+/// The returned value represents the route in full detail. For example, individual <code>NGLPolyline</code> objects in an <code>NGLShapeCollectionFeature</code> object can represent traffic congestion segments. For improved performance, you should also implement <code>navigationMapView(_:simplifiedShapeFor:)</code>, which defines the overall route as a single feature.
+/// \param mapView The NavigationMapView.
+///
+/// \param routes The routes that the sender is asking about. The first route will always be rendered as the main route, while all subsequent routes will be rendered as alternate routes.
+///
+///
+/// returns:
+/// Optionally, a <code>NGLShape</code> that defines the shape of the route, or <code>nil</code> to use default behavior.
+- (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView shapeForRoutes:(NSArray<NBNavRoute *> * _Nonnull)routes SWIFT_WARN_UNUSED_RESULT;
+/// Asks the receiver to return an NGLShape that describes the geometry of the route at lower zoomlevels.
+/// note:
+/// The returned value represents the simplfied route. It is designed to be used with `navigationMapView(_:shapeFor:), and if used without its parent method, can cause unexpected behavior.
+/// \param mapView The NavigationMapView.
+///
+/// \param route The route that the sender is asking about.
+///
+///
+/// returns:
+/// Optionally, a <code>NGLShape</code> that defines the shape of the route at lower zoomlevels, or <code>nil</code> to use default behavior.
+- (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView simplifiedShapeForRoute:(NBNavRoute * _Nonnull)route SWIFT_WARN_UNUSED_RESULT;
+/// Asks the receiver to return an NGLShape that describes the geometry of the waypoint.
+/// \param mapView The NavigationMapView.
+///
+/// \param waypoints The waypoints to be displayed on the map.
+///
+///
+/// returns:
+/// Optionally, a <code>NGLShape</code> that defines the shape of the waypoint, or <code>nil</code> to use default behavior.
+- (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView shapeForWaypoints:(NSArray<NBWaypoint *> * _Nonnull)waypoints legIndex:(NSInteger)legIndex SWIFT_WARN_UNUSED_RESULT;
+@end
+
+@class NGLMapView;
+@class NGLStyle;
+
+@interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBNavigationMapViewDelegate>
+- (void)mapView:(NGLMapView * _Nonnull)mapView didFinishLoadingStyle:(NGLStyle * _Nonnull)style;
+@end
 
 @class NBStyleManager;
 @class CLLocation;
@@ -532,6 +777,14 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 - (CLLocation * _Nullable)locationForStyleManager:(NBStyleManager * _Nonnull)styleManager SWIFT_WARN_UNUSED_RESULT;
 - (void)styleManager:(NBStyleManager * _Nonnull)styleManager didApply:(NBStyle * _Nonnull)style;
 - (void)styleManagerDidRefreshAppearance:(NBStyleManager * _Nonnull)styleManager;
+@end
+
+
+
+SWIFT_CLASS_NAMED("CompleteLabel")
+@interface NBCompleteLabel : NBStylableLabel
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -691,10 +944,6 @@ SWIFT_CLASS_NAMED("FeedbackItem")
 @end
 
 @protocol FeedbackViewControllerDelegate;
-@class NBEventsManager;
-@protocol UIViewControllerTransitionCoordinator;
-@class UIGestureRecognizer;
-@class UITouch;
 
 /// A view controller containing a grid of buttons the user can use to denote an issue their current navigation experience.
 SWIFT_CLASS_NAMED("FeedbackViewController")
@@ -727,8 +976,6 @@ SWIFT_CLASS_NAMED("FeedbackViewController")
 - (void)collectionView:(UICollectionView * _Nonnull)collectionView didSelectItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath;
 @end
 
-@protocol UIViewControllerAnimatedTransitioning;
-@protocol UIViewControllerInteractiveTransitioning;
 
 @interface NBFeedbackViewController (SWIFT_EXTENSION(NbmapNavigation)) <UIViewControllerTransitioningDelegate>
 - (id <UIViewControllerAnimatedTransitioning> _Nullable)animationControllerForDismissedController:(UIViewController * _Nonnull)dismissed SWIFT_WARN_UNUSED_RESULT;
@@ -951,6 +1198,13 @@ SWIFT_CLASS_NAMED("LanesView")
 @end
 
 
+SWIFT_CLASS("_TtC15NbmapNavigation14LegSummaryCell")
+@interface LegSummaryCell : UITableViewCell
+- (nonnull instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString * _Nullable)reuseIdentifier SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 
 /// :nodoc:
 SWIFT_CLASS_NAMED("ManeuverContainerView")
@@ -1075,7 +1329,6 @@ SWIFT_CLASS("_TtC15NbmapNavigation16NavigationCamera")
 
 
 @protocol NGLFeature;
-@class NBNavRoute;
 enum DurationSymbolType : NSInteger;
 
 /// <code>NavigationMapView</code> is a subclass of <code>NGLMapView</code> with convenience functions for adding <code>Route</code> lines to a map.
@@ -1159,125 +1412,6 @@ typedef SWIFT_ENUM(NSInteger, DurationSymbolType, open) {
 
 
 
-@class NGLSource;
-@class NGLStyleLayer;
-@class NBWaypoint;
-@class NGLShape;
-
-/// The <code>NavigationMapViewDelegate</code> provides methods for configuring the NavigationMapView, as well as responding to events triggered by the NavigationMapView.
-SWIFT_PROTOCOL_NAMED("NavigationMapViewDelegate")
-@protocol NBNavigationMapViewDelegate
-@optional
-/// Asks the receiver to return an NGLStyleLayer for routes, given an identifier and source.
-/// This method is invoked when the map view loads and any time routes are added.
-/// \param mapView The NavigationMapView.
-///
-/// \param identifier The style identifier.
-///
-/// \param source The Layer source containing the route data that this method would style.
-///
-///
-/// returns:
-/// An NGLStyleLayer that the map applies to all routes.
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView routeStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
-/// Asks the receiver to return an NGLStyleLayer for waypoint symbols, given an identifier and source.
-/// This method is invoked when the map view loads and any time waypoints are added.
-/// \param mapView The NavigationMapView.
-///
-/// \param identifier The style identifier.
-///
-/// \param source The Layer source containing the waypoint data that this method would style.
-///
-///
-/// returns:
-/// An NGLStyleLayer that the map applies to all waypoint symbols.
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView waypointSymbolStyleLayerWithIdentifier:(NSString * _Nonnull)identifier waypoints:(NSArray<NBWaypoint *> * _Nonnull)waypoints source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
-/// Asks the receiver to return an NGLStyleLayer for route casings, given an identifier and source.
-/// This method is invoked when the map view loads and anytime routes are added.
-/// note:
-/// Specify a casing to ensure good contrast between the route line and the underlying map layers.
-/// \param mapView The NavigationMapView.
-///
-/// \param identifier The style identifier.
-///
-/// \param source The Layer source containing the route data that this method would style.
-///
-///
-/// returns:
-/// An NGLStyleLayer that the map applies to the route.
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView routeCasingStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
-/// Asks the receiver to return an NGLStyleLayer for alternative route, given an identifier and source.
-/// This method is invoked when the map view loads and anytime routes are added.
-/// note:
-/// Specify a casing to ensure good contrast between the route line and the underlying map layers.
-/// \param mapView The NavigationMapView.
-///
-/// \param identifier The style identifier.
-///
-/// \param source The Layer source containing the route data that this method would style.
-///
-///
-/// returns:
-/// An NGLStyleLayer that the map applies to the route.
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView alternativeRouteStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
-/// Asks the receiver to return an NGLStyleLayer for alternative route casings, given an identifier and source.
-/// This method is invoked when the map view loads and anytime routes are added.
-/// note:
-/// Specify a casing to ensure good contrast between the route line and the underlying map layers.
-/// \param mapView The NavigationMapView.
-///
-/// \param identifier The style identifier.
-///
-/// \param source The Layer source containing the route data that this method would style.
-///
-///
-/// returns:
-/// An NGLStyleLayer that the map applies to the route.
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView alternativeRouteCasingStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
-/// Tells the receiver that the user has selected a route by interacting with the map view.
-/// \param mapView The NavigationMapView.
-///
-/// \param route The route that was selected.
-///
-- (void)navigationMapView:(NBNavigationMapView * _Nonnull)mapView didSelectRoute:(NBNavRoute * _Nonnull)route;
-/// Tells the receiver that a waypoint was selected.
-/// \param mapView The NavigationMapView.
-///
-/// \param waypoint The waypoint that was selected.
-///
-- (void)navigationMapView:(NBNavigationMapView * _Nonnull)mapView didSelectWaypoint:(NBWaypoint * _Nonnull)waypoint;
-/// Asks the receiver to return an NGLShape that describes the geometry of the route.
-/// note:
-/// The returned value represents the route in full detail. For example, individual <code>NGLPolyline</code> objects in an <code>NGLShapeCollectionFeature</code> object can represent traffic congestion segments. For improved performance, you should also implement <code>navigationMapView(_:simplifiedShapeFor:)</code>, which defines the overall route as a single feature.
-/// \param mapView The NavigationMapView.
-///
-/// \param routes The routes that the sender is asking about. The first route will always be rendered as the main route, while all subsequent routes will be rendered as alternate routes.
-///
-///
-/// returns:
-/// Optionally, a <code>NGLShape</code> that defines the shape of the route, or <code>nil</code> to use default behavior.
-- (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView shapeForRoutes:(NSArray<NBNavRoute *> * _Nonnull)routes SWIFT_WARN_UNUSED_RESULT;
-/// Asks the receiver to return an NGLShape that describes the geometry of the route at lower zoomlevels.
-/// note:
-/// The returned value represents the simplfied route. It is designed to be used with `navigationMapView(_:shapeFor:), and if used without its parent method, can cause unexpected behavior.
-/// \param mapView The NavigationMapView.
-///
-/// \param route The route that the sender is asking about.
-///
-///
-/// returns:
-/// Optionally, a <code>NGLShape</code> that defines the shape of the route at lower zoomlevels, or <code>nil</code> to use default behavior.
-- (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView simplifiedShapeForRoute:(NBNavRoute * _Nonnull)route SWIFT_WARN_UNUSED_RESULT;
-/// Asks the receiver to return an NGLShape that describes the geometry of the waypoint.
-/// \param mapView The NavigationMapView.
-///
-/// \param waypoints The waypoints to be displayed on the map.
-///
-///
-/// returns:
-/// Optionally, a <code>NGLShape</code> that defines the shape of the waypoint, or <code>nil</code> to use default behavior.
-- (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView shapeForWaypoints:(NSArray<NBWaypoint *> * _Nonnull)waypoints legIndex:(NSInteger)legIndex SWIFT_WARN_UNUSED_RESULT;
-@end
 
 
 SWIFT_CLASS_NAMED("NavigationPreviewController")
@@ -1358,7 +1492,6 @@ SWIFT_CLASS_NAMED("NavigationView")
 @class NGLMapCamera;
 @protocol NGLAnnotation;
 @class NBRouteVoiceController;
-@protocol UIContentContainer;
 
 /// <code>NavigationViewController</code> is a fully-featured turn-by-turn navigation UI.
 /// It provides step by step instructions, an overview of all steps for the given route and support for basic styling.
@@ -1399,7 +1532,6 @@ SWIFT_CLASS_NAMED("NavigationViewController")
 - (void)viewWillDisappear:(BOOL)animated;
 - (void)viewDidDisappear:(BOOL)animated;
 - (void)viewDidLayoutSubviews;
-- (void)preferredContentSizeDidChangeForChildContentContainer:(id <UIContentContainer> _Nonnull)container;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
 @end
 
@@ -1417,12 +1549,12 @@ SWIFT_CLASS_NAMED("NavigationViewController")
 @end
 
 
-
 @interface NBNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBStyleManagerDelegate>
 - (CLLocation * _Nullable)locationForStyleManager:(NBStyleManager * _Nonnull)styleManager SWIFT_WARN_UNUSED_RESULT;
 - (void)styleManager:(NBStyleManager * _Nonnull)styleManager didApply:(NBStyle * _Nonnull)style;
 - (void)styleManagerDidRefreshAppearance:(NBStyleManager * _Nonnull)styleManager;
 @end
+
 
 
 @interface NBNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBNavigationMapViewDelegate>
@@ -1633,7 +1765,6 @@ SWIFT_CLASS("_TtC15NbmapNavigation22StepSwitchContenerView")
 @end
 
 
-/// :nodoc:
 SWIFT_CLASS_NAMED("StepTableViewCell")
 @interface NBStepTableViewCell : UITableViewCell
 - (nonnull instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString * _Nullable)reuseIdentifier SWIFT_UNAVAILABLE;
@@ -1682,8 +1813,6 @@ SWIFT_CLASS_NAMED("StepsViewController")
 - (NSInteger)tableView:(UITableView * _Nonnull)tableView numberOfRowsInSection:(NSInteger)section SWIFT_WARN_UNUSED_RESULT;
 - (CGFloat)tableView:(UITableView * _Nonnull)tableView heightForRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath SWIFT_WARN_UNUSED_RESULT;
 - (UITableViewCell * _Nonnull)tableView:(UITableView * _Nonnull)tableView cellForRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath SWIFT_WARN_UNUSED_RESULT;
-- (void)tableView:(UITableView * _Nonnull)tableView willDisplayCell:(UITableViewCell * _Nonnull)cell forRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath;
-- (NSString * _Nullable)tableView:(UITableView * _Nonnull)tableView titleForHeaderInSection:(NSInteger)section SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -1876,6 +2005,13 @@ SWIFT_CLASS_NAMED("WayNameView")
 - (void)layoutSubviews;
 @end
 
+
+
+SWIFT_CLASS("_TtC15NbmapNavigation19WaypointArrivedCell")
+@interface WaypointArrivedCell : UITableViewCell
+- (nonnull instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString * _Nullable)reuseIdentifier SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
 
 #if __has_attribute(external_source_symbol)
 # pragma clang attribute pop
@@ -2115,11 +2251,126 @@ SWIFT_CLASS_NAMED("StylableLabel")
 @end
 
 
+SWIFT_CLASS("_TtC15NbmapNavigation19ArrivalAddressLabel")
+@interface ArrivalAddressLabel : NBStylableLabel
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC15NbmapNavigation21ArrivalBackgroundView")
+@interface ArrivalBackgroundView : UIView
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC15NbmapNavigation23ArrivalDestinationLabel")
+@interface ArrivalDestinationLabel : NBStylableLabel
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 /// :nodoc:
 SWIFT_CLASS_NAMED("ArrivalTimeLabel")
 @interface NBArrivalTimeLabel : NBStylableLabel
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC15NbmapNavigation17ArrivalTitleLabel")
+@interface ArrivalTitleLabel : NBStylableLabel
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class NSNumber;
+
+/// :nodoc:
+SWIFT_CLASS_NAMED("StylableButton")
+@interface NBStylableButton : UIButton
+@property (nonatomic, strong) UIFont * _Nonnull textFont;
+@property (nonatomic, strong) UIColor * _Nonnull textColor;
+@property (nonatomic, strong) UIColor * _Nonnull borderColor;
+@property (nonatomic) CGFloat borderWidth;
+@property (nonatomic) CGFloat cornerRadius;
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// :nodoc:
+/// <code>NBButton</code> sets the tintColor according to the style.
+SWIFT_CLASS_NAMED("Button")
+@interface NBButton : NBStylableButton
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// :nodoc:
+SWIFT_CLASS_NAMED("ArrivedButton")
+@interface NBArrivedButton : NBButton
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@protocol ArrivedConfirmViewControllerDelegate;
+@class NSString;
+@class NSBundle;
+
+/// A view controller containing a grid of buttons the user can use to denote an issue their current navigation experience.
+SWIFT_CLASS_NAMED("ArrivedConfirmViewController")
+@interface NBArrivedConfirmViewController : UIViewController
+@property (nonatomic, weak) id <ArrivedConfirmViewControllerDelegate> _Nullable delegate;
+- (void)encodeWithCoder:(NSCoder * _Nonnull)aCoder;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (void)viewDidLoad;
+- (void)viewWillAppear:(BOOL)animated;
+- (void)viewDidAppear:(BOOL)animated;
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
+@end
+
+
+/// The <code>ArrivedViewControllerDelegate</code> protocol provides methods for responding to feedback events.
+SWIFT_PROTOCOL("_TtP15NbmapNavigation36ArrivedConfirmViewControllerDelegate_")
+@protocol ArrivedConfirmViewControllerDelegate
+/// Called when the user opens the feedback form.
+- (void)arrivedConfirmViewControllerDidOpen:(NBArrivedConfirmViewController * _Nonnull)arrivedConfirmViewController;
+/// Called when the user submits a feedback event.
+- (void)arrivedConfirmViewControllerDidConfirm:(NBArrivedConfirmViewController * _Nonnull)arrivedConfirmViewController legIndex:(NSInteger)legIndex;
+/// Called when a <code>ArrivedViewController</code> is dismissed for any reason without giving explicit feedback.
+- (void)arrivedConfirmViewControllerDidCancel:(NBArrivedConfirmViewController * _Nonnull)arrivedConfirmViewController legIndex:(NSInteger)legIndex;
+@end
+
+@class NBEventsManager;
+@class UITraitCollection;
+@protocol UIViewControllerTransitionCoordinator;
+@class UIGestureRecognizer;
+@class UITouch;
+
+/// A view controller containing a grid of buttons the user can use to denote an issue their current navigation experience.
+SWIFT_CLASS("_TtC15NbmapNavigation21ArrivedViewController")
+@interface ArrivedViewController : UIViewController <UIGestureRecognizerDelegate>
+/// Initialize a new FeedbackViewController from an <code>EventsManager</code>.
+- (nonnull instancetype)initWithDataTracking:(NBEventsManager * _Nullable)dataTracking OBJC_DESIGNATED_INITIALIZER;
+- (void)encodeWithCoder:(NSCoder * _Nonnull)aCoder;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (void)viewDidLoad;
+- (void)willTransitionToTraitCollection:(UITraitCollection * _Nonnull)newCollection withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator> _Nonnull)coordinator;
+- (BOOL)gestureRecognizer:(UIGestureRecognizer * _Nonnull)gestureRecognizer shouldReceiveTouch:(UITouch * _Nonnull)touch SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
+@end
+
+@protocol UIViewControllerAnimatedTransitioning;
+@protocol UIViewControllerInteractiveTransitioning;
+
+@interface ArrivedViewController (SWIFT_EXTENSION(NbmapNavigation)) <UIViewControllerTransitioningDelegate>
+- (id <UIViewControllerAnimatedTransitioning> _Nullable)animationControllerForDismissedController:(UIViewController * _Nonnull)dismissed SWIFT_WARN_UNUSED_RESULT;
+- (id <UIViewControllerAnimatedTransitioning> _Nullable)animationControllerForPresentedController:(UIViewController * _Nonnull)presented presentingController:(UIViewController * _Nonnull)presenting sourceController:(UIViewController * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+- (id <UIViewControllerInteractiveTransitioning> _Nullable)interactionControllerForDismissal:(id <UIViewControllerAnimatedTransitioning> _Nonnull)animator SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -2132,7 +2383,6 @@ SWIFT_CLASS_NAMED("BannerContainerView")
 - (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
 @end
 
-@class NSNumber;
 
 /// A banner view that contains the current step instruction along a route and responds to tap and
 /// swipe gestures, as the base of <code>InstructionsCardView</code> and <code>InstructionsBannerView</code>.
@@ -2154,7 +2404,6 @@ SWIFT_PROTOCOL_NAMED("BimodalCache")
 @end
 
 @class NSData;
-@class NSString;
 
 /// A cache which supports storing data
 SWIFT_PROTOCOL_NAMED("BimodalDataCache")
@@ -2187,7 +2436,6 @@ SWIFT_CLASS_NAMED("BottomBannerView")
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class NSBundle;
 
 /// A user interface element designed to display the estimated arrival time, distance, and time remaining, as well as give the user a control the cancel the navigation session.
 IB_DESIGNABLE
@@ -2209,7 +2457,13 @@ SWIFT_CLASS("_TtC15NbmapNavigation26BottomBannerViewController")
 @end
 
 
-@class UITraitCollection;
+
+@interface BottomBannerViewController (SWIFT_EXTENSION(NbmapNavigation)) <ArrivedConfirmViewControllerDelegate>
+- (void)arrivedConfirmViewControllerDidOpen:(NBArrivedConfirmViewController * _Nonnull)arrivedConfirmViewController;
+- (void)arrivedConfirmViewControllerDidConfirm:(NBArrivedConfirmViewController * _Nonnull)arrivedConfirmViewController legIndex:(NSInteger)legIndex;
+- (void)arrivedConfirmViewControllerDidCancel:(NBArrivedConfirmViewController * _Nonnull)arrivedConfirmViewController legIndex:(NSInteger)legIndex;
+@end
+
 
 @interface BottomBannerViewController (SWIFT_EXTENSION(NbmapNavigation))
 - (void)traitCollectionDidChange:(UITraitCollection * _Nullable)previousTraitCollection;
@@ -2224,27 +2478,19 @@ SWIFT_CLASS("_TtC15NbmapNavigation17BottomPaddingView")
 
 
 
-/// :nodoc:
-SWIFT_CLASS_NAMED("StylableButton")
-@interface NBStylableButton : UIButton
-@property (nonatomic, strong) UIFont * _Nonnull textFont;
-@property (nonatomic, strong) UIColor * _Nonnull textColor;
-@property (nonatomic, strong) UIColor * _Nonnull borderColor;
-@property (nonatomic) CGFloat borderWidth;
-@property (nonatomic) CGFloat cornerRadius;
-- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+
+
+SWIFT_CLASS("_TtC15NbmapNavigation16CPNavigationView")
+@interface CPNavigationView : UIView
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder OBJC_DESIGNATED_INITIALIZER;
+- (void)prepareForInterfaceBuilder;
+- (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
 @end
 
 
-/// :nodoc:
-/// <code>NBButton</code> sets the tintColor according to the style.
-SWIFT_CLASS_NAMED("Button")
-@interface NBButton : NBStylableButton
-- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
+@interface CPNavigationView (SWIFT_EXTENSION(NbmapNavigation))
+- (void)traitCollectionDidChange:(UITraitCollection * _Nullable)previousTraitCollection;
 @end
-
 
 
 
@@ -2266,6 +2512,8 @@ SWIFT_CLASS("_TtC15NbmapNavigation14CarPlayManager") SWIFT_AVAILABILITY(ios,intr
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
+
 
 
 
@@ -2293,9 +2541,17 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 - (void)carPlayNavigationViewControllerDidDismiss:(CarPlayNavigationViewController * _Nonnull)carPlayNavigationViewController byCanceling:(BOOL)canceled;
 @end
 
-@class CPTemplateApplicationScene;
+@class UIApplication;
 @class CPInterfaceController;
 @class CPWindow;
+
+SWIFT_AVAILABILITY(ios,introduced=12.0)
+@interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPApplicationDelegate>
+- (void)application:(UIApplication * _Nonnull)application didConnectCarInterfaceController:(CPInterfaceController * _Nonnull)interfaceController toWindow:(CPWindow * _Nonnull)window;
+- (void)application:(UIApplication * _Nonnull)application didDisconnectCarInterfaceController:(CPInterfaceController * _Nonnull)interfaceController fromWindow:(CPWindow * _Nonnull)window;
+@end
+
+@class CPTemplateApplicationScene;
 
 SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPTemplateApplicationSceneDelegate>
@@ -2303,13 +2559,6 @@ SWIFT_AVAILABILITY(ios,introduced=13.0)
 - (void)templateApplicationScene:(CPTemplateApplicationScene * _Nonnull)templateApplicationScene didDisconnectInterfaceController:(CPInterfaceController * _Nonnull)interfaceController fromWindow:(CPWindow * _Nonnull)window;
 @end
 
-@class UIApplication;
-
-SWIFT_AVAILABILITY(ios,introduced=12.0)
-@interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPApplicationDelegate>
-- (void)application:(UIApplication * _Nonnull)application didConnectCarInterfaceController:(CPInterfaceController * _Nonnull)interfaceController toWindow:(CPWindow * _Nonnull)window;
-- (void)application:(UIApplication * _Nonnull)application didDisconnectCarInterfaceController:(CPInterfaceController * _Nonnull)interfaceController fromWindow:(CPWindow * _Nonnull)window;
-@end
 
 @class CPListTemplate;
 @class CPListItem;
@@ -2318,6 +2567,7 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPListTemplateDelegate>
 - (void)listTemplate:(CPListTemplate * _Nonnull)listTemplate didSelectListItem:(CPListItem * _Nonnull)item completionHandler:(void (^ _Nonnull)(void))completionHandler;
 @end
+
 
 @class CPTemplate;
 
@@ -2355,8 +2605,7 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 @end
 
 
-@class NGLMapView;
-@class NGLStyle;
+@class NBNavigationMapView;
 
 /// <code>CarPlayNavigationViewController</code> is a fully-featured turn-by-turn navigation UI for CarPlay.
 /// seealso:
@@ -2365,9 +2614,15 @@ SWIFT_CLASS("_TtC15NbmapNavigation31CarPlayNavigationViewController") SWIFT_AVAI
 @interface CarPlayNavigationViewController : UIViewController <NGLMapViewDelegate>
 /// The view controller’s delegate.
 @property (nonatomic, weak) id <NBNavigationCarPlayDelegate> _Nullable delegate;
+/// The map view showing the route and the user’s location.
+@property (nonatomic, strong) NBNavigationMapView * _Nonnull navigationMapView;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder SWIFT_UNAVAILABLE;
 - (void)viewDidLoad;
+- (void)viewWillAppear:(BOOL)animated;
+- (void)viewDidAppear:(BOOL)animated;
 - (void)viewWillDisappear:(BOOL)animated;
+- (void)viewDidDisappear:(BOOL)animated;
+- (void)viewDidLayoutSubviews;
 - (void)viewSafeAreaInsetsDidChange;
 /// Begins a navigation session along the given trip.
 /// \param trip The trip to begin navigating along.
@@ -2377,14 +2632,13 @@ SWIFT_CLASS("_TtC15NbmapNavigation31CarPlayNavigationViewController") SWIFT_AVAI
 /// \param canceled A Boolean value indicating whether this method is being called because the user intends to cancel the trip, as opposed to letting it run to completion.
 ///
 - (void)exitNavigationByCanceling:(BOOL)canceled;
-/// Shows the interface for providing feedback about the route.
-- (void)showFeedback;
 /// A Boolean value indicating whether the map should follow the user’s location and rotate when the course changes.
 /// When this property is true, the map follows the user’s location and rotates when their course changes. Otherwise, the map shows an overview of the route.
 @property (nonatomic) BOOL tracksUserCourse;
-- (void)mapView:(NGLMapView * _Nonnull)mapView didFinishLoadingStyle:(NGLStyle * _Nonnull)style;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
 @end
+
+
 
 @class CPSessionConfiguration;
 
@@ -2393,6 +2647,133 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 - (void)sessionConfiguration:(CPSessionConfiguration * _Nonnull)sessionConfiguration contentStyleChanged:(CPContentStyle)contentStyle SWIFT_AVAILABILITY(ios,introduced=13.0);
 @end
 
+@class NGLSource;
+@class NGLStyleLayer;
+@class NBWaypoint;
+@class NBNavRoute;
+@class NGLShape;
+
+/// The <code>NavigationMapViewDelegate</code> provides methods for configuring the NavigationMapView, as well as responding to events triggered by the NavigationMapView.
+SWIFT_PROTOCOL_NAMED("NavigationMapViewDelegate")
+@protocol NBNavigationMapViewDelegate
+@optional
+/// Asks the receiver to return an NGLStyleLayer for routes, given an identifier and source.
+/// This method is invoked when the map view loads and any time routes are added.
+/// \param mapView The NavigationMapView.
+///
+/// \param identifier The style identifier.
+///
+/// \param source The Layer source containing the route data that this method would style.
+///
+///
+/// returns:
+/// An NGLStyleLayer that the map applies to all routes.
+- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView routeStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+/// Asks the receiver to return an NGLStyleLayer for waypoint symbols, given an identifier and source.
+/// This method is invoked when the map view loads and any time waypoints are added.
+/// \param mapView The NavigationMapView.
+///
+/// \param identifier The style identifier.
+///
+/// \param source The Layer source containing the waypoint data that this method would style.
+///
+///
+/// returns:
+/// An NGLStyleLayer that the map applies to all waypoint symbols.
+- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView waypointSymbolStyleLayerWithIdentifier:(NSString * _Nonnull)identifier waypoints:(NSArray<NBWaypoint *> * _Nonnull)waypoints source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+/// Asks the receiver to return an NGLStyleLayer for route casings, given an identifier and source.
+/// This method is invoked when the map view loads and anytime routes are added.
+/// note:
+/// Specify a casing to ensure good contrast between the route line and the underlying map layers.
+/// \param mapView The NavigationMapView.
+///
+/// \param identifier The style identifier.
+///
+/// \param source The Layer source containing the route data that this method would style.
+///
+///
+/// returns:
+/// An NGLStyleLayer that the map applies to the route.
+- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView routeCasingStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+/// Asks the receiver to return an NGLStyleLayer for alternative route, given an identifier and source.
+/// This method is invoked when the map view loads and anytime routes are added.
+/// note:
+/// Specify a casing to ensure good contrast between the route line and the underlying map layers.
+/// \param mapView The NavigationMapView.
+///
+/// \param identifier The style identifier.
+///
+/// \param source The Layer source containing the route data that this method would style.
+///
+///
+/// returns:
+/// An NGLStyleLayer that the map applies to the route.
+- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView alternativeRouteStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+/// Asks the receiver to return an NGLStyleLayer for alternative route casings, given an identifier and source.
+/// This method is invoked when the map view loads and anytime routes are added.
+/// note:
+/// Specify a casing to ensure good contrast between the route line and the underlying map layers.
+/// \param mapView The NavigationMapView.
+///
+/// \param identifier The style identifier.
+///
+/// \param source The Layer source containing the route data that this method would style.
+///
+///
+/// returns:
+/// An NGLStyleLayer that the map applies to the route.
+- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView alternativeRouteCasingStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
+/// Tells the receiver that the user has selected a route by interacting with the map view.
+/// \param mapView The NavigationMapView.
+///
+/// \param route The route that was selected.
+///
+- (void)navigationMapView:(NBNavigationMapView * _Nonnull)mapView didSelectRoute:(NBNavRoute * _Nonnull)route;
+/// Tells the receiver that a waypoint was selected.
+/// \param mapView The NavigationMapView.
+///
+/// \param waypoint The waypoint that was selected.
+///
+- (void)navigationMapView:(NBNavigationMapView * _Nonnull)mapView didSelectWaypoint:(NBWaypoint * _Nonnull)waypoint;
+/// Asks the receiver to return an NGLShape that describes the geometry of the route.
+/// note:
+/// The returned value represents the route in full detail. For example, individual <code>NGLPolyline</code> objects in an <code>NGLShapeCollectionFeature</code> object can represent traffic congestion segments. For improved performance, you should also implement <code>navigationMapView(_:simplifiedShapeFor:)</code>, which defines the overall route as a single feature.
+/// \param mapView The NavigationMapView.
+///
+/// \param routes The routes that the sender is asking about. The first route will always be rendered as the main route, while all subsequent routes will be rendered as alternate routes.
+///
+///
+/// returns:
+/// Optionally, a <code>NGLShape</code> that defines the shape of the route, or <code>nil</code> to use default behavior.
+- (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView shapeForRoutes:(NSArray<NBNavRoute *> * _Nonnull)routes SWIFT_WARN_UNUSED_RESULT;
+/// Asks the receiver to return an NGLShape that describes the geometry of the route at lower zoomlevels.
+/// note:
+/// The returned value represents the simplfied route. It is designed to be used with `navigationMapView(_:shapeFor:), and if used without its parent method, can cause unexpected behavior.
+/// \param mapView The NavigationMapView.
+///
+/// \param route The route that the sender is asking about.
+///
+///
+/// returns:
+/// Optionally, a <code>NGLShape</code> that defines the shape of the route at lower zoomlevels, or <code>nil</code> to use default behavior.
+- (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView simplifiedShapeForRoute:(NBNavRoute * _Nonnull)route SWIFT_WARN_UNUSED_RESULT;
+/// Asks the receiver to return an NGLShape that describes the geometry of the waypoint.
+/// \param mapView The NavigationMapView.
+///
+/// \param waypoints The waypoints to be displayed on the map.
+///
+///
+/// returns:
+/// Optionally, a <code>NGLShape</code> that defines the shape of the waypoint, or <code>nil</code> to use default behavior.
+- (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView shapeForWaypoints:(NSArray<NBWaypoint *> * _Nonnull)waypoints legIndex:(NSInteger)legIndex SWIFT_WARN_UNUSED_RESULT;
+@end
+
+@class NGLMapView;
+@class NGLStyle;
+
+@interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBNavigationMapViewDelegate>
+- (void)mapView:(NGLMapView * _Nonnull)mapView didFinishLoadingStyle:(NGLStyle * _Nonnull)style;
+@end
 
 @class NBStyleManager;
 @class CLLocation;
@@ -2416,6 +2797,14 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 - (CLLocation * _Nullable)locationForStyleManager:(NBStyleManager * _Nonnull)styleManager SWIFT_WARN_UNUSED_RESULT;
 - (void)styleManager:(NBStyleManager * _Nonnull)styleManager didApply:(NBStyle * _Nonnull)style;
 - (void)styleManagerDidRefreshAppearance:(NBStyleManager * _Nonnull)styleManager;
+@end
+
+
+
+SWIFT_CLASS_NAMED("CompleteLabel")
+@interface NBCompleteLabel : NBStylableLabel
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -2575,10 +2964,6 @@ SWIFT_CLASS_NAMED("FeedbackItem")
 @end
 
 @protocol FeedbackViewControllerDelegate;
-@class NBEventsManager;
-@protocol UIViewControllerTransitionCoordinator;
-@class UIGestureRecognizer;
-@class UITouch;
 
 /// A view controller containing a grid of buttons the user can use to denote an issue their current navigation experience.
 SWIFT_CLASS_NAMED("FeedbackViewController")
@@ -2611,8 +2996,6 @@ SWIFT_CLASS_NAMED("FeedbackViewController")
 - (void)collectionView:(UICollectionView * _Nonnull)collectionView didSelectItemAtIndexPath:(NSIndexPath * _Nonnull)indexPath;
 @end
 
-@protocol UIViewControllerAnimatedTransitioning;
-@protocol UIViewControllerInteractiveTransitioning;
 
 @interface NBFeedbackViewController (SWIFT_EXTENSION(NbmapNavigation)) <UIViewControllerTransitioningDelegate>
 - (id <UIViewControllerAnimatedTransitioning> _Nullable)animationControllerForDismissedController:(UIViewController * _Nonnull)dismissed SWIFT_WARN_UNUSED_RESULT;
@@ -2835,6 +3218,13 @@ SWIFT_CLASS_NAMED("LanesView")
 @end
 
 
+SWIFT_CLASS("_TtC15NbmapNavigation14LegSummaryCell")
+@interface LegSummaryCell : UITableViewCell
+- (nonnull instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString * _Nullable)reuseIdentifier SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 
 /// :nodoc:
 SWIFT_CLASS_NAMED("ManeuverContainerView")
@@ -2959,7 +3349,6 @@ SWIFT_CLASS("_TtC15NbmapNavigation16NavigationCamera")
 
 
 @protocol NGLFeature;
-@class NBNavRoute;
 enum DurationSymbolType : NSInteger;
 
 /// <code>NavigationMapView</code> is a subclass of <code>NGLMapView</code> with convenience functions for adding <code>Route</code> lines to a map.
@@ -3043,125 +3432,6 @@ typedef SWIFT_ENUM(NSInteger, DurationSymbolType, open) {
 
 
 
-@class NGLSource;
-@class NGLStyleLayer;
-@class NBWaypoint;
-@class NGLShape;
-
-/// The <code>NavigationMapViewDelegate</code> provides methods for configuring the NavigationMapView, as well as responding to events triggered by the NavigationMapView.
-SWIFT_PROTOCOL_NAMED("NavigationMapViewDelegate")
-@protocol NBNavigationMapViewDelegate
-@optional
-/// Asks the receiver to return an NGLStyleLayer for routes, given an identifier and source.
-/// This method is invoked when the map view loads and any time routes are added.
-/// \param mapView The NavigationMapView.
-///
-/// \param identifier The style identifier.
-///
-/// \param source The Layer source containing the route data that this method would style.
-///
-///
-/// returns:
-/// An NGLStyleLayer that the map applies to all routes.
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView routeStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
-/// Asks the receiver to return an NGLStyleLayer for waypoint symbols, given an identifier and source.
-/// This method is invoked when the map view loads and any time waypoints are added.
-/// \param mapView The NavigationMapView.
-///
-/// \param identifier The style identifier.
-///
-/// \param source The Layer source containing the waypoint data that this method would style.
-///
-///
-/// returns:
-/// An NGLStyleLayer that the map applies to all waypoint symbols.
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView waypointSymbolStyleLayerWithIdentifier:(NSString * _Nonnull)identifier waypoints:(NSArray<NBWaypoint *> * _Nonnull)waypoints source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
-/// Asks the receiver to return an NGLStyleLayer for route casings, given an identifier and source.
-/// This method is invoked when the map view loads and anytime routes are added.
-/// note:
-/// Specify a casing to ensure good contrast between the route line and the underlying map layers.
-/// \param mapView The NavigationMapView.
-///
-/// \param identifier The style identifier.
-///
-/// \param source The Layer source containing the route data that this method would style.
-///
-///
-/// returns:
-/// An NGLStyleLayer that the map applies to the route.
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView routeCasingStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
-/// Asks the receiver to return an NGLStyleLayer for alternative route, given an identifier and source.
-/// This method is invoked when the map view loads and anytime routes are added.
-/// note:
-/// Specify a casing to ensure good contrast between the route line and the underlying map layers.
-/// \param mapView The NavigationMapView.
-///
-/// \param identifier The style identifier.
-///
-/// \param source The Layer source containing the route data that this method would style.
-///
-///
-/// returns:
-/// An NGLStyleLayer that the map applies to the route.
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView alternativeRouteStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
-/// Asks the receiver to return an NGLStyleLayer for alternative route casings, given an identifier and source.
-/// This method is invoked when the map view loads and anytime routes are added.
-/// note:
-/// Specify a casing to ensure good contrast between the route line and the underlying map layers.
-/// \param mapView The NavigationMapView.
-///
-/// \param identifier The style identifier.
-///
-/// \param source The Layer source containing the route data that this method would style.
-///
-///
-/// returns:
-/// An NGLStyleLayer that the map applies to the route.
-- (NGLStyleLayer * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView alternativeRouteCasingStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(NGLSource * _Nonnull)source SWIFT_WARN_UNUSED_RESULT;
-/// Tells the receiver that the user has selected a route by interacting with the map view.
-/// \param mapView The NavigationMapView.
-///
-/// \param route The route that was selected.
-///
-- (void)navigationMapView:(NBNavigationMapView * _Nonnull)mapView didSelectRoute:(NBNavRoute * _Nonnull)route;
-/// Tells the receiver that a waypoint was selected.
-/// \param mapView The NavigationMapView.
-///
-/// \param waypoint The waypoint that was selected.
-///
-- (void)navigationMapView:(NBNavigationMapView * _Nonnull)mapView didSelectWaypoint:(NBWaypoint * _Nonnull)waypoint;
-/// Asks the receiver to return an NGLShape that describes the geometry of the route.
-/// note:
-/// The returned value represents the route in full detail. For example, individual <code>NGLPolyline</code> objects in an <code>NGLShapeCollectionFeature</code> object can represent traffic congestion segments. For improved performance, you should also implement <code>navigationMapView(_:simplifiedShapeFor:)</code>, which defines the overall route as a single feature.
-/// \param mapView The NavigationMapView.
-///
-/// \param routes The routes that the sender is asking about. The first route will always be rendered as the main route, while all subsequent routes will be rendered as alternate routes.
-///
-///
-/// returns:
-/// Optionally, a <code>NGLShape</code> that defines the shape of the route, or <code>nil</code> to use default behavior.
-- (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView shapeForRoutes:(NSArray<NBNavRoute *> * _Nonnull)routes SWIFT_WARN_UNUSED_RESULT;
-/// Asks the receiver to return an NGLShape that describes the geometry of the route at lower zoomlevels.
-/// note:
-/// The returned value represents the simplfied route. It is designed to be used with `navigationMapView(_:shapeFor:), and if used without its parent method, can cause unexpected behavior.
-/// \param mapView The NavigationMapView.
-///
-/// \param route The route that the sender is asking about.
-///
-///
-/// returns:
-/// Optionally, a <code>NGLShape</code> that defines the shape of the route at lower zoomlevels, or <code>nil</code> to use default behavior.
-- (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView simplifiedShapeForRoute:(NBNavRoute * _Nonnull)route SWIFT_WARN_UNUSED_RESULT;
-/// Asks the receiver to return an NGLShape that describes the geometry of the waypoint.
-/// \param mapView The NavigationMapView.
-///
-/// \param waypoints The waypoints to be displayed on the map.
-///
-///
-/// returns:
-/// Optionally, a <code>NGLShape</code> that defines the shape of the waypoint, or <code>nil</code> to use default behavior.
-- (NGLShape * _Nullable)navigationMapView:(NBNavigationMapView * _Nonnull)mapView shapeForWaypoints:(NSArray<NBWaypoint *> * _Nonnull)waypoints legIndex:(NSInteger)legIndex SWIFT_WARN_UNUSED_RESULT;
-@end
 
 
 SWIFT_CLASS_NAMED("NavigationPreviewController")
@@ -3242,7 +3512,6 @@ SWIFT_CLASS_NAMED("NavigationView")
 @class NGLMapCamera;
 @protocol NGLAnnotation;
 @class NBRouteVoiceController;
-@protocol UIContentContainer;
 
 /// <code>NavigationViewController</code> is a fully-featured turn-by-turn navigation UI.
 /// It provides step by step instructions, an overview of all steps for the given route and support for basic styling.
@@ -3283,7 +3552,6 @@ SWIFT_CLASS_NAMED("NavigationViewController")
 - (void)viewWillDisappear:(BOOL)animated;
 - (void)viewDidDisappear:(BOOL)animated;
 - (void)viewDidLayoutSubviews;
-- (void)preferredContentSizeDidChangeForChildContentContainer:(id <UIContentContainer> _Nonnull)container;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
 @end
 
@@ -3301,12 +3569,12 @@ SWIFT_CLASS_NAMED("NavigationViewController")
 @end
 
 
-
 @interface NBNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBStyleManagerDelegate>
 - (CLLocation * _Nullable)locationForStyleManager:(NBStyleManager * _Nonnull)styleManager SWIFT_WARN_UNUSED_RESULT;
 - (void)styleManager:(NBStyleManager * _Nonnull)styleManager didApply:(NBStyle * _Nonnull)style;
 - (void)styleManagerDidRefreshAppearance:(NBStyleManager * _Nonnull)styleManager;
 @end
+
 
 
 @interface NBNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBNavigationMapViewDelegate>
@@ -3517,7 +3785,6 @@ SWIFT_CLASS("_TtC15NbmapNavigation22StepSwitchContenerView")
 @end
 
 
-/// :nodoc:
 SWIFT_CLASS_NAMED("StepTableViewCell")
 @interface NBStepTableViewCell : UITableViewCell
 - (nonnull instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString * _Nullable)reuseIdentifier SWIFT_UNAVAILABLE;
@@ -3566,8 +3833,6 @@ SWIFT_CLASS_NAMED("StepsViewController")
 - (NSInteger)tableView:(UITableView * _Nonnull)tableView numberOfRowsInSection:(NSInteger)section SWIFT_WARN_UNUSED_RESULT;
 - (CGFloat)tableView:(UITableView * _Nonnull)tableView heightForRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath SWIFT_WARN_UNUSED_RESULT;
 - (UITableViewCell * _Nonnull)tableView:(UITableView * _Nonnull)tableView cellForRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath SWIFT_WARN_UNUSED_RESULT;
-- (void)tableView:(UITableView * _Nonnull)tableView willDisplayCell:(UITableViewCell * _Nonnull)cell forRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath;
-- (NSString * _Nullable)tableView:(UITableView * _Nonnull)tableView titleForHeaderInSection:(NSInteger)section SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -3760,6 +4025,13 @@ SWIFT_CLASS_NAMED("WayNameView")
 - (void)layoutSubviews;
 @end
 
+
+
+SWIFT_CLASS("_TtC15NbmapNavigation19WaypointArrivedCell")
+@interface WaypointArrivedCell : UITableViewCell
+- (nonnull instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString * _Nullable)reuseIdentifier SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
 
 #if __has_attribute(external_source_symbol)
 # pragma clang attribute pop
