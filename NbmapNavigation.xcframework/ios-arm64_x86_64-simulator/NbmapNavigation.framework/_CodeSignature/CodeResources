@@ -6,7 +6,7 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		0PFFHZVfaWkHGkbdN/0Hk508E9s=
+		cI+BgvYCzgnBHnoC0JZrAIBgjwg=
 		</data>
 		<key>Base.lproj/Localizable.strings</key>
 		<data>
@@ -14,7 +14,7 @@
 		</data>
 		<key>Base.lproj/Navigation.storyboardc/EndOfRouteViewController.nib</key>
 		<data>
-		/I8CcN/vI3wfTs8gGlSXQxYlTK4=
+		2X/mnryfrpHHX3SJc/66BV9LwXQ=
 		</data>
 		<key>Base.lproj/Navigation.storyboardc/Info.plist</key>
 		<data>
@@ -22,7 +22,7 @@
 		</data>
 		<key>Base.lproj/Navigation.storyboardc/WD9-Na-hrx-view-IDF-XF-2Ta.nib</key>
 		<data>
-		daADgXUUGLl7LEQ1K5l58Y+umxs=
+		AjLB1Rri6R1yDVpKh0iX0ztkj28=
 		</data>
 		<key>Base.lproj/Navigation.strings</key>
 		<data>
@@ -38,7 +38,7 @@
 		</data>
 		<key>Headers/NbmapNavigation-Swift.h</key>
 		<data>
-		vnD5lq6m872lr5ZXE43ttCEOTXc=
+		d5p5oWHJmrhUO+lW0iQE8ZNK4bA=
 		</data>
 		<key>Headers/NbmapNavigation.h</key>
 		<data>
@@ -46,75 +46,59 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		UHD5d6jPjXDZh5Skb8LDJgyRKl0=
+		/045eyzcF4oKHUGBEiw3rmcjueo=
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		iJ7AUNSgCAVxqoRJnZDI9LIRdqs=
-		</data>
-		<key>Modules/NbmapNavigation.swiftmodule/Project/arm64.swiftsourceinfo</key>
-		<data>
-		iJ7AUNSgCAVxqoRJnZDI9LIRdqs=
+		jPOa+QP30xAEvfCu7WIUnEDL1u4=
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		MHcbvLc4WJkIjAhauSe/PKJPCyA=
+		IVcxx7f1l79oJtCizAJAs52XeSk=
 		</data>
-		<key>Modules/NbmapNavigation.swiftmodule/Project/x86_64.swiftsourceinfo</key>
+		<key>Modules/NbmapNavigation.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		MHcbvLc4WJkIjAhauSe/PKJPCyA=
+		SXHfyjZFN3+PQ2XqjOdh5XrtU5A=
+		</data>
+		<key>Modules/NbmapNavigation.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
+		<data>
+		8YyP0zKjmCo0QkggqbMXn6XvDkA=
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		fUtytwDqJ4OFTWlXSPGt2lkWrV0=
+		TrdWG6I6AZCNW/fss1HOpIk4zPo=
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		CtuhvzeqYw6i+p+HK79jud8Lbso=
+		seWKIB7nEqzGwOf8Qoja5+AVHkE=
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		iXRhHNE6pzOjKbkXxPU0keTwVTc=
+		MsjyITnz2PTu0k/S7MGbPVmiSu4=
 		</data>
-		<key>Modules/NbmapNavigation.swiftmodule/arm64.swiftdoc</key>
+		<key>Modules/NbmapNavigation.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		fUtytwDqJ4OFTWlXSPGt2lkWrV0=
+		SXHfyjZFN3+PQ2XqjOdh5XrtU5A=
 		</data>
-		<key>Modules/NbmapNavigation.swiftmodule/arm64.swiftinterface</key>
+		<key>Modules/NbmapNavigation.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		CtuhvzeqYw6i+p+HK79jud8Lbso=
-		</data>
-		<key>Modules/NbmapNavigation.swiftmodule/arm64.swiftmodule</key>
-		<data>
-		iXRhHNE6pzOjKbkXxPU0keTwVTc=
+		235Le2wxl18fHPRuZzZZeklEJiM=
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		nz/tFqP5MPIeMO5x6SLAeUwEJEc=
+		HmUDjluzzPWmZPX/R1E7fscTyeM=
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		vr35frpeeySYeVO/XV8uxzHNbyQ=
+		eC1YPvJu4l/ZiaARPgapJAvvd3M=
 		</data>
 		<key>Modules/NbmapNavigation.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		pZDAakCalRfV1zpzj+1DI8vKV4E=
-		</data>
-		<key>Modules/NbmapNavigation.swiftmodule/x86_64.swiftdoc</key>
-		<data>
-		nz/tFqP5MPIeMO5x6SLAeUwEJEc=
-		</data>
-		<key>Modules/NbmapNavigation.swiftmodule/x86_64.swiftinterface</key>
-		<data>
-		vr35frpeeySYeVO/XV8uxzHNbyQ=
-		</data>
-		<key>Modules/NbmapNavigation.swiftmodule/x86_64.swiftmodule</key>
-		<data>
-		pZDAakCalRfV1zpzj+1DI8vKV4E=
+		nm6yIpI3uKuyx7hG3139Gy+lUWw=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		qwebljhmMBcyoMXhxKNLZKX3V28=
+		JgjzorYVYSp6qaAluSgsMOv3oec=
 		</data>
 		<key>ar.lproj/Localizable.strings</key>
 		<dict>
@@ -573,7 +557,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			91iOQdelnQVIc0+vUl5cO/J4NW+FlnO1X4FNFuEF59o=
+			qzFArEFnCXegGfpQIvN3/G+r0Tw4TLwIo/SyZA5mdGA=
 			</data>
 		</dict>
 		<key>Base.lproj/Localizable.strings</key>
@@ -587,7 +571,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			svMAK8WNn05w5CuCmYXYF/RK0wGIzMlVWFX6qSR2E04=
+			AYTfh980D75M5fPJEL+7RRnh1P0hG2gpuOn8jDld8bg=
 			</data>
 		</dict>
 		<key>Base.lproj/Navigation.storyboardc/Info.plist</key>
@@ -601,7 +585,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			bFCT9F55zMipjj1ANqdwMVjDW4zvvu/41l87HK9jo2g=
+			dx/BJUToTxPMRX4TPb9+RzwxhfcnsvTSIwkNkFfrfXE=
 			</data>
 		</dict>
 		<key>Base.lproj/Navigation.strings</key>
@@ -629,7 +613,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			XhvecCjlT9xh/wFmwJ1IXVHsy4ew7HPnJEJyd50BooU=
+			Sbp2M0anfhrXo7WgGKC4PAO9BXy/M3On9ZOdVpgx1R8=
 			</data>
 		</dict>
 		<key>Headers/NbmapNavigation.h</key>
@@ -643,119 +627,91 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			bupvymLh9+ZQOYhBx3Kh2lYiPOCAaq1g4z7Gv1jl+Kk=
-			</data>
-		</dict>
-		<key>Modules/NbmapNavigation.swiftmodule/Project/arm64.swiftsourceinfo</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			bupvymLh9+ZQOYhBx3Kh2lYiPOCAaq1g4z7Gv1jl+Kk=
+			nmKcPb4c61HsPZnXEQAyx72+3feRoTkyzG+WX652hcE=
 			</data>
 		</dict>
 		<key>Modules/NbmapNavigation.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			HOhjedRT+hSZhz1VO4Rp23HgcO8T68NGEsxA1irltBs=
+			lzaTbiXZL4NBeZ2OVyqt5R9eCgnSNW4VuCtjme8ws1E=
 			</data>
 		</dict>
-		<key>Modules/NbmapNavigation.swiftmodule/Project/x86_64.swiftsourceinfo</key>
+		<key>Modules/NbmapNavigation.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			HOhjedRT+hSZhz1VO4Rp23HgcO8T68NGEsxA1irltBs=
+			b0SVySkg2MipBBGEpcd1bGcSHKnrJ4DJmem6Spzudjw=
+			</data>
+		</dict>
+		<key>Modules/NbmapNavigation.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			wR3znq8Vna3kwQjjxGAuRx4qYCYctCIATOY+UBu+/QY=
 			</data>
 		</dict>
 		<key>Modules/NbmapNavigation.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			TP9qQQ/Db3HFmcEBglI1ggMPip/SC6wDm8mdGD2p4ak=
+			4tuxRwFYnojBVOU+hT6HqhAJStrZigE+pvgit6jPDDg=
 			</data>
 		</dict>
 		<key>Modules/NbmapNavigation.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			CLdn56fClXZcLHvnxv0I1b7T7w8ksPnakCOI9qln0BA=
+			LwfrjiCPeZkmyoTzulWi8faSshV5v9HU5D6eVW5NMmg=
 			</data>
 		</dict>
 		<key>Modules/NbmapNavigation.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			zECsuRUJfiqgNlaXIEIqRUkqrrq0WDXSKCo6Fuz9+5E=
+			ov3vtPHRlG/CMi9zsmWfGujj+AEOsA7OtL3J8dryFHA=
 			</data>
 		</dict>
-		<key>Modules/NbmapNavigation.swiftmodule/arm64.swiftdoc</key>
+		<key>Modules/NbmapNavigation.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			TP9qQQ/Db3HFmcEBglI1ggMPip/SC6wDm8mdGD2p4ak=
+			b0SVySkg2MipBBGEpcd1bGcSHKnrJ4DJmem6Spzudjw=
 			</data>
 		</dict>
-		<key>Modules/NbmapNavigation.swiftmodule/arm64.swiftinterface</key>
+		<key>Modules/NbmapNavigation.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			CLdn56fClXZcLHvnxv0I1b7T7w8ksPnakCOI9qln0BA=
-			</data>
-		</dict>
-		<key>Modules/NbmapNavigation.swiftmodule/arm64.swiftmodule</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			zECsuRUJfiqgNlaXIEIqRUkqrrq0WDXSKCo6Fuz9+5E=
+			OCAqxe9GtUKjDr39xcIxxr8RPhCjg8WDtBL+Okr87gA=
 			</data>
 		</dict>
 		<key>Modules/NbmapNavigation.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			SqtoojSxRj0+xoqXLc4VnE0DKRHu4g71xVvYOOBHel8=
+			FEos0cXhpqkhAYDjHd8CcHwX2R/KgVJ9RzHB7+BK0gs=
 			</data>
 		</dict>
 		<key>Modules/NbmapNavigation.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			2luZh5h+EtfydItlYpRTXa3pgaj3FiMxFh+EbnOhA9M=
+			w2h7bkEnat32SH21bvtiLAbHboRXVBqMzs0YuZ1wsbY=
 			</data>
 		</dict>
 		<key>Modules/NbmapNavigation.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Qc5qr7uw/tEtbbhLj5Ky7+ZTS8WiG1rDnHm4ueO6Y98=
-			</data>
-		</dict>
-		<key>Modules/NbmapNavigation.swiftmodule/x86_64.swiftdoc</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			SqtoojSxRj0+xoqXLc4VnE0DKRHu4g71xVvYOOBHel8=
-			</data>
-		</dict>
-		<key>Modules/NbmapNavigation.swiftmodule/x86_64.swiftinterface</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			2luZh5h+EtfydItlYpRTXa3pgaj3FiMxFh+EbnOhA9M=
-			</data>
-		</dict>
-		<key>Modules/NbmapNavigation.swiftmodule/x86_64.swiftmodule</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			Qc5qr7uw/tEtbbhLj5Ky7+ZTS8WiG1rDnHm4ueO6Y98=
+			ASb1w/TwDa5q3rmSt2MEA6XLRJhigH4K1aBlF+iLtiE=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			QvgzNF1CmyQEl5rRrE5Iv72wGSyQqR0pT8EkLZRY/+g=
+			vRsMA7t6qd+BRr8pvZ40GsLDGXaofk6iMZz/BugdVuI=
 			</data>
 		</dict>
 		<key>ar.lproj/Localizable.strings</key>

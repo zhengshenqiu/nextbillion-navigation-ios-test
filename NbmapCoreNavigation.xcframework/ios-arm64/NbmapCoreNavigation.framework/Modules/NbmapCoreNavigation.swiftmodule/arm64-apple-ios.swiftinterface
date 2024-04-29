@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)
-// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name NbmapCoreNavigation
+// swift-compiler-version: Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)
+// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name NbmapCoreNavigation
 import AVFoundation
 import CarPlay
 import CommonCrypto
@@ -18,6 +18,8 @@ import Turf
 import UIKit.UIDevice
 import UIKit
 import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
 import os.activity
 import os.log
 import os
@@ -30,8 +32,8 @@ public class B3Propagator : NbmapCoreNavigation.TextMapPropagator {
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class DefaultLogger : NbmapCoreNavigation.Logger {
-  public func eventBuilder(name: Swift.String) -> NbmapCoreNavigation.EventBuilder
-  public func logRecordBuilder() -> NbmapCoreNavigation.LogRecordBuilder
+  public func eventBuilder(name: Swift.String) -> any NbmapCoreNavigation.EventBuilder
+  public func logRecordBuilder() -> any NbmapCoreNavigation.LogRecordBuilder
   @objc deinit
 }
 @_hasMissingDesignatedInitializers open class ConfigurationApiFetcher {
@@ -39,7 +41,7 @@ public class B3Propagator : NbmapCoreNavigation.TextMapPropagator {
   @objc deinit
 }
 public class SimpleLogRecordProcessor : NbmapCoreNavigation.LogRecordProcessor {
-  public init(logRecordExporter: NbmapCoreNavigation.LogRecordExporter)
+  public init(logRecordExporter: any NbmapCoreNavigation.LogRecordExporter)
   public func onEmit(logRecord: NbmapCoreNavigation.ReadableLogRecord)
   public func forceFlush() -> NbmapCoreNavigation.ExportResult
   public func shutdown() -> NbmapCoreNavigation.ExportResult
@@ -55,8 +57,8 @@ public struct NoopIntObserverMetric : NbmapCoreNavigation.IntObserverMetric {
   public func observe(value: Swift.Int, labels: [Swift.String : Swift.String])
 }
 @_hasMissingDesignatedInitializers public class LoggerSdk : NbmapCoreNavigation.Logger {
-  public func eventBuilder(name: Swift.String) -> NbmapCoreNavigation.EventBuilder
-  public func logRecordBuilder() -> NbmapCoreNavigation.LogRecordBuilder
+  public func eventBuilder(name: Swift.String) -> any NbmapCoreNavigation.EventBuilder
+  public func logRecordBuilder() -> any NbmapCoreNavigation.LogRecordBuilder
   @objc deinit
 }
 public enum AttributeValue : Swift.Equatable, Swift.CustomStringConvertible, Swift.Hashable {
@@ -79,8 +81,8 @@ public enum AttributeValue : Swift.Equatable, Swift.CustomStringConvertible, Swi
   }
 }
 extension NbmapCoreNavigation.AttributeValue : Swift.Codable {
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 extension NbmapCoreNavigation.Google_Protobuf_ListValue : Swift.ExpressibleByArrayLiteral {
   public typealias Element = NbmapCoreNavigation.Google_Protobuf_Value
@@ -119,14 +121,14 @@ extension UIKit.UIDevice {
   }
 }
 @objc open class RerouteController : ObjectiveC.NSObject {
-  weak public var delegate: NbmapCoreNavigation.RerouteDelegate?
+  weak public var delegate: (any NbmapCoreNavigation.RerouteDelegate)?
   public var routeProgress: NbmapCoreNavigation.RouteProgress?
   public var lastRerouteLocation: CoreLocation.CLLocation?
-  public init(navConfig: NbmapCoreNavigation.NavigationEngineConfig, routingProvider: NbmapCoreNavigation.RoutingProvider? = nil)
+  public init(navConfig: NbmapCoreNavigation.NavigationEngineConfig, routingProvider: (any NbmapCoreNavigation.RoutingProvider)? = nil)
   @objc deinit
 }
 public protocol Sampler : AnyObject, Swift.CustomStringConvertible {
-  func shouldSample(parentContext: NbmapCoreNavigation.SpanContext?, traceId: NbmapCoreNavigation.TraceId, name: Swift.String, kind: NbmapCoreNavigation.SpanKind, attributes: [Swift.String : NbmapCoreNavigation.AttributeValue], parentLinks: [NbmapCoreNavigation.SpanData.Link]) -> NbmapCoreNavigation.Decision
+  func shouldSample(parentContext: NbmapCoreNavigation.SpanContext?, traceId: NbmapCoreNavigation.TraceId, name: Swift.String, kind: NbmapCoreNavigation.SpanKind, attributes: [Swift.String : NbmapCoreNavigation.AttributeValue], parentLinks: [NbmapCoreNavigation.SpanData.Link]) -> any NbmapCoreNavigation.Decision
 }
 public protocol Decision {
   var isSampled: Swift.Bool { get }
@@ -150,7 +152,7 @@ extension NbmapCoreNavigation.Google_Protobuf_FieldMask : NbmapCoreNavigation.Me
   }
 }
 public protocol Tracer : AnyObject {
-  func spanBuilder(spanName: Swift.String) -> NbmapCoreNavigation.SpanBuilder
+  func spanBuilder(spanName: Swift.String) -> any NbmapCoreNavigation.SpanBuilder
 }
 public class JaegerPropagator : NbmapCoreNavigation.TextMapPropagator {
   public var fields: Swift.Set<Swift.String>
@@ -187,11 +189,11 @@ public struct ReadableLogRecord {
   }
 }
 public struct BatchSpanProcessor : NbmapCoreNavigation.SpanProcessor {
-  public init(spanExporter: NbmapCoreNavigation.SpanExporter, scheduleDelay: Foundation.TimeInterval = 5, exportTimeout: Foundation.TimeInterval = 30, maxQueueSize: Swift.Int = 2048, maxExportBatchSize: Swift.Int = 512, willExportCallback: ((inout [NbmapCoreNavigation.SpanData]) -> Swift.Void)? = nil)
+  public init(spanExporter: any NbmapCoreNavigation.SpanExporter, scheduleDelay: Foundation.TimeInterval = 5, exportTimeout: Foundation.TimeInterval = 30, maxQueueSize: Swift.Int = 2048, maxExportBatchSize: Swift.Int = 512, willExportCallback: ((inout [NbmapCoreNavigation.SpanData]) -> Swift.Void)? = nil)
   public let isStartRequired: Swift.Bool
   public let isEndRequired: Swift.Bool
-  public func onStart(parentContext: NbmapCoreNavigation.SpanContext?, span: NbmapCoreNavigation.ReadableSpan)
-  public func onEnd(span: NbmapCoreNavigation.ReadableSpan)
+  public func onStart(parentContext: NbmapCoreNavigation.SpanContext?, span: any NbmapCoreNavigation.ReadableSpan)
+  public func onEnd(span: any NbmapCoreNavigation.ReadableSpan)
   public func shutdown()
   public func forceFlush(timeout: Foundation.TimeInterval? = nil)
 }
@@ -199,12 +201,12 @@ extension NbmapCoreNavigation.Message {
   public func jsonString(options: NbmapCoreNavigation.JSONEncodingOptions = JSONEncodingOptions()) throws -> Swift.String
   public func jsonUTF8Data(options: NbmapCoreNavigation.JSONEncodingOptions = JSONEncodingOptions()) throws -> Foundation.Data
   public init(jsonString: Swift.String, options: NbmapCoreNavigation.JSONDecodingOptions = JSONDecodingOptions()) throws
-  public init(jsonString: Swift.String, extensions: NbmapCoreNavigation.ExtensionMap? = nil, options: NbmapCoreNavigation.JSONDecodingOptions = JSONDecodingOptions()) throws
+  public init(jsonString: Swift.String, extensions: (any NbmapCoreNavigation.ExtensionMap)? = nil, options: NbmapCoreNavigation.JSONDecodingOptions = JSONDecodingOptions()) throws
   public init(jsonUTF8Data: Foundation.Data, options: NbmapCoreNavigation.JSONDecodingOptions = JSONDecodingOptions()) throws
-  public init(jsonUTF8Data: Foundation.Data, extensions: NbmapCoreNavigation.ExtensionMap? = nil, options: NbmapCoreNavigation.JSONDecodingOptions = JSONDecodingOptions()) throws
+  public init(jsonUTF8Data: Foundation.Data, extensions: (any NbmapCoreNavigation.ExtensionMap)? = nil, options: NbmapCoreNavigation.JSONDecodingOptions = JSONDecodingOptions()) throws
 }
 public protocol RoutingProvider {
-  func calculateRoutes(options: NbmapDirections.RouteOptions, completionHandler: @escaping NbmapDirections.Directions.RouteCompletionHandler) -> NbmapCoreNavigation.NavigationProviderRequest?
+  func calculateRoutes(options: NbmapDirections.RouteOptions, completionHandler: @escaping NbmapDirections.Directions.RouteCompletionHandler) -> (any NbmapCoreNavigation.NavigationProviderRequest)?
 }
 public protocol NavigationProviderRequest {
   func cancel()
@@ -229,7 +231,7 @@ public protocol NavigationProviderRequest {
   @objc deinit
 }
 extension UIKit.UIApplication.State : Swift.Encodable {
-  public func encode(to encoder: Swift.Encoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
 }
 open class BoundRawCounterMetric<T> {
   public init()
@@ -256,17 +258,17 @@ extension NbmapCoreNavigation.Google_Protobuf_SourceContext : NbmapCoreNavigatio
 public protocol SpanProcessor {
   var isStartRequired: Swift.Bool { get }
   var isEndRequired: Swift.Bool { get }
-  func onStart(parentContext: NbmapCoreNavigation.SpanContext?, span: NbmapCoreNavigation.ReadableSpan)
-  mutating func onEnd(span: NbmapCoreNavigation.ReadableSpan)
+  func onStart(parentContext: NbmapCoreNavigation.SpanContext?, span: any NbmapCoreNavigation.ReadableSpan)
+  mutating func onEnd(span: any NbmapCoreNavigation.ReadableSpan)
   mutating func shutdown()
   func forceFlush(timeout: Foundation.TimeInterval?)
 }
 public protocol Telemetry {
   func setup(withAccessToken: Swift.String, userAgentBase: Swift.String, hostSDKVersion: Swift.String)
-  func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, end: Swift.Bool?) -> NbmapCoreNavigation.Span
-  func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, event: Swift.String?, end: Swift.Bool?) -> NbmapCoreNavigation.Span
-  func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, event: Swift.String?, eventAttributes: [Swift.String : Any]?, end: Swift.Bool?) -> NbmapCoreNavigation.Span
-  func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, eventWithAttributes: [Swift.String : [Swift.String : Any]?]?, end: Swift.Bool?) -> NbmapCoreNavigation.Span
+  func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, end: Swift.Bool?) -> any NbmapCoreNavigation.Span
+  func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, event: Swift.String?, end: Swift.Bool?) -> any NbmapCoreNavigation.Span
+  func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, event: Swift.String?, eventAttributes: [Swift.String : Any]?, end: Swift.Bool?) -> any NbmapCoreNavigation.Span
+  func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, eventWithAttributes: [Swift.String : [Swift.String : Any]?]?, end: Swift.Bool?) -> any NbmapCoreNavigation.Span
   func enqueueEvent(withName: Swift.String, attributes: [Swift.String : Any])
   func flush()
 }
@@ -311,14 +313,14 @@ public enum TextFormatDecodingError : Swift.Error {
 }
 public protocol BaggageBuilder : AnyObject {
   @discardableResult
-  func setParent(_ parent: NbmapCoreNavigation.Baggage?) -> Self
+  func setParent(_ parent: (any NbmapCoreNavigation.Baggage)?) -> Self
   @discardableResult
   func setNoParent() -> Self
   @discardableResult
   func put(key: NbmapCoreNavigation.EntryKey, value: NbmapCoreNavigation.EntryValue, metadata: NbmapCoreNavigation.EntryMetadata?) -> Self
   @discardableResult
   func remove(key: NbmapCoreNavigation.EntryKey) -> Self
-  func build() -> NbmapCoreNavigation.Baggage
+  func build() -> any NbmapCoreNavigation.Baggage
 }
 public class MillisClock : NbmapCoreNavigation.Clock {
   public init()
@@ -579,8 +581,8 @@ extension NbmapDirections.RouteStep {
 }
 public protocol AnyExtensionField : Swift.CustomDebugStringConvertible {
   func hash(into hasher: inout Swift.Hasher)
-  var protobufExtension: NbmapCoreNavigation.AnyMessageExtension { get }
-  func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
+  var protobufExtension: any NbmapCoreNavigation.AnyMessageExtension { get }
+  func isEqual(other: any NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   mutating func decodeExtensionField<T>(decoder: inout T) throws where T : NbmapCoreNavigation.NDecoder
   func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   var isInitialized: Swift.Bool { get }
@@ -593,23 +595,23 @@ extension NbmapCoreNavigation.AnyExtensionField {
 public protocol ExtensionField : NbmapCoreNavigation.AnyExtensionField, Swift.Hashable {
   associatedtype ValueType
   var value: Self.ValueType { get set }
-  init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: Self.ValueType)
-  init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
+  init(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, value: Self.ValueType)
+  init?<D>(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
 }
 public struct OptionalExtensionField<T> : NbmapCoreNavigation.ExtensionField where T : NbmapCoreNavigation.FieldType {
   public typealias BaseType = T.BaseType
   public typealias ValueType = NbmapCoreNavigation.OptionalExtensionField<T>.BaseType
   public var value: NbmapCoreNavigation.OptionalExtensionField<T>.ValueType
-  public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
+  public var protobufExtension: any NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.OptionalExtensionField<T>, rhs: NbmapCoreNavigation.OptionalExtensionField<T>) -> Swift.Bool
-  public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.OptionalExtensionField<T>.ValueType)
+  public init(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.OptionalExtensionField<T>.ValueType)
   public var debugDescription: Swift.String {
     get
   }
   public func hash(into hasher: inout Swift.Hasher)
-  public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
+  public func isEqual(other: any NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
-  public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
+  public init?<D>(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public var hashValue: Swift.Int {
     get
@@ -619,16 +621,16 @@ public struct RepeatedExtensionField<T> : NbmapCoreNavigation.ExtensionField whe
   public typealias BaseType = T.BaseType
   public typealias ValueType = [NbmapCoreNavigation.RepeatedExtensionField<T>.BaseType]
   public var value: NbmapCoreNavigation.RepeatedExtensionField<T>.ValueType
-  public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
+  public var protobufExtension: any NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.RepeatedExtensionField<T>, rhs: NbmapCoreNavigation.RepeatedExtensionField<T>) -> Swift.Bool
-  public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.RepeatedExtensionField<T>.ValueType)
+  public init(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.RepeatedExtensionField<T>.ValueType)
   public func hash(into hasher: inout Swift.Hasher)
-  public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
+  public func isEqual(other: any NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public var debugDescription: Swift.String {
     get
   }
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
-  public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
+  public init?<D>(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public var hashValue: Swift.Int {
     get
@@ -638,16 +640,16 @@ public struct PackedExtensionField<T> : NbmapCoreNavigation.ExtensionField where
   public typealias BaseType = T.BaseType
   public typealias ValueType = [NbmapCoreNavigation.PackedExtensionField<T>.BaseType]
   public var value: NbmapCoreNavigation.PackedExtensionField<T>.ValueType
-  public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
+  public var protobufExtension: any NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.PackedExtensionField<T>, rhs: NbmapCoreNavigation.PackedExtensionField<T>) -> Swift.Bool
-  public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.PackedExtensionField<T>.ValueType)
+  public init(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.PackedExtensionField<T>.ValueType)
   public func hash(into hasher: inout Swift.Hasher)
-  public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
+  public func isEqual(other: any NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public var debugDescription: Swift.String {
     get
   }
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
-  public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
+  public init?<D>(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public var hashValue: Swift.Int {
     get
@@ -657,16 +659,16 @@ public struct OptionalEnumExtensionField<E> : NbmapCoreNavigation.ExtensionField
   public typealias BaseType = E
   public typealias ValueType = E
   public var value: NbmapCoreNavigation.OptionalEnumExtensionField<E>.ValueType
-  public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
+  public var protobufExtension: any NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.OptionalEnumExtensionField<E>, rhs: NbmapCoreNavigation.OptionalEnumExtensionField<E>) -> Swift.Bool
-  public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.OptionalEnumExtensionField<E>.ValueType)
+  public init(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.OptionalEnumExtensionField<E>.ValueType)
   public var debugDescription: Swift.String {
     get
   }
   public func hash(into hasher: inout Swift.Hasher)
-  public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
+  public func isEqual(other: any NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
-  public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
+  public init?<D>(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public var hashValue: Swift.Int {
     get
@@ -676,16 +678,16 @@ public struct RepeatedEnumExtensionField<E> : NbmapCoreNavigation.ExtensionField
   public typealias BaseType = E
   public typealias ValueType = [E]
   public var value: NbmapCoreNavigation.RepeatedEnumExtensionField<E>.ValueType
-  public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
+  public var protobufExtension: any NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.RepeatedEnumExtensionField<E>, rhs: NbmapCoreNavigation.RepeatedEnumExtensionField<E>) -> Swift.Bool
-  public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.RepeatedEnumExtensionField<E>.ValueType)
+  public init(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.RepeatedEnumExtensionField<E>.ValueType)
   public func hash(into hasher: inout Swift.Hasher)
-  public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
+  public func isEqual(other: any NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public var debugDescription: Swift.String {
     get
   }
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
-  public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
+  public init?<D>(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public var hashValue: Swift.Int {
     get
@@ -695,16 +697,16 @@ public struct PackedEnumExtensionField<E> : NbmapCoreNavigation.ExtensionField w
   public typealias BaseType = E
   public typealias ValueType = [E]
   public var value: NbmapCoreNavigation.PackedEnumExtensionField<E>.ValueType
-  public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
+  public var protobufExtension: any NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.PackedEnumExtensionField<E>, rhs: NbmapCoreNavigation.PackedEnumExtensionField<E>) -> Swift.Bool
-  public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.PackedEnumExtensionField<E>.ValueType)
+  public init(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.PackedEnumExtensionField<E>.ValueType)
   public func hash(into hasher: inout Swift.Hasher)
-  public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
+  public func isEqual(other: any NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public var debugDescription: Swift.String {
     get
   }
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
-  public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
+  public init?<D>(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public var hashValue: Swift.Int {
     get
@@ -714,16 +716,16 @@ public struct OptionalMessageExtensionField<M> : NbmapCoreNavigation.ExtensionFi
   public typealias BaseType = M
   public typealias ValueType = NbmapCoreNavigation.OptionalMessageExtensionField<M>.BaseType
   public var value: NbmapCoreNavigation.OptionalMessageExtensionField<M>.ValueType
-  public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
+  public var protobufExtension: any NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.OptionalMessageExtensionField<M>, rhs: NbmapCoreNavigation.OptionalMessageExtensionField<M>) -> Swift.Bool
-  public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.OptionalMessageExtensionField<M>.ValueType)
+  public init(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.OptionalMessageExtensionField<M>.ValueType)
   public var debugDescription: Swift.String {
     get
   }
   public func hash(into hasher: inout Swift.Hasher)
-  public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
+  public func isEqual(other: any NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
-  public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
+  public init?<D>(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public var isInitialized: Swift.Bool {
     get
@@ -736,16 +738,16 @@ public struct RepeatedMessageExtensionField<M> : NbmapCoreNavigation.ExtensionFi
   public typealias BaseType = M
   public typealias ValueType = [NbmapCoreNavigation.RepeatedMessageExtensionField<M>.BaseType]
   public var value: NbmapCoreNavigation.RepeatedMessageExtensionField<M>.ValueType
-  public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
+  public var protobufExtension: any NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.RepeatedMessageExtensionField<M>, rhs: NbmapCoreNavigation.RepeatedMessageExtensionField<M>) -> Swift.Bool
-  public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.RepeatedMessageExtensionField<M>.ValueType)
+  public init(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.RepeatedMessageExtensionField<M>.ValueType)
   public func hash(into hasher: inout Swift.Hasher)
-  public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
+  public func isEqual(other: any NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public var debugDescription: Swift.String {
     get
   }
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
-  public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
+  public init?<D>(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public var isInitialized: Swift.Bool {
     get
@@ -758,16 +760,16 @@ public struct OptionalGroupExtensionField<G> : NbmapCoreNavigation.ExtensionFiel
   public typealias BaseType = G
   public typealias ValueType = NbmapCoreNavigation.OptionalGroupExtensionField<G>.BaseType
   public var value: G
-  public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
+  public var protobufExtension: any NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.OptionalGroupExtensionField<G>, rhs: NbmapCoreNavigation.OptionalGroupExtensionField<G>) -> Swift.Bool
-  public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.OptionalGroupExtensionField<G>.ValueType)
+  public init(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.OptionalGroupExtensionField<G>.ValueType)
   public func hash(into hasher: inout Swift.Hasher)
   public var debugDescription: Swift.String {
     get
   }
-  public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
+  public func isEqual(other: any NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
-  public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
+  public init?<D>(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public var isInitialized: Swift.Bool {
     get
@@ -780,16 +782,16 @@ public struct RepeatedGroupExtensionField<G> : NbmapCoreNavigation.ExtensionFiel
   public typealias BaseType = G
   public typealias ValueType = [NbmapCoreNavigation.RepeatedGroupExtensionField<G>.BaseType]
   public var value: NbmapCoreNavigation.RepeatedGroupExtensionField<G>.ValueType
-  public var protobufExtension: NbmapCoreNavigation.AnyMessageExtension
+  public var protobufExtension: any NbmapCoreNavigation.AnyMessageExtension
   public static func == (lhs: NbmapCoreNavigation.RepeatedGroupExtensionField<G>, rhs: NbmapCoreNavigation.RepeatedGroupExtensionField<G>) -> Swift.Bool
-  public init(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.RepeatedGroupExtensionField<G>.ValueType)
+  public init(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, value: NbmapCoreNavigation.RepeatedGroupExtensionField<G>.ValueType)
   public func hash(into hasher: inout Swift.Hasher)
   public var debugDescription: Swift.String {
     get
   }
-  public func isEqual(other: NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
+  public func isEqual(other: any NbmapCoreNavigation.AnyExtensionField) -> Swift.Bool
   public mutating func decodeExtensionField<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
-  public init?<D>(protobufExtension: NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
+  public init?<D>(protobufExtension: any NbmapCoreNavigation.AnyMessageExtension, decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   public func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   public var isInitialized: Swift.Bool {
     get
@@ -806,8 +808,8 @@ public protocol ITelemetryDataSource {
 public struct W3CBaggagePropagator : NbmapCoreNavigation.TextMapBaggagePropagator {
   public init()
   public let fields: Swift.Set<Swift.String>
-  public func inject<S>(baggage: NbmapCoreNavigation.Baggage, carrier: inout [Swift.String : Swift.String], setter: S) where S : NbmapCoreNavigation.Setter
-  public func extract<G>(carrier: [Swift.String : Swift.String], getter: G) -> NbmapCoreNavigation.Baggage? where G : NbmapCoreNavigation.Getter
+  public func inject<S>(baggage: any NbmapCoreNavigation.Baggage, carrier: inout [Swift.String : Swift.String], setter: S) where S : NbmapCoreNavigation.Setter
+  public func extract<G>(carrier: [Swift.String : Swift.String], getter: G) -> (any NbmapCoreNavigation.Baggage)? where G : NbmapCoreNavigation.Getter
 }
 @_hasMissingDesignatedInitializers open class NBFeatureFlag {
   public static func getIsConfigurationServiceEnabled() -> Swift.Bool
@@ -816,8 +818,8 @@ public struct W3CBaggagePropagator : NbmapCoreNavigation.TextMapBaggagePropagato
   @objc deinit
 }
 public protocol Logger {
-  func eventBuilder(name: Swift.String) -> NbmapCoreNavigation.EventBuilder
-  func logRecordBuilder() -> NbmapCoreNavigation.LogRecordBuilder
+  func eventBuilder(name: Swift.String) -> any NbmapCoreNavigation.EventBuilder
+  func logRecordBuilder() -> any NbmapCoreNavigation.LogRecordBuilder
 }
 public protocol IOperatingSystemDataSource {
   var type: Swift.String { get }
@@ -858,12 +860,12 @@ public struct AttributesWithCapacityIterator : Swift.IteratorProtocol {
 }
 @_hasMissingDesignatedInitializers public class DefaultTracer : NbmapCoreNavigation.Tracer {
   public static var instance: NbmapCoreNavigation.DefaultTracer
-  public func spanBuilder(spanName: Swift.String) -> NbmapCoreNavigation.SpanBuilder
+  public func spanBuilder(spanName: Swift.String) -> any NbmapCoreNavigation.SpanBuilder
   @objc deinit
 }
 public protocol NavigationEventsManagerDataSource : AnyObject {
   var routeProgress: NbmapCoreNavigation.RouteProgress { get }
-  var router: NbmapCoreNavigation.Router { get }
+  var router: any NbmapCoreNavigation.Router { get }
   var desiredAccuracy: CoreLocation.CLLocationAccuracy { get }
   var locationManagerType: NbmapCoreNavigation.NavigationLocationManager.Type { get }
 }
@@ -872,7 +874,7 @@ public class NbRoutingProvider : NbmapCoreNavigation.RoutingProvider {
     public func cancel()
   }
   public init(settings: NbmapCoreNavigation.NavigationSettings = .shared)
-  public func calculateRoutes(options: NbmapDirections.RouteOptions, completionHandler: @escaping NbmapDirections.Directions.RouteCompletionHandler) -> NbmapCoreNavigation.NavigationProviderRequest?
+  public func calculateRoutes(options: NbmapDirections.RouteOptions, completionHandler: @escaping NbmapDirections.Directions.RouteCompletionHandler) -> (any NbmapCoreNavigation.NavigationProviderRequest)?
   @objc deinit
 }
 extension Swift.Double {
@@ -902,7 +904,7 @@ public struct ExtensionFieldValueSet : Swift.Hashable {
   public init()
   public func hash(into hasher: inout Swift.Hasher)
   public func traverse<V>(visitor: inout V, start: Swift.Int, end: Swift.Int) throws where V : NbmapCoreNavigation.Visitor
-  public subscript(index: Swift.Int) -> NbmapCoreNavigation.AnyExtensionField? {
+  public subscript(index: Swift.Int) -> (any NbmapCoreNavigation.AnyExtensionField)? {
     get
     set
   }
@@ -918,7 +920,7 @@ public protocol RouterDelegate : AnyObject, NbmapCoreNavigation.UnimplementedLog
   func routeController(_ routeController: NbmapCoreNavigation.RouteController, willRerouteFrom location: CoreLocation.CLLocation)
   func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldDiscard location: CoreLocation.CLLocation) -> Swift.Bool
   func routeController(_ routeController: NbmapCoreNavigation.RouteController, didRerouteAlong route: NbmapDirections.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
-  func routeController(_ routeController: NbmapCoreNavigation.RouteController, didFailToRerouteWith error: Swift.Error)
+  func routeController(_ routeController: NbmapCoreNavigation.RouteController, didFailToRerouteWith error: any Swift.Error)
   func routeController(_ router: NbmapCoreNavigation.RouteController, didUpdate progress: NbmapCoreNavigation.RouteProgress, with location: CoreLocation.CLLocation, rawLocation: CoreLocation.CLLocation)
   func routeController(_ routeController: NbmapCoreNavigation.RouteController, didArriveAt waypoint: NbmapDirections.Waypoint)
   func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
@@ -932,7 +934,7 @@ extension NbmapCoreNavigation.RouterDelegate {
   public func routeController(_ routeController: NbmapCoreNavigation.RouteController, willRerouteFrom location: CoreLocation.CLLocation)
   public func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldDiscard location: CoreLocation.CLLocation) -> Swift.Bool
   public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didRerouteAlong route: NbmapDirections.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
-  public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didFailToRerouteWith error: Swift.Error)
+  public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didFailToRerouteWith error: any Swift.Error)
   public func routeController(_ router: NbmapCoreNavigation.RouteController, didUpdate progress: NbmapCoreNavigation.RouteProgress, with location: CoreLocation.CLLocation, rawLocation: CoreLocation.CLLocation)
   public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didArriveAt waypoint: NbmapDirections.Waypoint)
   public func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
@@ -984,7 +986,7 @@ public protocol LoggerBuilder {
   func setInstrumentationVersion(_ instrumentationVersion: Swift.String) -> Self
   func setIncludeTraceContext(_ includeTraceContext: Swift.Bool) -> Self
   func setAttributes(_ attributes: [Swift.String : NbmapCoreNavigation.AttributeValue]) -> Self
-  func build() -> NbmapCoreNavigation.Logger
+  func build() -> any NbmapCoreNavigation.Logger
 }
 public struct Google_Protobuf_Timestamp {
   public var seconds: Swift.Int64
@@ -1390,7 +1392,7 @@ public enum SemanticAttributes : Swift.String {
   }
 }
 extension NbmapCoreNavigation.Message {
-  public init(unpackingAny: NbmapCoreNavigation.Google_Protobuf_Any, extensions: NbmapCoreNavigation.ExtensionMap? = nil, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws
+  public init(unpackingAny: NbmapCoreNavigation.Google_Protobuf_Any, extensions: (any NbmapCoreNavigation.ExtensionMap)? = nil, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws
 }
 public protocol LogRecordProcessor {
   func onEmit(logRecord: NbmapCoreNavigation.ReadableLogRecord)
@@ -1472,7 +1474,7 @@ public struct NoopCounterMetric<T> : NbmapCoreNavigation.CounterMetric {
 }
 @_hasMissingDesignatedInitializers public class TracerSdk : NbmapCoreNavigation.Tracer {
   final public let instrumentationScopeInfo: NbmapCoreNavigation.InstrumentationScopeInfo
-  public func spanBuilder(spanName: Swift.String) -> NbmapCoreNavigation.SpanBuilder
+  public func spanBuilder(spanName: Swift.String) -> any NbmapCoreNavigation.SpanBuilder
   @objc deinit
 }
 public struct TraceFlags : Swift.Equatable, Swift.CustomStringConvertible, Swift.Codable {
@@ -1494,8 +1496,8 @@ public struct TraceFlags : Swift.Equatable, Swift.CustomStringConvertible, Swift
     get
   }
   public static func == (a: NbmapCoreNavigation.TraceFlags, b: NbmapCoreNavigation.TraceFlags) -> Swift.Bool
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 public protocol Router : CoreLocation.CLLocationManagerDelegate, NbmapCoreNavigation.AlternativeRouteDelegate {
   var routeProgress: NbmapCoreNavigation.RouteProgress { get }
@@ -1503,9 +1505,9 @@ public protocol Router : CoreLocation.CLLocationManagerDelegate, NbmapCoreNaviga
   var rawLocation: CoreLocation.CLLocation? { get }
   var route: NbmapDirections.Route { get }
   var routes: [NbmapDirections.Route] { get }
-  var delegate: NbmapCoreNavigation.RouterDelegate? { get set }
+  var delegate: (any NbmapCoreNavigation.RouterDelegate)? { get set }
   var simulationModel: Swift.Bool { get set }
-  var routingProvider: NbmapCoreNavigation.RoutingProvider { get }
+  var routingProvider: any NbmapCoreNavigation.RoutingProvider { get }
   func onStationaryStatusUpdate(isMoving: Swift.Bool)
   func onLegRemoved(legIndex: Swift.Int)
 }
@@ -1534,7 +1536,7 @@ extension NbmapCoreNavigation.ArrayWithCapacity : Swift.MutableCollection {
 }
 public class OtlpHttpExporterBase {
   public init(endpoint: Foundation.URL, useSession: Foundation.URLSession? = nil, token: Swift.String? = nil)
-  public func createRequest(body: NbmapCoreNavigation.Message, endpoint: Foundation.URL) -> Foundation.URLRequest
+  public func createRequest(body: any NbmapCoreNavigation.Message, endpoint: Foundation.URL) -> Foundation.URLRequest
   public func shutdown()
   @objc deinit
 }
@@ -1546,7 +1548,7 @@ extension NbmapCoreNavigation.Clock {
     get
   }
 }
-public func == (lhs: NbmapCoreNavigation.Clock, rhs: NbmapCoreNavigation.Clock) -> Swift.Bool
+public func == (lhs: any NbmapCoreNavigation.Clock, rhs: any NbmapCoreNavigation.Clock) -> Swift.Bool
 @_inheritsConvenienceInitializers @objc(NBNavigationRouteOptions) @_objcRuntimeName(NBNavigationRouteOptions) open class NavigationRouteOptions : NbmapDirections.RouteOptions {
   @objc required public init(waypoints: [NbmapDirections.Waypoint], profile: NbmapDirections.NBNavigationMode)
   @objc convenience public init(locations: [CoreLocation.CLLocation], profileIdentifier: NbmapDirections.NBNavigationMode? = .car)
@@ -1786,15 +1788,15 @@ extension NbmapCoreNavigation.Google_Protobuf_Option : NbmapCoreNavigation.Messa
 }
 public struct Attribute : Swift.Codable {
   public struct Value : Swift.Codable {
-    public func encode(to encoder: Swift.Encoder) throws
-    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
   }
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 public protocol ExtensionMap {
-  subscript(messageType: NbmapCoreNavigation.Message.Type, fieldNumber: Swift.Int) -> NbmapCoreNavigation.AnyMessageExtension? { get }
-  func fieldNumberForProto(messageType: NbmapCoreNavigation.Message.Type, protoFieldName: Swift.String) -> Swift.Int?
+  subscript(messageType: any NbmapCoreNavigation.Message.Type, fieldNumber: Swift.Int) -> (any NbmapCoreNavigation.AnyMessageExtension)? { get }
+  func fieldNumberForProto(messageType: any NbmapCoreNavigation.Message.Type, protoFieldName: Swift.String) -> Swift.Int?
 }
 @_hasMissingDesignatedInitializers public class LogRecordBuilderSdk : NbmapCoreNavigation.EventBuilder {
   public func setObservedTimestamp(_ observed: Foundation.Date) -> Self
@@ -1814,8 +1816,8 @@ public class ZipkinBaggagePropagator : NbmapCoreNavigation.TextMapBaggagePropaga
   public static let baggagePrefix: Swift.String
   final public let fields: Swift.Set<Swift.String>
   public init()
-  public func inject<S>(baggage: NbmapCoreNavigation.Baggage, carrier: inout [Swift.String : Swift.String], setter: S) where S : NbmapCoreNavigation.Setter
-  public func extract<G>(carrier: [Swift.String : Swift.String], getter: G) -> NbmapCoreNavigation.Baggage? where G : NbmapCoreNavigation.Getter
+  public func inject<S>(baggage: any NbmapCoreNavigation.Baggage, carrier: inout [Swift.String : Swift.String], setter: S) where S : NbmapCoreNavigation.Setter
+  public func extract<G>(carrier: [Swift.String : Swift.String], getter: G) -> (any NbmapCoreNavigation.Baggage)? where G : NbmapCoreNavigation.Getter
   @objc deinit
 }
 public struct BinaryDecodingOptions {
@@ -1984,11 +1986,11 @@ public struct Resource : Swift.Equatable, Swift.Hashable, Swift.Codable {
   public func merging(other: NbmapCoreNavigation.Resource) -> NbmapCoreNavigation.Resource
   public static func == (a: NbmapCoreNavigation.Resource, b: NbmapCoreNavigation.Resource) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
-  public func encode(to encoder: Swift.Encoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
   public var hashValue: Swift.Int {
     get
   }
-  public init(from decoder: Swift.Decoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 extension Foundation.DateComponentsFormatter {
   public static let fullDateComponentsFormatter: Foundation.DateComponentsFormatter
@@ -1999,8 +2001,8 @@ extension Foundation.DateComponentsFormatter {
 }
 public enum Internal {
   public static let emptyData: Foundation.Data
-  public static func areAllInitialized(_ listOfMessages: [NbmapCoreNavigation.Message]) -> Swift.Bool
-  public static func areAllInitialized<K>(_ mapToMessages: [K : NbmapCoreNavigation.Message]) -> Swift.Bool where K : Swift.Hashable
+  public static func areAllInitialized(_ listOfMessages: [any NbmapCoreNavigation.Message]) -> Swift.Bool
+  public static func areAllInitialized<K>(_ mapToMessages: [K : any NbmapCoreNavigation.Message]) -> Swift.Bool where K : Swift.Hashable
 }
 public struct EnvironmentContextPropagator : NbmapCoreNavigation.TextMapPropagator {
   public let fields: Swift.Set<Swift.String>
@@ -2009,21 +2011,21 @@ public struct EnvironmentContextPropagator : NbmapCoreNavigation.TextMapPropagat
   public func extract<G>(carrier: [Swift.String : Swift.String], getter: G) -> NbmapCoreNavigation.SpanContext? where G : NbmapCoreNavigation.Getter
 }
 public protocol OffRouteDetectorDelegate : ObjectiveC.NSObjectProtocol {
-  func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
-  func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
-  func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldAdvanceStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
-  func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldForwardStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
+  func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
+  func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldAdvanceStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
+  func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldForwardStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
   func offRouteDetactorEnableStationaryDetector() -> Swift.Bool
   func offRouteDetactorIsMoving() -> Swift.Bool
 }
 public protocol OffRouteDetector {
   func userOffRouteStatus(_ location: CoreLocation.CLLocation, routeProgress: NbmapCoreNavigation.RouteProgress) -> NbmapCoreNavigation.OffRouteStatus
-  var delegate: NbmapCoreNavigation.OffRouteDetectorDelegate? { get set }
+  var delegate: (any NbmapCoreNavigation.OffRouteDetectorDelegate)? { get set }
   func newRouteHasBeenSet()
   func updateLastReroutePoint(location: CoreLocation.CLLocation)
 }
 public class NBOffRouteDetector : NbmapCoreNavigation.OffRouteDetector {
-  weak public var delegate: NbmapCoreNavigation.OffRouteDetectorDelegate?
+  weak public var delegate: (any NbmapCoreNavigation.OffRouteDetectorDelegate)?
   public var snapDistanceTracker: NbmapCoreNavigation.SnapDistanceTracker? {
     get
     set
@@ -2031,7 +2033,7 @@ public class NBOffRouteDetector : NbmapCoreNavigation.OffRouteDetector {
   public var validOffRouteCheckOfTrip: Swift.Bool {
     get
   }
-  public init(navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig, snapDistanceTracker: NbmapCoreNavigation.SnapDistanceTracker? = nil, delegate: NbmapCoreNavigation.OffRouteDetectorDelegate? = nil)
+  public init(navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig, snapDistanceTracker: NbmapCoreNavigation.SnapDistanceTracker? = nil, delegate: (any NbmapCoreNavigation.OffRouteDetectorDelegate)? = nil)
   public func userOffRouteStatus(_ location: CoreLocation.CLLocation, routeProgress: NbmapCoreNavigation.RouteProgress) -> NbmapCoreNavigation.OffRouteStatus
   public var moveAwayCount: Swift.Int {
     get
@@ -2043,7 +2045,7 @@ public class NBOffRouteDetector : NbmapCoreNavigation.OffRouteDetector {
 }
 @_hasMissingDesignatedInitializers public class DefaultBaggageManagerProvider : NbmapCoreNavigation.BaggageManagerProvider {
   public static var instance: NbmapCoreNavigation.DefaultBaggageManagerProvider
-  public func create() -> NbmapCoreNavigation.BaggageManager
+  public func create() -> any NbmapCoreNavigation.BaggageManager
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers open class ConfigurationMapStyle : ObjectiveC.NSObject, Foundation.NSSecureCoding {
@@ -2060,7 +2062,7 @@ public class NBOffRouteDetector : NbmapCoreNavigation.OffRouteDetector {
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class DeviceResourceProvider : NbmapCoreNavigation.ResourceProvider {
-  public init(source: NbmapCoreNavigation.IDeviceDataSource)
+  public init(source: any NbmapCoreNavigation.IDeviceDataSource)
   override public var attributes: [Swift.String : NbmapCoreNavigation.AttributeValue] {
     get
   }
@@ -2084,7 +2086,7 @@ public class TelemetryDataSource : NbmapCoreNavigation.ITelemetryDataSource {
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers open class AlternativeRouteManager : ObjectiveC.NSObject {
-  weak public var delegate: NbmapCoreNavigation.AlternativeRouteDelegate?
+  weak public var delegate: (any NbmapCoreNavigation.AlternativeRouteDelegate)?
   public func getFirstToForkManeuverPoint(routes: [NbmapDirections.Route], currentRoute: NbmapDirections.Route, routeProgress: NbmapCoreNavigation.RouteProgress) -> CoreLocation.CLLocationCoordinate2D?
   @objc override dynamic public init()
   @objc deinit
@@ -2102,8 +2104,8 @@ public class SignPostIntegration : NbmapCoreNavigation.SpanProcessor {
   final public let isEndRequired: Swift.Bool
   final public let osLog: os.OSLog
   public init()
-  public func onStart(parentContext: NbmapCoreNavigation.SpanContext?, span: NbmapCoreNavigation.ReadableSpan)
-  public func onEnd(span: NbmapCoreNavigation.ReadableSpan)
+  public func onStart(parentContext: NbmapCoreNavigation.SpanContext?, span: any NbmapCoreNavigation.ReadableSpan)
+  public func onEnd(span: any NbmapCoreNavigation.ReadableSpan)
   public func shutdown()
   public func forceFlush(timeout: Foundation.TimeInterval? = nil)
   @objc deinit
@@ -2263,7 +2265,7 @@ public struct EntryValue : Swift.Equatable {
 }
 @objc(NBEventsManager) open class DataTracking : ObjectiveC.NSObject {
   public var userInfo: [Swift.String : Swift.String?]?
-  required public init(dataSource: NbmapCoreNavigation.NavigationEventsManagerDataSource? = nil, accessToken possibleToken: Swift.String? = nil, telemetry: NbmapCoreNavigation.Telemetry = NBTelemetryManager.shared)
+  required public init(dataSource: (any NbmapCoreNavigation.NavigationEventsManagerDataSource)? = nil, accessToken possibleToken: Swift.String? = nil, telemetry: any NbmapCoreNavigation.Telemetry = NBTelemetryManager.shared)
   @objc deinit
   @objc public var delaysEventFlushing: Swift.Bool
 }
@@ -2280,11 +2282,11 @@ public struct SimpleSpanProcessor : NbmapCoreNavigation.SpanProcessor {
   public let isStartRequired: Swift.Bool
   public let isEndRequired: Swift.Bool
   public var processorCallback: NbmapCoreNavigation.SpanProcessorCallback?
-  public func onStart(parentContext: NbmapCoreNavigation.SpanContext?, span: NbmapCoreNavigation.ReadableSpan)
-  public mutating func onEnd(span: NbmapCoreNavigation.ReadableSpan)
+  public func onStart(parentContext: NbmapCoreNavigation.SpanContext?, span: any NbmapCoreNavigation.ReadableSpan)
+  public mutating func onEnd(span: any NbmapCoreNavigation.ReadableSpan)
   public func shutdown()
   public func forceFlush(timeout: Foundation.TimeInterval? = nil)
-  public init(spanExporter: NbmapCoreNavigation.SpanExporter)
+  public init(spanExporter: any NbmapCoreNavigation.SpanExporter)
   public func reportingOnlySampled(sampled: Swift.Bool) -> NbmapCoreNavigation.SimpleSpanProcessor
 }
 public struct Entry : Swift.Equatable, Swift.Comparable {
@@ -2302,8 +2304,8 @@ public struct Entry : Swift.Equatable, Swift.Comparable {
   public static func == (a: NbmapCoreNavigation.Entry, b: NbmapCoreNavigation.Entry) -> Swift.Bool
 }
 public protocol LoggerProvider : AnyObject {
-  func get(instrumentationScopeName: Swift.String) -> NbmapCoreNavigation.Logger
-  func loggerBuilder(instrumentationScopeName: Swift.String) -> NbmapCoreNavigation.LoggerBuilder
+  func get(instrumentationScopeName: Swift.String) -> any NbmapCoreNavigation.Logger
+  func loggerBuilder(instrumentationScopeName: Swift.String) -> any NbmapCoreNavigation.LoggerBuilder
 }
 public protocol ContextManager : AnyObject {
   func getCurrentContextValue(forKey: NbmapCoreNavigation.OpenTelemetryContextKeys) -> Swift.AnyObject?
@@ -3899,8 +3901,8 @@ extension NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo.Annotation.Seman
 }
 @_hasMissingDesignatedInitializers public class DefaultBaggageManager : NbmapCoreNavigation.BaggageManager {
   public static var instance: NbmapCoreNavigation.DefaultBaggageManager
-  public func baggageBuilder() -> NbmapCoreNavigation.BaggageBuilder
-  public func getCurrentBaggage() -> NbmapCoreNavigation.Baggage?
+  public func baggageBuilder() -> any NbmapCoreNavigation.BaggageBuilder
+  public func getCurrentBaggage() -> (any NbmapCoreNavigation.Baggage)?
   @objc deinit
 }
 public enum SpanKind : Swift.String, Swift.Equatable, Swift.Codable {
@@ -3932,19 +3934,19 @@ public enum SpanKind : Swift.String, Swift.Equatable, Swift.Codable {
     set
   }
   public var index: Swift.Int
-  weak public var delegate: NbmapCoreNavigation.RouterDelegate?
+  weak public var delegate: (any NbmapCoreNavigation.RouterDelegate)?
   public var routeProgress: NbmapCoreNavigation.RouteProgress {
     get
   }
   public var navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig
-  public var routingProvider: NbmapCoreNavigation.RoutingProvider {
+  public var routingProvider: any NbmapCoreNavigation.RoutingProvider {
     get
     set
   }
-  public var resolvedRoutingProvider: NbmapCoreNavigation.RoutingProvider {
+  public var resolvedRoutingProvider: any NbmapCoreNavigation.RoutingProvider {
     get
   }
-  required public init(from routes: [NbmapDirections.Route], alongIndex index: Swift.Int, customRoutingProvider: NbmapCoreNavigation.RoutingProvider? = nil, navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig? = nil, offRouteDetector: NbmapCoreNavigation.OffRouteDetector? = nil, speedCalibrator: NbmapCoreNavigation.SpeedCalibrator? = nil, deadReckoning: NbmapCoreNavigation.DeadReckoning? = nil)
+  required public init(from routes: [NbmapDirections.Route], alongIndex index: Swift.Int, customRoutingProvider: (any NbmapCoreNavigation.RoutingProvider)? = nil, navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig? = nil, offRouteDetector: (any NbmapCoreNavigation.OffRouteDetector)? = nil, speedCalibrator: (any NbmapCoreNavigation.SpeedCalibrator)? = nil, deadReckoning: NbmapCoreNavigation.DeadReckoning? = nil)
   public func finishRouting()
   @objc deinit
   public var location: CoreLocation.CLLocation? {
@@ -3965,15 +3967,15 @@ extension NbmapCoreNavigation.RouteController : CoreLocation.CLLocationManagerDe
 extension NbmapCoreNavigation.RouteController : NbmapCoreNavigation.OffRouteDetectorDelegate {
   public func offRouteDetactorEnableStationaryDetector() -> Swift.Bool
   public func offRouteDetactorIsMoving() -> Swift.Bool
-  public func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
-  public func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
-  public func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldAdvanceStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
-  public func offRouteDetactor(_ detactor: NbmapCoreNavigation.OffRouteDetector, shouldForwardStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
+  public func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  public func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
+  public func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldAdvanceStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
+  public func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldForwardStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
 }
 extension NbmapCoreNavigation.RouteController : NbmapCoreNavigation.RerouteDelegate {
   public func willRerouteFrom(location: CoreLocation.CLLocation)
   public func didToReRouteWith(location: CoreLocation.CLLocation, routes: [NbmapDirections.Route])
-  public func failToReRouteWith(error: Swift.Error)
+  public func failToReRouteWith(error: any Swift.Error)
 }
 extension NbmapCoreNavigation.RouteController : NbmapCoreNavigation.AlternativeRouteDelegate {
   public func didSelectNewRoute(route: NbmapDirections.Route)
@@ -3998,12 +4000,12 @@ public struct Version {
 }
 extension NbmapCoreNavigation.Google_Protobuf_Any {
   @discardableResult
-  public static func register(messageType: NbmapCoreNavigation.Message.Type) -> Swift.Bool
-  public static func messageType(forTypeURL url: Swift.String) -> NbmapCoreNavigation.Message.Type?
-  public static func messageType(forMessageName name: Swift.String) -> NbmapCoreNavigation.Message.Type?
+  public static func register(messageType: any NbmapCoreNavigation.Message.Type) -> Swift.Bool
+  public static func messageType(forTypeURL url: Swift.String) -> (any NbmapCoreNavigation.Message.Type)?
+  public static func messageType(forMessageName name: Swift.String) -> (any NbmapCoreNavigation.Message.Type)?
 }
 @_hasMissingDesignatedInitializers public class ApplicationResourceProvider : NbmapCoreNavigation.ResourceProvider {
-  public init(source: NbmapCoreNavigation.IApplicationDataSource)
+  public init(source: any NbmapCoreNavigation.IApplicationDataSource)
   override public var attributes: [Swift.String : NbmapCoreNavigation.AttributeValue] {
     get
   }
@@ -4011,9 +4013,9 @@ extension NbmapCoreNavigation.Google_Protobuf_Any {
 }
 public let defaultAnyTypeURLPrefix: Swift.String
 extension NbmapCoreNavigation.Google_Protobuf_Any {
-  public init(message: NbmapCoreNavigation.Message, partial: Swift.Bool = false, typePrefix: Swift.String = defaultAnyTypeURLPrefix) throws
-  public init(textFormatString: Swift.String, extensions: NbmapCoreNavigation.ExtensionMap? = nil) throws
-  public init(textFormatString: Swift.String, options: NbmapCoreNavigation.TextFormatDecodingOptions, extensions: NbmapCoreNavigation.ExtensionMap? = nil) throws
+  public init(message: any NbmapCoreNavigation.Message, partial: Swift.Bool = false, typePrefix: Swift.String = defaultAnyTypeURLPrefix) throws
+  public init(textFormatString: Swift.String, extensions: (any NbmapCoreNavigation.ExtensionMap)? = nil) throws
+  public init(textFormatString: Swift.String, options: NbmapCoreNavigation.TextFormatDecodingOptions, extensions: (any NbmapCoreNavigation.ExtensionMap)? = nil) throws
   public func isA<M>(_ type: M.Type) -> Swift.Bool where M : NbmapCoreNavigation.Message
   public func hash(into hasher: inout Swift.Hasher)
 }
@@ -4052,12 +4054,12 @@ public protocol DoubleObserverMetricHandle {
 }
 @objc @_hasMissingDesignatedInitializers public class NBTelemetryManager : ObjectiveC.NSObject, NbmapCoreNavigation.Telemetry {
   public static let shared: NbmapCoreNavigation.NBTelemetryManager
-  convenience public init(_ telemetry: NbmapCoreNavigation.OpenTelemetry? = nil, eventConfigration: NbmapCoreNavigation.EventConfigration? = nil, tracerProvider: NbmapCoreNavigation.TracerProvider? = nil, tracer: NbmapCoreNavigation.TracerSdk? = nil, spanProcessor: NbmapCoreNavigation.SpanProcessor? = nil, jaegerExporter: NbmapCoreNavigation.OtlpHttpTraceExporter? = nil, resources: NbmapCoreNavigation.Resource? = nil)
+  convenience public init(_ telemetry: NbmapCoreNavigation.OpenTelemetry? = nil, eventConfigration: NbmapCoreNavigation.EventConfigration? = nil, tracerProvider: (any NbmapCoreNavigation.TracerProvider)? = nil, tracer: NbmapCoreNavigation.TracerSdk? = nil, spanProcessor: (any NbmapCoreNavigation.SpanProcessor)? = nil, jaegerExporter: NbmapCoreNavigation.OtlpHttpTraceExporter? = nil, resources: NbmapCoreNavigation.Resource? = nil)
   public func setup(withAccessToken: Swift.String, userAgentBase: Swift.String, hostSDKVersion: Swift.String)
-  public func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, end: Swift.Bool? = true) -> NbmapCoreNavigation.Span
-  public func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, event: Swift.String?, end: Swift.Bool? = true) -> NbmapCoreNavigation.Span
-  public func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, event: Swift.String?, eventAttributes: [Swift.String : Any]?, end: Swift.Bool? = true) -> NbmapCoreNavigation.Span
-  public func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, eventWithAttributes: [Swift.String : [Swift.String : Any]?]?, end: Swift.Bool? = true) -> NbmapCoreNavigation.Span
+  public func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, end: Swift.Bool? = true) -> any NbmapCoreNavigation.Span
+  public func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, event: Swift.String?, end: Swift.Bool? = true) -> any NbmapCoreNavigation.Span
+  public func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, event: Swift.String?, eventAttributes: [Swift.String : Any]?, end: Swift.Bool? = true) -> any NbmapCoreNavigation.Span
+  public func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, eventWithAttributes: [Swift.String : [Swift.String : Any]?]?, end: Swift.Bool? = true) -> any NbmapCoreNavigation.Span
   public func enqueueEvent(withName name: Swift.String, attributes: [Swift.String : Any] = [:])
   public func flush()
   public func shutdowm()
@@ -4225,15 +4227,15 @@ public protocol AlternativeRouteDelegate : ObjectiveC.NSObjectProtocol {
 public class MultiLogRecordProcessor : NbmapCoreNavigation.LogRecordProcessor {
   public func forceFlush() -> NbmapCoreNavigation.ExportResult
   public func shutdown() -> NbmapCoreNavigation.ExportResult
-  public init(logRecordProcessors: [NbmapCoreNavigation.LogRecordProcessor])
+  public init(logRecordProcessors: [any NbmapCoreNavigation.LogRecordProcessor])
   public func onEmit(logRecord: NbmapCoreNavigation.ReadableLogRecord)
   @objc deinit
 }
 public class TracerProviderBuilder {
-  public var clock: NbmapCoreNavigation.Clock {
+  public var clock: any NbmapCoreNavigation.Clock {
     get
   }
-  public var idGenerator: NbmapCoreNavigation.IdGenerator {
+  public var idGenerator: any NbmapCoreNavigation.IdGenerator {
     get
   }
   public var resource: NbmapCoreNavigation.Resource {
@@ -4242,28 +4244,28 @@ public class TracerProviderBuilder {
   public var spanLimits: NbmapCoreNavigation.SpanLimits {
     get
   }
-  public var sampler: NbmapCoreNavigation.Sampler {
+  public var sampler: any NbmapCoreNavigation.Sampler {
     get
   }
-  public var spanProcessors: [NbmapCoreNavigation.SpanProcessor] {
+  public var spanProcessors: [any NbmapCoreNavigation.SpanProcessor] {
     get
   }
   public init()
-  public func with(clock: NbmapCoreNavigation.Clock) -> Self
-  public func with(idGenerator: NbmapCoreNavigation.IdGenerator) -> Self
+  public func with(clock: any NbmapCoreNavigation.Clock) -> Self
+  public func with(idGenerator: any NbmapCoreNavigation.IdGenerator) -> Self
   public func with(resource: NbmapCoreNavigation.Resource) -> Self
   public func with(spanLimits: NbmapCoreNavigation.SpanLimits) -> Self
-  public func with(sampler: NbmapCoreNavigation.Sampler) -> Self
-  public func add(spanProcessor: NbmapCoreNavigation.SpanProcessor) -> Self
-  public func add(spanProcessors: [NbmapCoreNavigation.SpanProcessor]) -> Self
+  public func with(sampler: any NbmapCoreNavigation.Sampler) -> Self
+  public func add(spanProcessor: any NbmapCoreNavigation.SpanProcessor) -> Self
+  public func add(spanProcessors: [any NbmapCoreNavigation.SpanProcessor]) -> Self
   public func build() -> NbmapCoreNavigation.TracerProviderSdk
   @objc deinit
 }
 public protocol TextMapBaggagePropagator {
   var fields: Swift.Set<Swift.String> { get }
-  func inject<S>(baggage: NbmapCoreNavigation.Baggage, carrier: inout [Swift.String : Swift.String], setter: S) where S : NbmapCoreNavigation.Setter
+  func inject<S>(baggage: any NbmapCoreNavigation.Baggage, carrier: inout [Swift.String : Swift.String], setter: S) where S : NbmapCoreNavigation.Setter
   @discardableResult
-  func extract<G>(carrier: [Swift.String : Swift.String], getter: G) -> NbmapCoreNavigation.Baggage? where G : NbmapCoreNavigation.Getter
+  func extract<G>(carrier: [Swift.String : Swift.String], getter: G) -> (any NbmapCoreNavigation.Baggage)? where G : NbmapCoreNavigation.Getter
 }
 @_hasMissingDesignatedInitializers open class RecordDataConfig {
   public static func isEnableRecord() -> Swift.Bool
@@ -4294,7 +4296,7 @@ extension NbmapCoreNavigation.Google_Protobuf_Empty : NbmapCoreNavigation.Messag
   @objc deinit
 }
 public class BatchLogRecordProcessor : NbmapCoreNavigation.LogRecordProcessor {
-  public init(logRecordExporter: NbmapCoreNavigation.LogRecordExporter, scheduleDelay: Foundation.TimeInterval = 5, exportTimeout: Foundation.TimeInterval = 30, maxQueueSize: Swift.Int = 2048, maxExportBatchSize: Swift.Int = 512, willExportCallback: ((inout [NbmapCoreNavigation.ReadableLogRecord]) -> Swift.Void)? = nil)
+  public init(logRecordExporter: any NbmapCoreNavigation.LogRecordExporter, scheduleDelay: Foundation.TimeInterval = 5, exportTimeout: Foundation.TimeInterval = 30, maxQueueSize: Swift.Int = 2048, maxExportBatchSize: Swift.Int = 512, willExportCallback: ((inout [NbmapCoreNavigation.ReadableLogRecord]) -> Swift.Void)? = nil)
   public func onEmit(logRecord: NbmapCoreNavigation.ReadableLogRecord)
   public func forceFlush() -> NbmapCoreNavigation.ExportResult
   public func forceFlush(timeout: Foundation.TimeInterval?)
@@ -4303,30 +4305,30 @@ public class BatchLogRecordProcessor : NbmapCoreNavigation.LogRecordProcessor {
 }
 public struct OpenTelemetry {
   public static var instance: NbmapCoreNavigation.OpenTelemetry
-  public var tracerProvider: NbmapCoreNavigation.TracerProvider {
+  public var tracerProvider: any NbmapCoreNavigation.TracerProvider {
     get
   }
-  public var meterProvider: NbmapCoreNavigation.MeterProvider {
+  public var meterProvider: any NbmapCoreNavigation.MeterProvider {
     get
   }
-  public var loggerProvider: NbmapCoreNavigation.LoggerProvider {
+  public var loggerProvider: any NbmapCoreNavigation.LoggerProvider {
     get
   }
-  public var baggageManager: NbmapCoreNavigation.BaggageManager {
+  public var baggageManager: any NbmapCoreNavigation.BaggageManager {
     get
   }
-  public var propagators: NbmapCoreNavigation.ContextPropagators {
+  public var propagators: any NbmapCoreNavigation.ContextPropagators {
     get
   }
   public var contextProvider: NbmapCoreNavigation.OpenTelemetryContextProvider {
     get
   }
-  public static func registerTracerProvider(tracerProvider: NbmapCoreNavigation.TracerProvider)
-  public static func registerMeterProvider(meterProvider: NbmapCoreNavigation.MeterProvider)
-  public static func registerLoggerProvider(loggerProvider: NbmapCoreNavigation.LoggerProvider)
-  public static func registerBaggageManager(baggageManager: NbmapCoreNavigation.BaggageManager)
-  public static func registerPropagators(textPropagators: [NbmapCoreNavigation.TextMapPropagator], baggagePropagator: NbmapCoreNavigation.TextMapBaggagePropagator)
-  public static func registerContextManager(contextManager: NbmapCoreNavigation.ContextManager)
+  public static func registerTracerProvider(tracerProvider: any NbmapCoreNavigation.TracerProvider)
+  public static func registerMeterProvider(meterProvider: any NbmapCoreNavigation.MeterProvider)
+  public static func registerLoggerProvider(loggerProvider: any NbmapCoreNavigation.LoggerProvider)
+  public static func registerBaggageManager(baggageManager: any NbmapCoreNavigation.BaggageManager)
+  public static func registerPropagators(textPropagators: [any NbmapCoreNavigation.TextMapPropagator], baggagePropagator: any NbmapCoreNavigation.TextMapBaggagePropagator)
+  public static func registerContextManager(contextManager: any NbmapCoreNavigation.ContextManager)
 }
 extension UIKit.UIWindow {
   @_Concurrency.MainActor(unsafe) public func capture() -> UIKit.UIImage?
@@ -4427,7 +4429,7 @@ public struct W3CTraceContextPropagator : NbmapCoreNavigation.TextMapPropagator 
   public func extract<G>(carrier: [Swift.String : Swift.String], getter: G) -> NbmapCoreNavigation.SpanContext? where G : NbmapCoreNavigation.Getter
 }
 public class LoggerProviderBuilder {
-  public var clock: NbmapCoreNavigation.Clock {
+  public var clock: any NbmapCoreNavigation.Clock {
     get
   }
   public var resource: NbmapCoreNavigation.Resource {
@@ -4436,14 +4438,14 @@ public class LoggerProviderBuilder {
   public var logLimits: NbmapCoreNavigation.LogLimits {
     get
   }
-  public var logProcessors: [NbmapCoreNavigation.LogRecordProcessor] {
+  public var logProcessors: [any NbmapCoreNavigation.LogRecordProcessor] {
     get
   }
   public init()
-  public func with(clock: NbmapCoreNavigation.Clock) -> Self
+  public func with(clock: any NbmapCoreNavigation.Clock) -> Self
   public func with(resource: NbmapCoreNavigation.Resource) -> Self
   public func with(logLimits: NbmapCoreNavigation.LogLimits) -> Self
-  public func with(processors: [NbmapCoreNavigation.LogRecordProcessor]) -> Self
+  public func with(processors: [any NbmapCoreNavigation.LogRecordProcessor]) -> Self
   public func build() -> NbmapCoreNavigation.LoggerProviderSdk
   @objc deinit
 }
@@ -4456,24 +4458,24 @@ public class LoggerProviderBuilder {
 }
 extension NbmapCoreNavigation.Message {
   public func serializedData(partial: Swift.Bool = false) throws -> Foundation.Data
-  @inlinable public init(serializedData data: Foundation.Data, extensions: NbmapCoreNavigation.ExtensionMap? = nil, partial: Swift.Bool = false, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws {
+  @inlinable public init(serializedData data: Foundation.Data, extensions: (any NbmapCoreNavigation.ExtensionMap)? = nil, partial: Swift.Bool = false, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws {
     self.init()
     try merge(contiguousBytes: data, extensions: extensions, partial: partial, options: options)
   }
-  @inlinable public init<Bytes>(contiguousBytes bytes: Bytes, extensions: NbmapCoreNavigation.ExtensionMap? = nil, partial: Swift.Bool = false, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws where Bytes : Foundation.ContiguousBytes {
+  @inlinable public init<Bytes>(contiguousBytes bytes: Bytes, extensions: (any NbmapCoreNavigation.ExtensionMap)? = nil, partial: Swift.Bool = false, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws where Bytes : Foundation.ContiguousBytes {
     self.init()
     try merge(contiguousBytes: bytes, extensions: extensions, partial: partial, options: options)
   }
-  @inlinable public mutating func merge(serializedData data: Foundation.Data, extensions: NbmapCoreNavigation.ExtensionMap? = nil, partial: Swift.Bool = false, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws {
+  @inlinable public mutating func merge(serializedData data: Foundation.Data, extensions: (any NbmapCoreNavigation.ExtensionMap)? = nil, partial: Swift.Bool = false, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws {
     try merge(contiguousBytes: data, extensions: extensions, partial: partial, options: options)
   }
-  @inlinable public mutating func merge<Bytes>(contiguousBytes bytes: Bytes, extensions: NbmapCoreNavigation.ExtensionMap? = nil, partial: Swift.Bool = false, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws where Bytes : Foundation.ContiguousBytes {
+  @inlinable public mutating func merge<Bytes>(contiguousBytes bytes: Bytes, extensions: (any NbmapCoreNavigation.ExtensionMap)? = nil, partial: Swift.Bool = false, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws where Bytes : Foundation.ContiguousBytes {
     try bytes.withUnsafeBytes { (body: UnsafeRawBufferPointer) in
       try _merge(rawBuffer: body, extensions: extensions, partial: partial, options: options)
     }
   }
   @usableFromInline
-  internal mutating func _merge(rawBuffer body: Swift.UnsafeRawBufferPointer, extensions: NbmapCoreNavigation.ExtensionMap?, partial: Swift.Bool, options: NbmapCoreNavigation.BinaryDecodingOptions) throws
+  internal mutating func _merge(rawBuffer body: Swift.UnsafeRawBufferPointer, extensions: (any NbmapCoreNavigation.ExtensionMap)?, partial: Swift.Bool, options: NbmapCoreNavigation.BinaryDecodingOptions) throws
 }
 public enum JSONEncodingError : Swift.Error {
   case anyTranscodeFailure
@@ -4528,11 +4530,11 @@ public struct TraceId : Swift.Comparable, Swift.Hashable, Swift.CustomStringConv
   public static func < (lhs: NbmapCoreNavigation.TraceId, rhs: NbmapCoreNavigation.TraceId) -> Swift.Bool
   public static func == (lhs: NbmapCoreNavigation.TraceId, rhs: NbmapCoreNavigation.TraceId) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
-  public func encode(to encoder: Swift.Encoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
   public var hashValue: Swift.Int {
     get
   }
-  public init(from decoder: Swift.Decoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 @_hasMissingDesignatedInitializers open class SwiftEventBus {
   open class func post(_ name: Swift.String, sender: Any? = nil)
@@ -4542,11 +4544,11 @@ public struct TraceId : Swift.Comparable, Swift.Hashable, Swift.CustomStringConv
   open class func postToMainThread(_ name: Swift.String, sender: ObjectiveC.NSObject?)
   open class func postToMainThread(_ name: Swift.String, sender: Any? = nil, userInfo: [Swift.AnyHashable : Any]?)
   @discardableResult
-  open class func on(_ target: Swift.AnyObject, name: Swift.String, sender: Any? = nil, queue: Foundation.OperationQueue?, handler: @escaping ((Foundation.Notification?) -> Swift.Void)) -> ObjectiveC.NSObjectProtocol
+  open class func on(_ target: Swift.AnyObject, name: Swift.String, sender: Any? = nil, queue: Foundation.OperationQueue?, handler: @escaping ((Foundation.Notification?) -> Swift.Void)) -> any ObjectiveC.NSObjectProtocol
   @discardableResult
-  open class func onMainThread(_ target: Swift.AnyObject, name: Swift.String, sender: Any? = nil, handler: @escaping ((Foundation.Notification?) -> Swift.Void)) -> ObjectiveC.NSObjectProtocol
+  open class func onMainThread(_ target: Swift.AnyObject, name: Swift.String, sender: Any? = nil, handler: @escaping ((Foundation.Notification?) -> Swift.Void)) -> any ObjectiveC.NSObjectProtocol
   @discardableResult
-  open class func onBackgroundThread(_ target: Swift.AnyObject, name: Swift.String, sender: Any? = nil, handler: @escaping ((Foundation.Notification?) -> Swift.Void)) -> ObjectiveC.NSObjectProtocol
+  open class func onBackgroundThread(_ target: Swift.AnyObject, name: Swift.String, sender: Any? = nil, handler: @escaping ((Foundation.Notification?) -> Swift.Void)) -> any ObjectiveC.NSObjectProtocol
   open class func unregister(_ target: Swift.AnyObject)
   open class func unregister(_ target: Swift.AnyObject, name: Swift.String)
   @objc deinit
@@ -4556,8 +4558,8 @@ public class JaegerBaggagePropagator : NbmapCoreNavigation.TextMapBaggagePropaga
   public static let baggagePrefix: Swift.String
   public var fields: Swift.Set<Swift.String>
   public init()
-  public func inject<S>(baggage: NbmapCoreNavigation.Baggage, carrier: inout [Swift.String : Swift.String], setter: S) where S : NbmapCoreNavigation.Setter
-  public func extract<G>(carrier: [Swift.String : Swift.String], getter: G) -> NbmapCoreNavigation.Baggage? where G : NbmapCoreNavigation.Getter
+  public func inject<S>(baggage: any NbmapCoreNavigation.Baggage, carrier: inout [Swift.String : Swift.String], setter: S) where S : NbmapCoreNavigation.Setter
+  public func extract<G>(carrier: [Swift.String : Swift.String], getter: G) -> (any NbmapCoreNavigation.Baggage)? where G : NbmapCoreNavigation.Getter
   @objc deinit
 }
 public func defaultOltpHttpTracesEndpoint() -> Foundation.URL
@@ -4568,9 +4570,9 @@ public func defaultOltpHttpTracesEndpoint() -> Foundation.URL
   @objc deinit
 }
 public protocol NavigationService : CoreLocation.CLLocationManagerDelegate, NbmapCoreNavigation.NavigationEventsManagerDataSource {
-  var delegate: NbmapCoreNavigation.NavigationServiceDelegate? { get set }
+  var delegate: (any NbmapCoreNavigation.NavigationServiceDelegate)? { get set }
   var locationManager: NbmapCoreNavigation.NavigationLocationManager { get }
-  var router: NbmapCoreNavigation.Router { get }
+  var router: any NbmapCoreNavigation.Router { get }
   var dataTrackingEnable: Swift.Bool { get set }
   var dataTracking: NbmapCoreNavigation.DataTracking? { get }
   var route: NbmapDirections.Route { get }
@@ -4581,18 +4583,18 @@ public protocol NavigationService : CoreLocation.CLLocationManagerDelegate, Nbma
   var poorGPSPatience: Swift.Double { get set }
   var simulationMode: NbmapCoreNavigation.SimulationMode { get set }
   var simulationSpeedMultiplier: Swift.Double { get set }
-  var navigationDataEventTracking: NbmapCoreNavigation.NavigationEventTracking? { get set }
+  var navigationDataEventTracking: (any NbmapCoreNavigation.NavigationEventTracking)? { get set }
   var navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig { get set }
-  var routingProvider: NbmapCoreNavigation.RoutingProvider? { get }
-  var stationaryDetection: NbmapCoreNavigation.StationaryDetection? { get }
+  var routingProvider: (any NbmapCoreNavigation.RoutingProvider)? { get }
+  var stationaryDetection: (any NbmapCoreNavigation.StationaryDetection)? { get }
 }
 @objc public class NBNavigationService : ObjectiveC.NSObject, NbmapCoreNavigation.NavigationService {
-  weak public var delegate: NbmapCoreNavigation.NavigationServiceDelegate?
+  weak public var delegate: (any NbmapCoreNavigation.NavigationServiceDelegate)?
   public var locationManager: NbmapCoreNavigation.NavigationLocationManager {
     get
   }
-  weak public var navigationDataEventTracking: NbmapCoreNavigation.NavigationEventTracking?
-  public var router: NbmapCoreNavigation.Router {
+  weak public var navigationDataEventTracking: (any NbmapCoreNavigation.NavigationEventTracking)?
+  public var router: any NbmapCoreNavigation.Router {
     get
   }
   public var dataTrackingEnable: Swift.Bool
@@ -4600,13 +4602,13 @@ public protocol NavigationService : CoreLocation.CLLocationManagerDelegate, Nbma
     get
   }
   public var navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig
-  public var routingProvider: NbmapCoreNavigation.RoutingProvider? {
+  public var routingProvider: (any NbmapCoreNavigation.RoutingProvider)? {
     get
   }
   public var route: NbmapDirections.Route {
     get
   }
-  public var stationaryDetection: NbmapCoreNavigation.StationaryDetection?
+  public var stationaryDetection: (any NbmapCoreNavigation.StationaryDetection)?
   public var poorGPSPatience: Swift.Double {
     get
     set
@@ -4620,7 +4622,7 @@ public protocol NavigationService : CoreLocation.CLLocationManagerDelegate, Nbma
     set
   }
   public func isInTunnel(at location: CoreLocation.CLLocation, along progress: NbmapCoreNavigation.RouteProgress) -> Swift.Bool
-  required public init(routes: [NbmapDirections.Route], routeIndex: Swift.Int, locationSource: NbmapCoreNavigation.NavigationLocationManager? = nil, routerController: NbmapCoreNavigation.Router? = nil, dataTracking: NbmapCoreNavigation.DataTracking? = nil, simulating simulationMode: NbmapCoreNavigation.SimulationMode? = nil, navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig? = nil, routingProvider: NbmapCoreNavigation.RoutingProvider? = nil, stationarySetection: NbmapCoreNavigation.StationaryDetection? = nil)
+  required public init(routes: [NbmapDirections.Route], routeIndex: Swift.Int, locationSource: NbmapCoreNavigation.NavigationLocationManager? = nil, routerController: (any NbmapCoreNavigation.Router)? = nil, dataTracking: NbmapCoreNavigation.DataTracking? = nil, simulating simulationMode: NbmapCoreNavigation.SimulationMode? = nil, navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig? = nil, routingProvider: (any NbmapCoreNavigation.RoutingProvider)? = nil, stationarySetection: (any NbmapCoreNavigation.StationaryDetection)? = nil)
   @objc deinit
   @objc public func suspendLocationUpdates()
   public func start()
@@ -4648,7 +4650,7 @@ extension NbmapCoreNavigation.NBNavigationService : NbmapCoreNavigation.RouterDe
   @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
   @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, willRerouteFrom location: CoreLocation.CLLocation)
   @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didRerouteAlong route: NbmapDirections.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
-  @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didFailToRerouteWith error: Swift.Error)
+  @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didFailToRerouteWith error: any Swift.Error)
   @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldDiscard location: CoreLocation.CLLocation) -> Swift.Bool
   @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didArriveAt waypoint: NbmapDirections.Waypoint)
   public func routeController(_ router: NbmapCoreNavigation.RouteController, didRefresh progress: NbmapCoreNavigation.RouteProgress)
@@ -4663,7 +4665,7 @@ extension NbmapCoreNavigation.NBNavigationService : NbmapCoreNavigation.Stationa
   public func onSensorUpdate(angularSpeed: Swift.Double?, acceleration: Swift.Double?, speed: Swift.Double?)
 }
 public protocol BaggageManagerProvider {
-  func create() -> NbmapCoreNavigation.BaggageManager
+  func create() -> any NbmapCoreNavigation.BaggageManager
 }
 public enum Severity : Swift.Int, Swift.Comparable, Swift.CustomStringConvertible {
   case trace, trace2, trace3, trace4, debug, debug2, debug3, debug4, info, info2, info3, info4, warn, warn2, warn3, warn4, error, error2, error3, error4, fatal, fatal2, fatal3, fatal4
@@ -4681,7 +4683,7 @@ extension NbmapDirections.RouteOptions {
   public func without(waypoint: NbmapDirections.Waypoint) -> NbmapDirections.RouteOptions
 }
 @_hasMissingDesignatedInitializers public class OSResourceProvider : NbmapCoreNavigation.ResourceProvider {
-  public init(source: NbmapCoreNavigation.IOperatingSystemDataSource)
+  public init(source: any NbmapCoreNavigation.IOperatingSystemDataSource)
   override public var attributes: [Swift.String : NbmapCoreNavigation.AttributeValue] {
     get
   }
@@ -4720,32 +4722,32 @@ extension NbmapCoreNavigation.Status : Swift.CustomStringConvertible {
   }
 }
 extension NbmapCoreNavigation.Status : Swift.Codable {
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 extension NbmapCoreNavigation.Message {
   public func textFormatString() -> Swift.String
   public func textFormatString(options: NbmapCoreNavigation.TextFormatEncodingOptions) -> Swift.String
-  public init(textFormatString: Swift.String, extensions: NbmapCoreNavigation.ExtensionMap? = nil) throws
-  public init(textFormatString: Swift.String, options: NbmapCoreNavigation.TextFormatDecodingOptions, extensions: NbmapCoreNavigation.ExtensionMap? = nil) throws
+  public init(textFormatString: Swift.String, extensions: (any NbmapCoreNavigation.ExtensionMap)? = nil) throws
+  public init(textFormatString: Swift.String, options: NbmapCoreNavigation.TextFormatDecodingOptions, extensions: (any NbmapCoreNavigation.ExtensionMap)? = nil) throws
 }
 public struct SimpleExtensionMap : NbmapCoreNavigation.ExtensionMap, Swift.ExpressibleByArrayLiteral, Swift.CustomDebugStringConvertible {
   public typealias Element = NbmapCoreNavigation.AnyMessageExtension
   public init()
-  public init(arrayLiteral: NbmapCoreNavigation.SimpleExtensionMap.Element...)
+  public init(arrayLiteral: any NbmapCoreNavigation.AnyMessageExtension...)
   public init(_ others: NbmapCoreNavigation.SimpleExtensionMap...)
-  public subscript(messageType: NbmapCoreNavigation.Message.Type, fieldNumber: Swift.Int) -> NbmapCoreNavigation.AnyMessageExtension? {
+  public subscript(messageType: any NbmapCoreNavigation.Message.Type, fieldNumber: Swift.Int) -> (any NbmapCoreNavigation.AnyMessageExtension)? {
     get
   }
-  public func fieldNumberForProto(messageType: NbmapCoreNavigation.Message.Type, protoFieldName: Swift.String) -> Swift.Int?
-  public mutating func insert(_ newValue: NbmapCoreNavigation.SimpleExtensionMap.Element)
-  public mutating func insert(contentsOf: [NbmapCoreNavigation.SimpleExtensionMap.Element])
+  public func fieldNumberForProto(messageType: any NbmapCoreNavigation.Message.Type, protoFieldName: Swift.String) -> Swift.Int?
+  public mutating func insert(_ newValue: any NbmapCoreNavigation.AnyMessageExtension)
+  public mutating func insert(contentsOf: [any NbmapCoreNavigation.AnyMessageExtension])
   public mutating func formUnion(_ other: NbmapCoreNavigation.SimpleExtensionMap)
   public func union(_ other: NbmapCoreNavigation.SimpleExtensionMap) -> NbmapCoreNavigation.SimpleExtensionMap
   public var debugDescription: Swift.String {
     get
   }
-  public typealias ArrayLiteralElement = NbmapCoreNavigation.SimpleExtensionMap.Element
+  public typealias ArrayLiteralElement = any NbmapCoreNavigation.AnyMessageExtension
 }
 public protocol Visitor {
   mutating func visitSingularFloatField(value: Swift.Float, fieldNumber: Swift.Int) throws
@@ -4868,7 +4870,7 @@ public class ApplicationDataSource : NbmapCoreNavigation.IApplicationDataSource 
   @objc deinit
 }
 public class MultiLogRecordExporter : NbmapCoreNavigation.LogRecordExporter {
-  public init(logRecordExporters: [NbmapCoreNavigation.LogRecordExporter])
+  public init(logRecordExporters: [any NbmapCoreNavigation.LogRecordExporter])
   public func export(logRecords: [NbmapCoreNavigation.ReadableLogRecord]) -> NbmapCoreNavigation.ExportResult
   public func shutdown()
   public func forceFlush() -> NbmapCoreNavigation.ExportResult
@@ -4890,10 +4892,10 @@ public struct ProxyMeter : NbmapCoreNavigation.Meter {
   public func createDoubleMeasure(name: Swift.String, absolute: Swift.Bool) -> NbmapCoreNavigation.AnyMeasureMetric<Swift.Double>
   public func createIntHistogram(name: Swift.String, explicitBoundaries: Swift.Array<Swift.Int>? = nil, absolute: Swift.Bool) -> NbmapCoreNavigation.AnyHistogramMetric<Swift.Int>
   public func createDoubleHistogram(name: Swift.String, explicitBoundaries: Swift.Array<Swift.Double>?, absolute: Swift.Bool) -> NbmapCoreNavigation.AnyHistogramMetric<Swift.Double>
-  public func createIntObservableGauge(name: Swift.String, callback: @escaping (NbmapCoreNavigation.IntObserverMetric) -> Swift.Void) -> NbmapCoreNavigation.IntObserverMetric
-  public func createDoubleObservableGauge(name: Swift.String, callback: @escaping (NbmapCoreNavigation.DoubleObserverMetric) -> Swift.Void) -> NbmapCoreNavigation.DoubleObserverMetric
-  public func createIntObserver(name: Swift.String, absolute: Swift.Bool, callback: @escaping (NbmapCoreNavigation.IntObserverMetric) -> Swift.Void) -> NbmapCoreNavigation.IntObserverMetric
-  public func createDoubleObserver(name: Swift.String, absolute: Swift.Bool, callback: @escaping (NbmapCoreNavigation.DoubleObserverMetric) -> Swift.Void) -> NbmapCoreNavigation.DoubleObserverMetric
+  public func createIntObservableGauge(name: Swift.String, callback: @escaping (any NbmapCoreNavigation.IntObserverMetric) -> Swift.Void) -> any NbmapCoreNavigation.IntObserverMetric
+  public func createDoubleObservableGauge(name: Swift.String, callback: @escaping (any NbmapCoreNavigation.DoubleObserverMetric) -> Swift.Void) -> any NbmapCoreNavigation.DoubleObserverMetric
+  public func createIntObserver(name: Swift.String, absolute: Swift.Bool, callback: @escaping (any NbmapCoreNavigation.IntObserverMetric) -> Swift.Void) -> any NbmapCoreNavigation.IntObserverMetric
+  public func createDoubleObserver(name: Swift.String, absolute: Swift.Bool, callback: @escaping (any NbmapCoreNavigation.DoubleObserverMetric) -> Swift.Void) -> any NbmapCoreNavigation.DoubleObserverMetric
 }
 public struct EntryKey : Swift.Equatable, Swift.Comparable, Swift.Hashable {
   public var name: Swift.String {
@@ -4924,7 +4926,7 @@ public class OperatingSystemDataSource : NbmapCoreNavigation.IOperatingSystemDat
   @objc deinit
 }
 public protocol MeterProvider : AnyObject {
-  func get(instrumentationName: Swift.String, instrumentationVersion: Swift.String?) -> NbmapCoreNavigation.Meter
+  func get(instrumentationName: Swift.String, instrumentationVersion: Swift.String?) -> any NbmapCoreNavigation.Meter
 }
 public protocol RawHistogramMetric {
   associatedtype T
@@ -4948,9 +4950,9 @@ public struct NoopRawHistogramMetric<T> : NbmapCoreNavigation.RawHistogramMetric
   public func bind(labels: [Swift.String : Swift.String]) -> NbmapCoreNavigation.BoundRawHistogramMetric<T>
 }
 @_hasMissingDesignatedInitializers public class DefaultLoggerProvider : NbmapCoreNavigation.LoggerProvider {
-  public static let instance: NbmapCoreNavigation.LoggerProvider
-  public func get(instrumentationScopeName: Swift.String) -> NbmapCoreNavigation.Logger
-  public func loggerBuilder(instrumentationScopeName: Swift.String) -> NbmapCoreNavigation.LoggerBuilder
+  public static let instance: any NbmapCoreNavigation.LoggerProvider
+  public func get(instrumentationScopeName: Swift.String) -> any NbmapCoreNavigation.Logger
+  public func loggerBuilder(instrumentationScopeName: Swift.String) -> any NbmapCoreNavigation.LoggerBuilder
   @objc deinit
 }
 @objc open class SimulatedLocationManager : NbmapCoreNavigation.NavigationLocationManager {
@@ -5158,7 +5160,7 @@ public struct ProtobufBytes : NbmapCoreNavigation.FieldType, NbmapCoreNavigation
 }
 public protocol SpanBuilder : AnyObject {
   @discardableResult
-  func setParent(_ parent: NbmapCoreNavigation.Span) -> Self
+  func setParent(_ parent: any NbmapCoreNavigation.Span) -> Self
   @discardableResult
   func setParent(_ parent: NbmapCoreNavigation.SpanContext) -> Self
   @discardableResult
@@ -5183,7 +5185,7 @@ public protocol SpanBuilder : AnyObject {
   func setStartTime(time: Foundation.Date) -> Self
   @discardableResult
   func setActive(_ active: Swift.Bool) -> Self
-  func startSpan() -> NbmapCoreNavigation.Span
+  func startSpan() -> any NbmapCoreNavigation.Span
 }
 extension NbmapCoreNavigation.SpanBuilder {
   @discardableResult
@@ -5245,11 +5247,11 @@ open class BoundMeasureMetric<T> {
   @objc deinit
 }
 public struct DefaultContextPropagators : NbmapCoreNavigation.ContextPropagators {
-  public var textMapPropagator: NbmapCoreNavigation.TextMapPropagator
-  public var textMapBaggagePropagator: NbmapCoreNavigation.TextMapBaggagePropagator
+  public var textMapPropagator: any NbmapCoreNavigation.TextMapPropagator
+  public var textMapBaggagePropagator: any NbmapCoreNavigation.TextMapBaggagePropagator
   public init()
-  public init(textPropagators: [NbmapCoreNavigation.TextMapPropagator], baggagePropagator: NbmapCoreNavigation.TextMapBaggagePropagator)
-  public mutating func addTextMapPropagator(textFormat: NbmapCoreNavigation.TextMapPropagator)
+  public init(textPropagators: [any NbmapCoreNavigation.TextMapPropagator], baggagePropagator: any NbmapCoreNavigation.TextMapBaggagePropagator)
+  public mutating func addTextMapPropagator(textFormat: any NbmapCoreNavigation.TextMapPropagator)
 }
 public protocol Meter {
   func createIntCounter(name: Swift.String, monotonic: Swift.Bool) -> NbmapCoreNavigation.AnyCounterMetric<Swift.Int>
@@ -5262,10 +5264,10 @@ public protocol Meter {
   func createRawIntHistogram(name: Swift.String) -> NbmapCoreNavigation.AnyRawHistogramMetric<Swift.Int>
   func createRawDoubleCounter(name: Swift.String) -> NbmapCoreNavigation.AnyRawCounterMetric<Swift.Double>
   func createRawIntCounter(name: Swift.String) -> NbmapCoreNavigation.AnyRawCounterMetric<Swift.Int>
-  func createIntObserver(name: Swift.String, absolute: Swift.Bool, callback: @escaping (NbmapCoreNavigation.IntObserverMetric) -> Swift.Void) -> NbmapCoreNavigation.IntObserverMetric
-  func createDoubleObserver(name: Swift.String, absolute: Swift.Bool, callback: @escaping (NbmapCoreNavigation.DoubleObserverMetric) -> Swift.Void) -> NbmapCoreNavigation.DoubleObserverMetric
-  func createIntObservableGauge(name: Swift.String, callback: @escaping (NbmapCoreNavigation.IntObserverMetric) -> Swift.Void) -> NbmapCoreNavigation.IntObserverMetric
-  func createDoubleObservableGauge(name: Swift.String, callback: @escaping (NbmapCoreNavigation.DoubleObserverMetric) -> Swift.Void) -> NbmapCoreNavigation.DoubleObserverMetric
+  func createIntObserver(name: Swift.String, absolute: Swift.Bool, callback: @escaping (any NbmapCoreNavigation.IntObserverMetric) -> Swift.Void) -> any NbmapCoreNavigation.IntObserverMetric
+  func createDoubleObserver(name: Swift.String, absolute: Swift.Bool, callback: @escaping (any NbmapCoreNavigation.DoubleObserverMetric) -> Swift.Void) -> any NbmapCoreNavigation.DoubleObserverMetric
+  func createIntObservableGauge(name: Swift.String, callback: @escaping (any NbmapCoreNavigation.IntObserverMetric) -> Swift.Void) -> any NbmapCoreNavigation.IntObserverMetric
+  func createDoubleObservableGauge(name: Swift.String, callback: @escaping (any NbmapCoreNavigation.DoubleObserverMetric) -> Swift.Void) -> any NbmapCoreNavigation.DoubleObserverMetric
   func getLabelSet(labels: [Swift.String : Swift.String]) -> NbmapCoreNavigation.LabelSet
 }
 extension NbmapCoreNavigation.Meter {
@@ -5273,15 +5275,15 @@ extension NbmapCoreNavigation.Meter {
   public func createDoubleCounter(name: Swift.String) -> NbmapCoreNavigation.AnyCounterMetric<Swift.Double>
   public func createIntMeasure(name: Swift.String) -> NbmapCoreNavigation.AnyMeasureMetric<Swift.Int>
   public func createDoubleMeasure(name: Swift.String) -> NbmapCoreNavigation.AnyMeasureMetric<Swift.Double>
-  public func createIntObserver(name: Swift.String, callback: @escaping (NbmapCoreNavigation.IntObserverMetric) -> Swift.Void) -> NbmapCoreNavigation.IntObserverMetric
-  public func createDoubleObserver(name: Swift.String, callback: @escaping (NbmapCoreNavigation.DoubleObserverMetric) -> Swift.Void) -> NbmapCoreNavigation.DoubleObserverMetric
+  public func createIntObserver(name: Swift.String, callback: @escaping (any NbmapCoreNavigation.IntObserverMetric) -> Swift.Void) -> any NbmapCoreNavigation.IntObserverMetric
+  public func createDoubleObserver(name: Swift.String, callback: @escaping (any NbmapCoreNavigation.DoubleObserverMetric) -> Swift.Void) -> any NbmapCoreNavigation.DoubleObserverMetric
 }
 @objc(NBTunnelIntersectionManagerDelegate) public protocol TunnelIntersectionManagerDelegate {
   @objc(tunnelIntersectionManager:willEnableAnimationAtLocation:) optional func tunnelIntersectionManager(_ manager: NbmapCoreNavigation.TunnelIntersectionManager, willEnableAnimationAt location: CoreLocation.CLLocation)
   @objc(tunnelIntersectionManager:willDisableAnimationAtLocation:) optional func tunnelIntersectionManager(_ manager: NbmapCoreNavigation.TunnelIntersectionManager, willDisableAnimationAt location: CoreLocation.CLLocation)
 }
 @_inheritsConvenienceInitializers @objc(NBTunnelIntersectionManager) open class TunnelIntersectionManager : ObjectiveC.NSObject {
-  @objc weak public var delegate: NbmapCoreNavigation.TunnelIntersectionManagerDelegate?
+  @objc weak public var delegate: (any NbmapCoreNavigation.TunnelIntersectionManagerDelegate)?
   @objc public var animatedLocationManager: NbmapCoreNavigation.SimulatedLocationManager?
   @objc public var tunnelExitLocations: [CoreLocation.CLLocation]
   @objc public var tunnelSimulationEnabled: Swift.Bool
@@ -5338,11 +5340,11 @@ public struct SpanId : Swift.Equatable, Swift.Comparable, Swift.Hashable, Swift.
   public static func < (lhs: NbmapCoreNavigation.SpanId, rhs: NbmapCoreNavigation.SpanId) -> Swift.Bool
   public static func == (lhs: NbmapCoreNavigation.SpanId, rhs: NbmapCoreNavigation.SpanId) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
-  public func encode(to encoder: Swift.Encoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
   public var hashValue: Swift.Int {
     get
   }
-  public init(from decoder: Swift.Decoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 open class ConfigurationApiConstants {
   public init()
@@ -5391,11 +5393,11 @@ public struct SpanContext : Swift.Equatable, Swift.CustomStringConvertible, Swif
     get
   }
   public func hash(into hasher: inout Swift.Hasher)
-  public func encode(to encoder: Swift.Encoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
   public var hashValue: Swift.Int {
     get
   }
-  public init(from decoder: Swift.Decoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 @objc(NBRouteProgress) open class RouteProgress : ObjectiveC.NSObject {
   @objc final public let route: NbmapDirections.Route
@@ -5550,9 +5552,9 @@ public struct SpanContext : Swift.Equatable, Swift.CustomStringConvertible, Swif
   @objc deinit
 }
 public class LoggerProviderSdk : NbmapCoreNavigation.LoggerProvider {
-  public init(clock: NbmapCoreNavigation.Clock = MillisClock(), resource: NbmapCoreNavigation.Resource = EnvVarResource.get(), logLimits: NbmapCoreNavigation.LogLimits = LogLimits(), logRecordProcessors: [NbmapCoreNavigation.LogRecordProcessor] = [])
-  public func get(instrumentationScopeName: Swift.String) -> NbmapCoreNavigation.Logger
-  public func loggerBuilder(instrumentationScopeName: Swift.String) -> NbmapCoreNavigation.LoggerBuilder
+  public init(clock: any NbmapCoreNavigation.Clock = MillisClock(), resource: NbmapCoreNavigation.Resource = EnvVarResource.get(), logLimits: NbmapCoreNavigation.LogLimits = LogLimits(), logRecordProcessors: [any NbmapCoreNavigation.LogRecordProcessor] = [])
+  public func get(instrumentationScopeName: Swift.String) -> any NbmapCoreNavigation.Logger
+  public func loggerBuilder(instrumentationScopeName: Swift.String) -> any NbmapCoreNavigation.LoggerBuilder
   @objc deinit
 }
 public struct RoutePoints {
@@ -5640,7 +5642,7 @@ extension NbmapCoreNavigation.RingBuffer : Swift.Sequence {
 }
 final public class DefaultBaggage : NbmapCoreNavigation.Baggage, Swift.Equatable {
   public init(entries: [NbmapCoreNavigation.EntryKey : NbmapCoreNavigation.Entry?])
-  public static func baggageBuilder() -> NbmapCoreNavigation.BaggageBuilder
+  public static func baggageBuilder() -> any NbmapCoreNavigation.BaggageBuilder
   final public func getEntries() -> [NbmapCoreNavigation.Entry]
   final public func getEntryValue(key: NbmapCoreNavigation.EntryKey) -> NbmapCoreNavigation.EntryValue?
   public static func == (lhs: NbmapCoreNavigation.DefaultBaggage, rhs: NbmapCoreNavigation.DefaultBaggage) -> Swift.Bool
@@ -5656,9 +5658,9 @@ extension NbmapCoreNavigation.Message {
   public static func jsonString<C>(from collection: C, options: NbmapCoreNavigation.JSONEncodingOptions = JSONEncodingOptions()) throws -> Swift.String where Self == C.Element, C : Swift.Collection
   public static func jsonUTF8Data<C>(from collection: C, options: NbmapCoreNavigation.JSONEncodingOptions = JSONEncodingOptions()) throws -> Foundation.Data where Self == C.Element, C : Swift.Collection
   public static func array(fromJSONString jsonString: Swift.String, options: NbmapCoreNavigation.JSONDecodingOptions = JSONDecodingOptions()) throws -> [Self]
-  public static func array(fromJSONString jsonString: Swift.String, extensions: NbmapCoreNavigation.ExtensionMap = SimpleExtensionMap(), options: NbmapCoreNavigation.JSONDecodingOptions = JSONDecodingOptions()) throws -> [Self]
+  public static func array(fromJSONString jsonString: Swift.String, extensions: any NbmapCoreNavigation.ExtensionMap = SimpleExtensionMap(), options: NbmapCoreNavigation.JSONDecodingOptions = JSONDecodingOptions()) throws -> [Self]
   public static func array(fromJSONUTF8Data jsonUTF8Data: Foundation.Data, options: NbmapCoreNavigation.JSONDecodingOptions = JSONDecodingOptions()) throws -> [Self]
-  public static func array(fromJSONUTF8Data jsonUTF8Data: Foundation.Data, extensions: NbmapCoreNavigation.ExtensionMap = SimpleExtensionMap(), options: NbmapCoreNavigation.JSONDecodingOptions = JSONDecodingOptions()) throws -> [Self]
+  public static func array(fromJSONUTF8Data jsonUTF8Data: Foundation.Data, extensions: any NbmapCoreNavigation.ExtensionMap = SimpleExtensionMap(), options: NbmapCoreNavigation.JSONDecodingOptions = JSONDecodingOptions()) throws -> [Self]
 }
 public struct JSONDecodingOptions {
   public var messageDepthLimit: Swift.Int
@@ -5881,14 +5883,14 @@ public protocol StationaryDetectionDelegate : AnyObject {
   func onSensorUpdate(angularSpeed: Swift.Double?, acceleration: Swift.Double?, speed: Swift.Double?)
 }
 public protocol StationaryDetection {
-  var delegate: NbmapCoreNavigation.StationaryDetectionDelegate? { get set }
+  var delegate: (any NbmapCoreNavigation.StationaryDetectionDelegate)? { get set }
   func attach()
   func dettach()
   func isSensorEnabled() -> Swift.Bool
   func updateLocation(_ location: CoreLocation.CLLocation)
 }
 @_hasMissingDesignatedInitializers public class StationaryDetectionImpl : NbmapCoreNavigation.StationaryDetection {
-  weak public var delegate: NbmapCoreNavigation.StationaryDetectionDelegate?
+  weak public var delegate: (any NbmapCoreNavigation.StationaryDetectionDelegate)?
   public init()
   public func updateLocation(_ location: CoreLocation.CLLocation)
   public func isSensorEnabled() -> Swift.Bool
@@ -5930,7 +5932,7 @@ public protocol Span : AnyObject, Swift.CustomStringConvertible {
 }
 extension NbmapCoreNavigation.Span {
   public func hash(into hasher: inout Swift.Hasher)
-  public static func == (lhs: NbmapCoreNavigation.Span, rhs: NbmapCoreNavigation.Span) -> Swift.Bool
+  public static func == (lhs: any NbmapCoreNavigation.Span, rhs: any NbmapCoreNavigation.Span) -> Swift.Bool
 }
 extension NbmapCoreNavigation.Span {
   public func setAttribute(key: Swift.String, value: Swift.String)
@@ -5966,7 +5968,7 @@ public struct EnvVarResource {
   @objc deinit
 }
 public class MonotonicClock : NbmapCoreNavigation.Clock {
-  public init(clock: NbmapCoreNavigation.Clock)
+  public init(clock: any NbmapCoreNavigation.Clock)
   public var now: Foundation.Date {
     get
   }
@@ -6309,11 +6311,11 @@ public struct InstrumentationScopeInfo : Swift.Hashable, Swift.Codable {
   public init(name: Swift.String, version: Swift.String? = nil, schemaUrl: Swift.String? = nil)
   public func hash(into hasher: inout Swift.Hasher)
   public static func == (a: NbmapCoreNavigation.InstrumentationScopeInfo, b: NbmapCoreNavigation.InstrumentationScopeInfo) -> Swift.Bool
-  public func encode(to encoder: Swift.Encoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
   public var hashValue: Swift.Int {
     get
   }
-  public init(from decoder: Swift.Decoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 extension NbmapCoreNavigation.Google_Protobuf_Struct : Swift.ExpressibleByDictionaryLiteral {
   public typealias Key = Swift.String
@@ -6427,8 +6429,8 @@ public struct SpanData : Swift.Equatable, Swift.Codable {
   public mutating func settingTotalRecordedLinks(_ totalRecordedLinks: Swift.Int) -> NbmapCoreNavigation.SpanData
   @discardableResult
   public mutating func settingTotalAttributeCount(_ totalAttributeCount: Swift.Int) -> NbmapCoreNavigation.SpanData
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 extension NbmapCoreNavigation.SpanData {
   public struct Event : Swift.Equatable, Swift.Codable {
@@ -6444,8 +6446,8 @@ extension NbmapCoreNavigation.SpanData {
     public init(name: Swift.String, timestamp: Foundation.Date, attributes: [Swift.String : NbmapCoreNavigation.AttributeValue]? = nil)
     public init(timestamp: Foundation.Date, event: NbmapCoreNavigation.SpanData.Event)
     public static func == (a: NbmapCoreNavigation.SpanData.Event, b: NbmapCoreNavigation.SpanData.Event) -> Swift.Bool
-    public func encode(to encoder: Swift.Encoder) throws
-    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
   }
 }
 extension NbmapCoreNavigation.SpanData {
@@ -6453,8 +6455,8 @@ extension NbmapCoreNavigation.SpanData {
     public let context: NbmapCoreNavigation.SpanContext
     public let attributes: [Swift.String : NbmapCoreNavigation.AttributeValue]
     public init(context: NbmapCoreNavigation.SpanContext, attributes: [Swift.String : NbmapCoreNavigation.AttributeValue] = [String: AttributeValue]())
-    public func encode(to encoder: Swift.Encoder) throws
-    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
   }
 }
 public func == (lhs: NbmapCoreNavigation.SpanData.Link, rhs: NbmapCoreNavigation.SpanData.Link) -> Swift.Bool
@@ -6465,8 +6467,8 @@ public class DefaultResources {
   @objc deinit
 }
 public protocol ContextPropagators {
-  var textMapPropagator: NbmapCoreNavigation.TextMapPropagator { get }
-  var textMapBaggagePropagator: NbmapCoreNavigation.TextMapBaggagePropagator { get }
+  var textMapPropagator: any NbmapCoreNavigation.TextMapPropagator { get }
+  var textMapBaggagePropagator: any NbmapCoreNavigation.TextMapBaggagePropagator { get }
 }
 public enum OpenTelemetryContextKeys : Swift.String {
   case span
@@ -6478,16 +6480,16 @@ public enum OpenTelemetryContextKeys : Swift.String {
   }
 }
 public struct OpenTelemetryContextProvider {
-  public var activeSpan: NbmapCoreNavigation.Span? {
+  public var activeSpan: (any NbmapCoreNavigation.Span)? {
     get
   }
-  public var activeBaggage: NbmapCoreNavigation.Baggage? {
+  public var activeBaggage: (any NbmapCoreNavigation.Baggage)? {
     get
   }
-  public func setActiveSpan(_ span: NbmapCoreNavigation.Span)
-  public func setActiveBaggage(_ baggage: NbmapCoreNavigation.Baggage)
-  public func removeContextForSpan(_ span: NbmapCoreNavigation.Span)
-  public func removeContextForBaggage(_ baggage: NbmapCoreNavigation.Baggage)
+  public func setActiveSpan(_ span: any NbmapCoreNavigation.Span)
+  public func setActiveBaggage(_ baggage: any NbmapCoreNavigation.Baggage)
+  public func removeContextForSpan(_ span: any NbmapCoreNavigation.Span)
+  public func removeContextForBaggage(_ baggage: any NbmapCoreNavigation.Baggage)
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers open class ConfigurationValue : ObjectiveC.NSObject, Foundation.NSSecureCoding {
   @objc public static var supportsSecureCoding: Swift.Bool
@@ -6607,29 +6609,29 @@ public enum SimulationState : Swift.Int {
   }
 }
 public struct MultiSpanProcessor : NbmapCoreNavigation.SpanProcessor {
-  public init(spanProcessors: [NbmapCoreNavigation.SpanProcessor])
+  public init(spanProcessors: [any NbmapCoreNavigation.SpanProcessor])
   public var isStartRequired: Swift.Bool {
     get
   }
   public var isEndRequired: Swift.Bool {
     get
   }
-  public func onStart(parentContext: NbmapCoreNavigation.SpanContext?, span: NbmapCoreNavigation.ReadableSpan)
-  public func onEnd(span: NbmapCoreNavigation.ReadableSpan)
+  public func onStart(parentContext: NbmapCoreNavigation.SpanContext?, span: any NbmapCoreNavigation.ReadableSpan)
+  public func onEnd(span: any NbmapCoreNavigation.ReadableSpan)
   public func shutdown()
   public func forceFlush(timeout: Foundation.TimeInterval? = nil)
 }
 public protocol Baggage : AnyObject {
-  static func baggageBuilder() -> NbmapCoreNavigation.BaggageBuilder
+  static func baggageBuilder() -> any NbmapCoreNavigation.BaggageBuilder
   func getEntries() -> [NbmapCoreNavigation.Entry]
   func getEntryValue(key: NbmapCoreNavigation.EntryKey) -> NbmapCoreNavigation.EntryValue?
 }
-public func == (lhs: NbmapCoreNavigation.Baggage, rhs: NbmapCoreNavigation.Baggage) -> Swift.Bool
+public func == (lhs: any NbmapCoreNavigation.Baggage, rhs: any NbmapCoreNavigation.Baggage) -> Swift.Bool
 public protocol SpeedCalibrator {
   func updateSpeed(with location: CoreLocation.CLLocation, routeProgress: NbmapCoreNavigation.RouteProgress, userStatus: NbmapCoreNavigation.OffRouteStatus)
   func reset(routeProgress: NbmapCoreNavigation.RouteProgress)
   func postSpeed(speed: CoreLocation.CLLocationSpeed?)
-  var delegate: NbmapCoreNavigation.SpeedCalibratorDelegate? { get set }
+  var delegate: (any NbmapCoreNavigation.SpeedCalibratorDelegate)? { get set }
   func cancel()
 }
 public protocol SpeedCalibratorDelegate : AnyObject {
@@ -6640,7 +6642,7 @@ public protocol SpeedCalibratorDelegate : AnyObject {
 public class DefaultBaggageBuilder : NbmapCoreNavigation.BaggageBuilder {
   public init()
   @discardableResult
-  public func setParent(_ parent: NbmapCoreNavigation.Baggage?) -> Self
+  public func setParent(_ parent: (any NbmapCoreNavigation.Baggage)?) -> Self
   @discardableResult
   public func setNoParent() -> Self
   @discardableResult
@@ -6649,21 +6651,21 @@ public class DefaultBaggageBuilder : NbmapCoreNavigation.BaggageBuilder {
   public func put(key: Swift.String, value: Swift.String, metadata: Swift.String? = nil) -> Self
   @discardableResult
   public func remove(key: NbmapCoreNavigation.EntryKey) -> Self
-  public func build() -> NbmapCoreNavigation.Baggage
+  public func build() -> any NbmapCoreNavigation.Baggage
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class TelemetryResourceProvider : NbmapCoreNavigation.ResourceProvider {
-  public init(source: NbmapCoreNavigation.ITelemetryDataSource)
+  public init(source: any NbmapCoreNavigation.ITelemetryDataSource)
   override public var attributes: [Swift.String : NbmapCoreNavigation.AttributeValue] {
     get
   }
   @objc deinit
 }
 public enum Samplers {
-  public static var alwaysOn: NbmapCoreNavigation.Sampler
-  public static var alwaysOff: NbmapCoreNavigation.Sampler
-  public static func traceIdRatio(ratio: Swift.Double) -> NbmapCoreNavigation.Sampler
-  public static func parentBased(root: NbmapCoreNavigation.Sampler, remoteParentSampled: NbmapCoreNavigation.Sampler? = nil, remoteParentNotSampled: NbmapCoreNavigation.Sampler? = nil, localParentSampled: NbmapCoreNavigation.Sampler? = nil, localParentNotSampled: NbmapCoreNavigation.Sampler? = nil) -> NbmapCoreNavigation.Sampler
+  public static var alwaysOn: any NbmapCoreNavigation.Sampler
+  public static var alwaysOff: any NbmapCoreNavigation.Sampler
+  public static func traceIdRatio(ratio: Swift.Double) -> any NbmapCoreNavigation.Sampler
+  public static func parentBased(root: any NbmapCoreNavigation.Sampler, remoteParentSampled: (any NbmapCoreNavigation.Sampler)? = nil, remoteParentNotSampled: (any NbmapCoreNavigation.Sampler)? = nil, localParentSampled: (any NbmapCoreNavigation.Sampler)? = nil, localParentNotSampled: (any NbmapCoreNavigation.Sampler)? = nil) -> any NbmapCoreNavigation.Sampler
 }
 public struct StringUtils {
   public static func isPrintableString(_ string: Swift.String) -> Swift.Bool
@@ -6694,20 +6696,20 @@ public struct NoopMeasureMetric<T> : NbmapCoreNavigation.MeasureMetric {
 public protocol AnyMessageExtension {
   var fieldNumber: Swift.Int { get }
   var fieldName: Swift.String { get }
-  var messageType: NbmapCoreNavigation.Message.Type { get }
-  func _protobuf_newField<D>(decoder: inout D) throws -> NbmapCoreNavigation.AnyExtensionField? where D : NbmapCoreNavigation.NDecoder
+  var messageType: any NbmapCoreNavigation.Message.Type { get }
+  func _protobuf_newField<D>(decoder: inout D) throws -> (any NbmapCoreNavigation.AnyExtensionField)? where D : NbmapCoreNavigation.NDecoder
 }
 public class MessageExtension<FieldType, MessageType> : NbmapCoreNavigation.AnyMessageExtension where FieldType : NbmapCoreNavigation.ExtensionField, MessageType : NbmapCoreNavigation.Message {
   final public let fieldNumber: Swift.Int
   final public let fieldName: Swift.String
-  final public let messageType: NbmapCoreNavigation.Message.Type
+  final public let messageType: any NbmapCoreNavigation.Message.Type
   public init(_protobuf_fieldNumber: Swift.Int, fieldName: Swift.String)
-  public func _protobuf_newField<D>(decoder: inout D) throws -> NbmapCoreNavigation.AnyExtensionField? where D : NbmapCoreNavigation.NDecoder
+  public func _protobuf_newField<D>(decoder: inout D) throws -> (any NbmapCoreNavigation.AnyExtensionField)? where D : NbmapCoreNavigation.NDecoder
   @objc deinit
 }
 public protocol RerouteDelegate : ObjectiveC.NSObjectProtocol {
   func willRerouteFrom(location: CoreLocation.CLLocation)
-  func failToReRouteWith(error: Swift.Error)
+  func failToReRouteWith(error: any Swift.Error)
   func didToReRouteWith(location: CoreLocation.CLLocation, routes: [NbmapDirections.Route])
 }
 public struct TraceState : Swift.Equatable, Swift.Codable {
@@ -6728,12 +6730,12 @@ public struct TraceState : Swift.Equatable, Swift.Codable {
     }
     public init?(key: Swift.String, value: Swift.String)
     public static func == (a: NbmapCoreNavigation.TraceState.Entry, b: NbmapCoreNavigation.TraceState.Entry) -> Swift.Bool
-    public func encode(to encoder: Swift.Encoder) throws
-    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
   }
   public static func == (a: NbmapCoreNavigation.TraceState, b: NbmapCoreNavigation.TraceState) -> Swift.Bool
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 @_hasMissingDesignatedInitializers open class LabelSet : Swift.Hashable {
   public var labels: [Swift.String : Swift.String] {
@@ -6770,7 +6772,7 @@ public protocol Message : Swift.CustomDebugStringConvertible {
   mutating func decodeMessage<D>(decoder: inout D) throws where D : NbmapCoreNavigation.NDecoder
   func traverse<V>(visitor: inout V) throws where V : NbmapCoreNavigation.Visitor
   func hash(into hasher: inout Swift.Hasher)
-  func isEqualTo(message: NbmapCoreNavigation.Message) -> Swift.Bool
+  func isEqualTo(message: any NbmapCoreNavigation.Message) -> Swift.Bool
 }
 extension NbmapCoreNavigation.Message {
   public var isInitialized: Swift.Bool {
@@ -6786,7 +6788,7 @@ public protocol _MessageImplementationBase : NbmapCoreNavigation.Message, Swift.
   func _protobuf_generated_isEqualTo(other: Self) -> Swift.Bool
 }
 extension NbmapCoreNavigation._MessageImplementationBase {
-  public func isEqualTo(message: NbmapCoreNavigation.Message) -> Swift.Bool
+  public func isEqualTo(message: any NbmapCoreNavigation.Message) -> Swift.Bool
   public static func == (lhs: Self, rhs: Self) -> Swift.Bool
   public func _protobuf_generated_isEqualTo(other: Self) -> Swift.Bool
 }
@@ -6800,50 +6802,50 @@ open class SnapDistanceTracker {
   @objc deinit
 }
 public protocol NavigationServiceDelegate : AnyObject, NbmapCoreNavigation.UnimplementedLogging {
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, willRerouteFrom location: CoreLocation.CLLocation)
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, willTakeAlternativeRoute route: NbmapDirections.Route, at location: CoreLocation.CLLocation?)
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, didTakeAlternativeRouteAt location: CoreLocation.CLLocation?)
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, didFailToTakeAlternativeRouteAt location: CoreLocation.CLLocation?)
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, shouldDiscard location: CoreLocation.CLLocation) -> Swift.Bool
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, didRerouteAlong route: NbmapDirections.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, didFailToRerouteWith error: Swift.Error)
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, didRefresh routeProgress: NbmapCoreNavigation.RouteProgress)
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, didUpdate progress: NbmapCoreNavigation.RouteProgress, with location: CoreLocation.CLLocation, rawLocation: CoreLocation.CLLocation)
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, willArriveAt waypoint: NbmapDirections.Waypoint, after remainingTimeInterval: Foundation.TimeInterval, distance: CoreLocation.CLLocationDistance)
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, didArriveAt waypoint: NbmapDirections.Waypoint)
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, didPassVisualInstructionPoint instruction: NbmapDirections.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, didPassSpokenInstructionPoint instruction: NbmapDirections.SpokenInstruction, routeProgress: NbmapCoreNavigation.RouteProgress)
-  func navigationServiceDidChangeAuthorization(_ service: NbmapCoreNavigation.NavigationService, didChangeAuthorizationFor locationManager: CoreLocation.CLLocationManager)
-  func navigationServiceShouldDisableBatteryMonitoring(_ service: NbmapCoreNavigation.NavigationService) -> Swift.Bool
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, willBeginSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, didBeginSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, willEndSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
-  func navigationService(_ service: NbmapCoreNavigation.NavigationService, didEndSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willRerouteFrom location: CoreLocation.CLLocation)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willTakeAlternativeRoute route: NbmapDirections.Route, at location: CoreLocation.CLLocation?)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didTakeAlternativeRouteAt location: CoreLocation.CLLocation?)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didFailToTakeAlternativeRouteAt location: CoreLocation.CLLocation?)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, shouldDiscard location: CoreLocation.CLLocation) -> Swift.Bool
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didRerouteAlong route: NbmapDirections.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didFailToRerouteWith error: any Swift.Error)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didRefresh routeProgress: NbmapCoreNavigation.RouteProgress)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didUpdate progress: NbmapCoreNavigation.RouteProgress, with location: CoreLocation.CLLocation, rawLocation: CoreLocation.CLLocation)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willArriveAt waypoint: NbmapDirections.Waypoint, after remainingTimeInterval: Foundation.TimeInterval, distance: CoreLocation.CLLocationDistance)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didArriveAt waypoint: NbmapDirections.Waypoint)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didPassVisualInstructionPoint instruction: NbmapDirections.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didPassSpokenInstructionPoint instruction: NbmapDirections.SpokenInstruction, routeProgress: NbmapCoreNavigation.RouteProgress)
+  func navigationServiceDidChangeAuthorization(_ service: any NbmapCoreNavigation.NavigationService, didChangeAuthorizationFor locationManager: CoreLocation.CLLocationManager)
+  func navigationServiceShouldDisableBatteryMonitoring(_ service: any NbmapCoreNavigation.NavigationService) -> Swift.Bool
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willBeginSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didBeginSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willEndSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didEndSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
 }
 extension NbmapCoreNavigation.NavigationServiceDelegate {
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, willRerouteFrom location: CoreLocation.CLLocation)
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, shouldDiscard location: CoreLocation.CLLocation) -> Swift.Bool
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didRerouteAlong route: NbmapDirections.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, willTakeAlternativeRoute route: NbmapDirections.Route, at location: CoreLocation.CLLocation?)
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didTakeAlternativeRouteAt location: CoreLocation.CLLocation?)
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didFailToTakeAlternativeRouteAt location: CoreLocation.CLLocation?)
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didFailToRerouteWith error: Swift.Error)
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didRefresh routeProgress: NbmapCoreNavigation.RouteProgress)
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didUpdate progress: NbmapCoreNavigation.RouteProgress, with location: CoreLocation.CLLocation, rawLocation: CoreLocation.CLLocation)
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didPassVisualInstructionPoint instruction: NbmapDirections.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didPassSpokenInstructionPoint instruction: NbmapDirections.SpokenInstruction, routeProgress: NbmapCoreNavigation.RouteProgress)
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, willArriveAt waypoint: NbmapDirections.Waypoint, after remainingTimeInterval: Foundation.TimeInterval, distance: CoreLocation.CLLocationDistance)
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didArriveAt waypoint: NbmapDirections.Waypoint)
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
-  public func navigationServiceDidChangeAuthorization(_ service: NbmapCoreNavigation.NavigationService, didChangeAuthorizationFor locationManager: CoreLocation.CLLocationManager)
-  public func navigationServiceShouldDisableBatteryMonitoring(_ service: NbmapCoreNavigation.NavigationService) -> Swift.Bool
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, willBeginSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didBeginSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, willEndSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
-  public func navigationService(_ service: NbmapCoreNavigation.NavigationService, didEndSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willRerouteFrom location: CoreLocation.CLLocation)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, shouldDiscard location: CoreLocation.CLLocation) -> Swift.Bool
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didRerouteAlong route: NbmapDirections.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willTakeAlternativeRoute route: NbmapDirections.Route, at location: CoreLocation.CLLocation?)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didTakeAlternativeRouteAt location: CoreLocation.CLLocation?)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didFailToTakeAlternativeRouteAt location: CoreLocation.CLLocation?)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didFailToRerouteWith error: any Swift.Error)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didRefresh routeProgress: NbmapCoreNavigation.RouteProgress)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didUpdate progress: NbmapCoreNavigation.RouteProgress, with location: CoreLocation.CLLocation, rawLocation: CoreLocation.CLLocation)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didPassVisualInstructionPoint instruction: NbmapDirections.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didPassSpokenInstructionPoint instruction: NbmapDirections.SpokenInstruction, routeProgress: NbmapCoreNavigation.RouteProgress)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willArriveAt waypoint: NbmapDirections.Waypoint, after remainingTimeInterval: Foundation.TimeInterval, distance: CoreLocation.CLLocationDistance)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didArriveAt waypoint: NbmapDirections.Waypoint)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  public func navigationServiceDidChangeAuthorization(_ service: any NbmapCoreNavigation.NavigationService, didChangeAuthorizationFor locationManager: CoreLocation.CLLocationManager)
+  public func navigationServiceShouldDisableBatteryMonitoring(_ service: any NbmapCoreNavigation.NavigationService) -> Swift.Bool
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willBeginSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didBeginSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willEndSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didEndSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
 }
 extension Foundation.Locale {
   public static var preferredLocalLanguageCountryCode: Swift.String {
@@ -6877,27 +6879,27 @@ public struct NoopHistogramMetric<T> : NbmapCoreNavigation.HistogramMetric {
   public func bind(labels: [Swift.String : Swift.String]) -> NbmapCoreNavigation.BoundHistogramMetric<T>
 }
 public class TracerProviderSdk : NbmapCoreNavigation.TracerProvider {
-  public init(clock: NbmapCoreNavigation.Clock = MillisClock(), idGenerator: NbmapCoreNavigation.IdGenerator = RandomIdGenerator(), resource: NbmapCoreNavigation.Resource = EnvVarResource.get(), spanLimits: NbmapCoreNavigation.SpanLimits = SpanLimits(), sampler: NbmapCoreNavigation.Sampler = Samplers.parentBased(root: Samplers.alwaysOn), spanProcessors: [NbmapCoreNavigation.SpanProcessor] = [])
+  public init(clock: any NbmapCoreNavigation.Clock = MillisClock(), idGenerator: any NbmapCoreNavigation.IdGenerator = RandomIdGenerator(), resource: NbmapCoreNavigation.Resource = EnvVarResource.get(), spanLimits: NbmapCoreNavigation.SpanLimits = SpanLimits(), sampler: any NbmapCoreNavigation.Sampler = Samplers.parentBased(root: Samplers.alwaysOn), spanProcessors: [any NbmapCoreNavigation.SpanProcessor] = [])
   @objc deinit
-  public func get(instrumentationName: Swift.String, instrumentationVersion: Swift.String? = nil) -> NbmapCoreNavigation.Tracer
-  public func getActiveClock() -> NbmapCoreNavigation.Clock
-  public func updateActiveClock(_ newClock: NbmapCoreNavigation.Clock)
-  public func getActiveIdGenerator() -> NbmapCoreNavigation.IdGenerator
-  public func updateActiveIdGenerator(_ newGenerator: NbmapCoreNavigation.IdGenerator)
+  public func get(instrumentationName: Swift.String, instrumentationVersion: Swift.String? = nil) -> any NbmapCoreNavigation.Tracer
+  public func getActiveClock() -> any NbmapCoreNavigation.Clock
+  public func updateActiveClock(_ newClock: any NbmapCoreNavigation.Clock)
+  public func getActiveIdGenerator() -> any NbmapCoreNavigation.IdGenerator
+  public func updateActiveIdGenerator(_ newGenerator: any NbmapCoreNavigation.IdGenerator)
   public func getActiveResource() -> NbmapCoreNavigation.Resource
   public func updateActiveResource(_ newResource: NbmapCoreNavigation.Resource)
   public func getActiveSpanLimits() -> NbmapCoreNavigation.SpanLimits
   public func updateActiveSpanLimits(_ spanLimits: NbmapCoreNavigation.SpanLimits)
-  public func getActiveSampler() -> NbmapCoreNavigation.Sampler
-  public func updateActiveSampler(_ newSampler: NbmapCoreNavigation.Sampler)
-  public func getActiveSpanProcessors() -> [NbmapCoreNavigation.SpanProcessor]
-  public func addSpanProcessor(_ spanProcessor: NbmapCoreNavigation.SpanProcessor)
+  public func getActiveSampler() -> any NbmapCoreNavigation.Sampler
+  public func updateActiveSampler(_ newSampler: any NbmapCoreNavigation.Sampler)
+  public func getActiveSpanProcessors() -> [any NbmapCoreNavigation.SpanProcessor]
+  public func addSpanProcessor(_ spanProcessor: any NbmapCoreNavigation.SpanProcessor)
   public func resetSpanProcessors()
   public func shutdown()
   public func forceFlush(timeout: Foundation.TimeInterval? = nil)
 }
 public protocol BaggageManager : AnyObject {
-  func baggageBuilder() -> NbmapCoreNavigation.BaggageBuilder
+  func baggageBuilder() -> any NbmapCoreNavigation.BaggageBuilder
 }
 public protocol IApplicationDataSource {
   var name: Swift.String? { get }
@@ -6923,7 +6925,7 @@ public protocol IApplicationDataSource {
   public var hasRemoteParent: Swift.Bool {
     get
   }
-  public var spanProcessor: NbmapCoreNavigation.SpanProcessor {
+  public var spanProcessor: any NbmapCoreNavigation.SpanProcessor {
     get
   }
   public var links: [NbmapCoreNavigation.SpanData.Link] {
@@ -6941,7 +6943,7 @@ public protocol IApplicationDataSource {
   public var kind: NbmapCoreNavigation.SpanKind {
     get
   }
-  public var clock: NbmapCoreNavigation.Clock {
+  public var clock: any NbmapCoreNavigation.Clock {
     get
   }
   public var resource: NbmapCoreNavigation.Resource {
@@ -6975,7 +6977,7 @@ public protocol IApplicationDataSource {
   public var hasEnded: Swift.Bool {
     get
   }
-  public static func startSpan(context: NbmapCoreNavigation.SpanContext, name: Swift.String, instrumentationScopeInfo: NbmapCoreNavigation.InstrumentationScopeInfo, kind: NbmapCoreNavigation.SpanKind, parentContext: NbmapCoreNavigation.SpanContext?, hasRemoteParent: Swift.Bool, spanLimits: NbmapCoreNavigation.SpanLimits, spanProcessor: NbmapCoreNavigation.SpanProcessor, clock: NbmapCoreNavigation.Clock, resource: NbmapCoreNavigation.Resource, attributes: NbmapCoreNavigation.AttributesDictionary, links: [NbmapCoreNavigation.SpanData.Link], totalRecordedLinks: Swift.Int, startTime: Foundation.Date?) -> NbmapCoreNavigation.RecordEventsReadableSpan
+  public static func startSpan(context: NbmapCoreNavigation.SpanContext, name: Swift.String, instrumentationScopeInfo: NbmapCoreNavigation.InstrumentationScopeInfo, kind: NbmapCoreNavigation.SpanKind, parentContext: NbmapCoreNavigation.SpanContext?, hasRemoteParent: Swift.Bool, spanLimits: NbmapCoreNavigation.SpanLimits, spanProcessor: any NbmapCoreNavigation.SpanProcessor, clock: any NbmapCoreNavigation.Clock, resource: NbmapCoreNavigation.Resource, attributes: NbmapCoreNavigation.AttributesDictionary, links: [NbmapCoreNavigation.SpanData.Link], totalRecordedLinks: Swift.Int, startTime: Foundation.Date?) -> NbmapCoreNavigation.RecordEventsReadableSpan
   public func toSpanData() -> NbmapCoreNavigation.SpanData
   public func setAttribute(key: Swift.String, value: NbmapCoreNavigation.AttributeValue?)
   public func addEvent(name: Swift.String)
@@ -6990,7 +6992,7 @@ public protocol IApplicationDataSource {
   @objc deinit
 }
 public protocol TracerProvider {
-  func get(instrumentationName: Swift.String, instrumentationVersion: Swift.String?) -> NbmapCoreNavigation.Tracer
+  func get(instrumentationName: Swift.String, instrumentationVersion: Swift.String?) -> any NbmapCoreNavigation.Tracer
 }
 public protocol NDecoder {
   mutating func handleConflictingOneOf() throws
@@ -7050,16 +7052,16 @@ public protocol NDecoder {
   mutating func decodeMapField<KeyType, ValueType>(fieldType: NbmapCoreNavigation._ProtobufMap<KeyType, ValueType>.Type, value: inout NbmapCoreNavigation._ProtobufMap<KeyType, ValueType>.BaseType) throws where KeyType : NbmapCoreNavigation.MapKeyType, ValueType : NbmapCoreNavigation.MapValueType
   mutating func decodeMapField<KeyType, ValueType>(fieldType: NbmapCoreNavigation._ProtobufEnumMap<KeyType, ValueType>.Type, value: inout NbmapCoreNavigation._ProtobufEnumMap<KeyType, ValueType>.BaseType) throws where KeyType : NbmapCoreNavigation.MapKeyType, ValueType : NbmapCoreNavigation.Enum, ValueType.RawValue == Swift.Int
   mutating func decodeMapField<KeyType, ValueType>(fieldType: NbmapCoreNavigation._ProtobufMessageMap<KeyType, ValueType>.Type, value: inout NbmapCoreNavigation._ProtobufMessageMap<KeyType, ValueType>.BaseType) throws where KeyType : NbmapCoreNavigation.MapKeyType, ValueType : NbmapCoreNavigation.Message, ValueType : Swift.Hashable
-  mutating func decodeExtensionField(values: inout NbmapCoreNavigation.ExtensionFieldValueSet, messageType: NbmapCoreNavigation.Message.Type, fieldNumber: Swift.Int) throws
-  mutating func decodeExtensionFieldsAsMessageSet(values: inout NbmapCoreNavigation.ExtensionFieldValueSet, messageType: NbmapCoreNavigation.Message.Type) throws
+  mutating func decodeExtensionField(values: inout NbmapCoreNavigation.ExtensionFieldValueSet, messageType: any NbmapCoreNavigation.Message.Type, fieldNumber: Swift.Int) throws
+  mutating func decodeExtensionFieldsAsMessageSet(values: inout NbmapCoreNavigation.ExtensionFieldValueSet, messageType: any NbmapCoreNavigation.Message.Type) throws
 }
 extension NbmapCoreNavigation.NDecoder {
-  public mutating func decodeExtensionFieldsAsMessageSet(values: inout NbmapCoreNavigation.ExtensionFieldValueSet, messageType: NbmapCoreNavigation.Message.Type) throws
+  public mutating func decodeExtensionFieldsAsMessageSet(values: inout NbmapCoreNavigation.ExtensionFieldValueSet, messageType: any NbmapCoreNavigation.Message.Type) throws
 }
 @_hasMissingDesignatedInitializers public class DefaultMeterProvider : NbmapCoreNavigation.MeterProvider {
-  public static var instance: NbmapCoreNavigation.MeterProvider
-  public static func setDefault(meterFactory: NbmapCoreNavigation.MeterProvider)
-  public func get(instrumentationName: Swift.String, instrumentationVersion: Swift.String? = nil) -> NbmapCoreNavigation.Meter
+  public static var instance: any NbmapCoreNavigation.MeterProvider
+  public static func setDefault(meterFactory: any NbmapCoreNavigation.MeterProvider)
+  public func get(instrumentationName: Swift.String, instrumentationVersion: Swift.String? = nil) -> any NbmapCoreNavigation.Meter
   @objc deinit
 }
 public protocol SpanExporter : AnyObject {
@@ -7157,9 +7159,9 @@ public enum BinaryDelimited {
       get
     }
   }
-  public static func serialize(message: NbmapCoreNavigation.Message, to stream: Foundation.OutputStream, partial: Swift.Bool = false) throws
-  public static func parse<M>(messageType: M.Type, from stream: Foundation.InputStream, extensions: NbmapCoreNavigation.ExtensionMap? = nil, partial: Swift.Bool = false, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws -> M where M : NbmapCoreNavigation.Message
-  public static func merge<M>(into message: inout M, from stream: Foundation.InputStream, extensions: NbmapCoreNavigation.ExtensionMap? = nil, partial: Swift.Bool = false, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws where M : NbmapCoreNavigation.Message
+  public static func serialize(message: any NbmapCoreNavigation.Message, to stream: Foundation.OutputStream, partial: Swift.Bool = false) throws
+  public static func parse<M>(messageType: M.Type, from stream: Foundation.InputStream, extensions: (any NbmapCoreNavigation.ExtensionMap)? = nil, partial: Swift.Bool = false, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws -> M where M : NbmapCoreNavigation.Message
+  public static func merge<M>(into message: inout M, from stream: Foundation.InputStream, extensions: (any NbmapCoreNavigation.ExtensionMap)? = nil, partial: Swift.Bool = false, options: NbmapCoreNavigation.BinaryDecodingOptions = BinaryDecodingOptions()) throws where M : NbmapCoreNavigation.Message
 }
 public struct _ProtobufMap<KeyType, ValueType> where KeyType : NbmapCoreNavigation.MapKeyType, ValueType : NbmapCoreNavigation.FieldType {
   public typealias Key = KeyType.BaseType
@@ -7177,7 +7179,7 @@ public struct _ProtobufEnumMap<KeyType, ValueType> where KeyType : NbmapCoreNavi
   public typealias BaseType = Swift.Dictionary<NbmapCoreNavigation._ProtobufEnumMap<KeyType, ValueType>.Key, NbmapCoreNavigation._ProtobufEnumMap<KeyType, ValueType>.Value>
 }
 public class MultiSpanExporter : NbmapCoreNavigation.SpanExporter {
-  public init(spanExporters: [NbmapCoreNavigation.SpanExporter])
+  public init(spanExporters: [any NbmapCoreNavigation.SpanExporter])
   public func export(spans: [NbmapCoreNavigation.SpanData]) -> NbmapCoreNavigation.SpanExporterResultCode
   public func flush() -> NbmapCoreNavigation.SpanExporterResultCode
   public func shutdown()
@@ -7208,12 +7210,12 @@ public protocol BinaryFormattable {
   public func setInstrumentationVersion(_ instrumentationVersion: Swift.String) -> Self
   public func setIncludeTraceContext(_ includeTraceContext: Swift.Bool) -> Self
   public func setAttributes(_ attributes: [Swift.String : NbmapCoreNavigation.AttributeValue]) -> Self
-  public func build() -> NbmapCoreNavigation.Logger
+  public func build() -> any NbmapCoreNavigation.Logger
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class DefaultTracerProvider : NbmapCoreNavigation.TracerProvider {
   public static let instance: NbmapCoreNavigation.DefaultTracerProvider
-  public func get(instrumentationName: Swift.String, instrumentationVersion: Swift.String? = nil) -> NbmapCoreNavigation.Tracer
+  public func get(instrumentationName: Swift.String, instrumentationVersion: Swift.String? = nil) -> any NbmapCoreNavigation.Tracer
   @objc deinit
 }
 extension NbmapCoreNavigation.TextFormatDecodingError : Swift.Equatable {}
