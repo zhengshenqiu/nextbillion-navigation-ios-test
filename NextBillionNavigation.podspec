@@ -9,7 +9,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "NextBillionNavigation"
-  spec.version      = "1.4.1"
+  spec.version      = "1.4.2"
   spec.summary      = "The nextbillion.ai iOS  navigation cocoapods repo"
 
   spec.description  = <<-DESC
@@ -27,7 +27,7 @@ Pod::Spec.new do |spec|
   spec.vendored_frameworks = '*.xcframework'
   spec.platform     = :ios, '12.0'
   spec.swift_versions = ['5.0']
-  spec.dependency 'NextBillionMap', '~> 1.1.1'
+  spec.dependency 'NextBillionMap', '~> 1.1.2'
   spec.dependency 'NextBillionTurf', '~> 1.0.0'
   spec.dependency 'NextBillionDirection', '~> 1.2.0'
   spec.user_target_xcconfig = { 'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES' }
