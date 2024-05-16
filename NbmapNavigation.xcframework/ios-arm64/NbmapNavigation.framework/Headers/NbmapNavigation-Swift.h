@@ -526,12 +526,12 @@ SWIFT_CLASS("_TtC15NbmapNavigation26BottomBannerViewController")
 @end
 
 
-
 @interface BottomBannerViewController (SWIFT_EXTENSION(NbmapNavigation)) <ArrivedConfirmViewControllerDelegate>
 - (void)arrivedConfirmViewControllerDidOpen:(NBArrivedConfirmViewController * _Nonnull)arrivedConfirmViewController;
 - (void)arrivedConfirmViewControllerDidConfirm:(NBArrivedConfirmViewController * _Nonnull)arrivedConfirmViewController legIndex:(NSInteger)legIndex;
 - (void)arrivedConfirmViewControllerDidCancel:(NBArrivedConfirmViewController * _Nonnull)arrivedConfirmViewController legIndex:(NSInteger)legIndex;
 @end
+
 
 
 @interface BottomBannerViewController (SWIFT_EXTENSION(NbmapNavigation))
@@ -585,7 +585,6 @@ SWIFT_CLASS("_TtC15NbmapNavigation14CarPlayManager") SWIFT_AVAILABILITY(ios,intr
 
 
 
-
 @class CarPlayNavigationViewController;
 
 /// The <code>CarPlayNavigationDelegate</code> protocol provides methods for reacting to significant events during turn-by-turn navigation with <code>CarPlayNavigationViewController</code>.
@@ -610,6 +609,7 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 - (void)carPlayNavigationViewControllerDidDismiss:(CarPlayNavigationViewController * _Nonnull)carPlayNavigationViewController byCanceling:(BOOL)canceled;
 @end
 
+
 @class UIApplication;
 @class CPInterfaceController;
 @class CPWindow;
@@ -629,6 +629,15 @@ SWIFT_AVAILABILITY(ios,introduced=13.0)
 @end
 
 
+
+@class CPListTemplate;
+@class CPListItem;
+
+SWIFT_AVAILABILITY(ios,introduced=12.0)
+@interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPListTemplateDelegate>
+- (void)listTemplate:(CPListTemplate * _Nonnull)listTemplate didSelectListItem:(CPListItem * _Nonnull)item completionHandler:(void (^ _Nonnull)(void))completionHandler;
+@end
+
 @class CPTemplate;
 
 SWIFT_AVAILABILITY(ios,introduced=12.0)
@@ -637,15 +646,6 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 - (void)templateDidAppear:(CPTemplate * _Nonnull)template_ animated:(BOOL)animated;
 - (void)templateWillDisappear:(CPTemplate * _Nonnull)template_ animated:(BOOL)animated;
 - (void)templateDidDisappear:(CPTemplate * _Nonnull)template_ animated:(BOOL)animated;
-@end
-
-
-@class CPListTemplate;
-@class CPListItem;
-
-SWIFT_AVAILABILITY(ios,introduced=12.0)
-@interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPListTemplateDelegate>
-- (void)listTemplate:(CPListTemplate * _Nonnull)listTemplate didSelectListItem:(CPListItem * _Nonnull)item completionHandler:(void (^ _Nonnull)(void))completionHandler;
 @end
 
 @class CPMapTemplate;
@@ -705,6 +705,14 @@ SWIFT_CLASS("_TtC15NbmapNavigation31CarPlayNavigationViewController") SWIFT_AVAI
 /// When this property is true, the map follows the user’s location and rotates when their course changes. Otherwise, the map shows an overview of the route.
 @property (nonatomic) BOOL tracksUserCourse;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
+@end
+
+
+@class CPSessionConfiguration;
+
+SWIFT_AVAILABILITY(ios,introduced=12.0)
+@interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <CPSessionConfigurationDelegate>
+- (void)sessionConfiguration:(CPSessionConfiguration * _Nonnull)sessionConfiguration contentStyleChanged:(CPContentStyle)contentStyle SWIFT_AVAILABILITY(ios,introduced=13.0);
 @end
 
 
@@ -834,14 +842,6 @@ SWIFT_PROTOCOL_NAMED("NavigationMapViewDelegate")
 
 @interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBNavigationMapViewDelegate>
 - (void)mapView:(NGLMapView * _Nonnull)mapView didFinishLoadingStyle:(NGLStyle * _Nonnull)style;
-@end
-
-
-@class CPSessionConfiguration;
-
-SWIFT_AVAILABILITY(ios,introduced=12.0)
-@interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <CPSessionConfigurationDelegate>
-- (void)sessionConfiguration:(CPSessionConfiguration * _Nonnull)sessionConfiguration contentStyleChanged:(CPContentStyle)contentStyle SWIFT_AVAILABILITY(ios,introduced=13.0);
 @end
 
 @class NBStyleManager;
@@ -2093,6 +2093,14 @@ SWIFT_CLASS_NAMED("WayNameView")
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder OBJC_DESIGNATED_INITIALIZER;
 - (void)layoutSubviews;
+@end
+
+
+SWIFT_CLASS("_TtC15NbmapNavigation14WayPointSymbol")
+@interface WayPointSymbol : UIView
+- (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (void)drawRect:(CGRect)rect;
 @end
 
 
