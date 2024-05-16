@@ -1376,6 +1376,13 @@ extension UIKit.UIImage {
   @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidAppear(_ animated: Swift.Bool)
   @objc deinit
 }
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) open class WayPointSymbol : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) public init(frame: CoreFoundation.CGRect, labelText: Swift.String)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func draw(_ rect: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) public func captureScreenshot() -> UIKit.UIImage?
+  @objc deinit
+}
 public enum NavigationCameraState {
   case idle
   case transitionToFollowing
@@ -2147,7 +2154,8 @@ public protocol CarplayOperationsDelegate : AnyObject {
   public func onRouteCancled(fromCarplay carplay: Swift.Bool = false)
   @objc deinit
 }
-@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) open class RouteDurationSymbol : UIKit.UIView {
+@objc @_Concurrency.MainActor(unsafe) open class RouteDurationSymbol : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) public init(duration: Swift.Double, isPrimary: Swift.Bool, durationSymbolType: NbmapNavigation.NavigationMapView.DurationSymbolType)
   @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
   @_Concurrency.MainActor(unsafe) public func screenshotImage() -> UIKit.UIImage?
   @objc deinit
