@@ -43616,6 +43616,92 @@
           },
           {
             "kind": "Var",
+            "name": "defaultFollowingCameraDistence",
+            "printedName": "defaultFollowingCameraDistence",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Double",
+                "printedName": "Swift.Double",
+                "usr": "s:Sd"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:15NbmapNavigation22FollowingCameraOptionsV07defaultcD8DistenceSdvp",
+            "mangledName": "$s15NbmapNavigation22FollowingCameraOptionsV07defaultcD8DistenceSdvp",
+            "moduleName": "NbmapNavigation",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Double",
+                    "printedName": "Swift.Double",
+                    "usr": "s:Sd"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15NbmapNavigation22FollowingCameraOptionsV07defaultcD8DistenceSdvg",
+                "mangledName": "$s15NbmapNavigation22FollowingCameraOptionsV07defaultcD8DistenceSdvg",
+                "moduleName": "NbmapNavigation",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Double",
+                    "printedName": "Swift.Double",
+                    "usr": "s:Sd"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15NbmapNavigation22FollowingCameraOptionsV07defaultcD8DistenceSdvs",
+                "mangledName": "$s15NbmapNavigation22FollowingCameraOptionsV07defaultcD8DistenceSdvs",
+                "moduleName": "NbmapNavigation",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:15NbmapNavigation22FollowingCameraOptionsV07defaultcD8DistenceSdvM",
+                "mangledName": "$s15NbmapNavigation22FollowingCameraOptionsV07defaultcD8DistenceSdvM",
+                "moduleName": "NbmapNavigation",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
             "name": "zoomRange",
             "printedName": "zoomRange",
             "children": [
@@ -92029,259 +92115,280 @@
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 1948,
+      "offset": 1530,
+      "length": 5,
+      "value": "100.0"
+    },
+    {
+      "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
+      "kind": "FloatLiteral",
+      "offset": 1569,
+      "length": 5,
+      "value": "100.0"
+    },
+    {
+      "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
+      "kind": "FloatLiteral",
+      "offset": 1472,
+      "length": 5,
+      "value": "700.0"
+    },
+    {
+      "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
+      "kind": "FloatLiteral",
+      "offset": 2154,
       "length": 3,
       "value": "0.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 1977,
+      "offset": 2183,
       "length": 4,
       "value": "22.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2016,
+      "offset": 2222,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2047,
+      "offset": 2253,
       "length": 2,
       "value": "22"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 2137,
+      "offset": 2343,
       "length": 3,
       "value": "0.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "StringLiteral",
-      "offset": 2176,
+      "offset": 2382,
       "length": 60,
       "value": "\"Lower bound of the zoom range should not be lower than 0.0\""
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 2290,
+      "offset": 2496,
       "length": 4,
       "value": "22.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "StringLiteral",
-      "offset": 2330,
+      "offset": 2536,
       "length": 62,
       "value": "\"Upper bound of the zoom range should not be higher than 22.0\""
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 1840,
+      "offset": 2046,
       "length": 5,
       "value": "14.50"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 1848,
+      "offset": 2054,
       "length": 5,
       "value": "16.95"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 2588,
+      "offset": 2794,
       "length": 3,
       "value": "0.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 2617,
+      "offset": 2823,
       "length": 4,
       "value": "22.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2656,
+      "offset": 2862,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2687,
+      "offset": 2893,
       "length": 2,
       "value": "22"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 2777,
+      "offset": 2983,
       "length": 3,
       "value": "0.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "StringLiteral",
-      "offset": 2816,
+      "offset": 3022,
       "length": 60,
       "value": "\"Lower bound of the zoom range should not be lower than 0.0\""
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 2930,
+      "offset": 3136,
       "length": 4,
       "value": "22.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "StringLiteral",
-      "offset": 2970,
+      "offset": 3176,
       "length": 62,
       "value": "\"Upper bound of the zoom range should not be higher than 22.0\""
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "IntegerLiteral",
-      "offset": 2484,
+      "offset": 2690,
       "length": 2,
       "value": "11"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 2489,
+      "offset": 2695,
       "length": 4,
       "value": "15.5"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 3498,
+      "offset": 3704,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 3882,
+      "offset": 4088,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 4280,
+      "offset": 4486,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 4672,
+      "offset": 4878,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 5070,
+      "offset": 5276,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 5439,
+      "offset": 5645,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 6675,
+      "offset": 6881,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 8107,
+      "offset": 8313,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 8352,
+      "offset": 8558,
       "length": 3,
       "value": "7.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 8723,
+      "offset": 8929,
       "length": 4,
       "value": "20.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 9489,
+      "offset": 9695,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 9989,
+      "offset": 10195,
       "length": 4,
       "value": "45.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 10726,
+      "offset": 10932,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 10978,
+      "offset": 11184,
       "length": 5,
       "value": "150.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 11205,
+      "offset": 11411,
       "length": 5,
       "value": "100.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "BooleanLiteral",
-      "offset": 11992,
+      "offset": 12198,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/FollowingCameraOptions.swift",
       "kind": "FloatLiteral",
-      "offset": 12170,
+      "offset": 12376,
       "length": 5,
       "value": "180.0"
     },
@@ -93310,49 +93417,49 @@
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/NavigationViewportDataSource.swift",
       "kind": "FloatLiteral",
-      "offset": 27509,
+      "offset": 27536,
       "length": 3,
       "value": "0.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/NavigationViewportDataSource.swift",
       "kind": "FloatLiteral",
-      "offset": 27547,
+      "offset": 27574,
       "length": 3,
       "value": "0.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/NavigationViewportDataSource.swift",
       "kind": "FloatLiteral",
-      "offset": 27641,
+      "offset": 27668,
       "length": 4,
       "value": "12.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/NavigationViewportDataSource.swift",
       "kind": "FloatLiteral",
-      "offset": 27684,
+      "offset": 27711,
       "length": 4,
       "value": "22.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/NavigationViewportDataSource.swift",
       "kind": "FloatLiteral",
-      "offset": 27727,
+      "offset": 27754,
       "length": 3,
       "value": "2.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/NavigationViewportDataSource.swift",
       "kind": "FloatLiteral",
-      "offset": 28793,
+      "offset": 28820,
       "length": 6,
       "value": "1000.0"
     },
     {
       "filePath": "\/Users\/qiu\/Desktop\/nb_workspace\/ios\/nb-navigation-ios\/NbmapNavigation\/NavigationViewportDataSource.swift",
       "kind": "FloatLiteral",
-      "offset": 30539,
+      "offset": 30566,
       "length": 3,
       "value": "0.0"
     },

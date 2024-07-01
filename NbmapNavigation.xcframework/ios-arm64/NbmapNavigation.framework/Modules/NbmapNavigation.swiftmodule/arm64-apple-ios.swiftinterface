@@ -1279,6 +1279,10 @@ public struct FollowingCameraOptions : Swift.Equatable {
     get
     set
   }
+  public var defaultFollowingCameraDistence: Swift.Double {
+    get
+    set
+  }
   public var zoomRange: Swift.ClosedRange<Swift.Double> {
     get
     set
