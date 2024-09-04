@@ -1077,6 +1077,7 @@ extension NbmapCoreNavigation.Route {
     get
   }
   public func polylineAroundManeuver(legIndex: Swift.Int, stepIndex: Swift.Int, distance: CoreLocation.CLLocationDistance) -> Turf.LineString
+  public func modifyRoute()
 }
 public enum AnyUnpackError : Swift.Error {
   case typeMismatch
