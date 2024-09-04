@@ -9,9 +9,9 @@ import CoreMotion
 import Darwin
 import Dispatch
 import Foundation
+import MapKit
 import Nbmap
 @_exported import NbmapCoreNavigation
-import NbmapDirections
 import OSLog
 import Swift
 import Turf
@@ -23,6 +23,22 @@ import _SwiftConcurrencyShims
 import os.activity
 import os.log
 import os
+@objc(NBVisualInstructionComponentType) public enum VisualInstructionComponentType : Swift.Int, Swift.CustomStringConvertible {
+  case delimiter
+  case text
+  case image
+  case exit
+  case exitCode
+  public init?(description: Swift.String)
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
 public class B3Propagator : NbmapCoreNavigation.TextMapPropagator {
   final public let fields: Swift.Set<Swift.String>
   public init()
@@ -108,6 +124,28 @@ public protocol Setter {
 public protocol Getter {
   func get(carrier: [Swift.String : Swift.String], key: Swift.String) -> [Swift.String]?
 }
+@objc(NBVisualInstructionBanner) open class VisualInstructionBanner : ObjectiveC.NSObject, Foundation.NSSecureCoding {
+  @objc final public let distanceAlongStep: CoreLocation.CLLocationDistance
+  @objc final public let primaryInstruction: NbmapCoreNavigation.VisualInstruction
+  @objc final public let secondaryInstruction: NbmapCoreNavigation.VisualInstruction?
+  @objc final public let tertiaryInstruction: NbmapCoreNavigation.VisualInstruction?
+  @objc public var drivingSide: NbmapCoreNavigation.DrivingSide
+  @objc(initWithJSON:drivingSide:) convenience public init(json: [Swift.String : Any], drivingSide: NbmapCoreNavigation.DrivingSide)
+  @objc public init(distanceAlongStep: CoreLocation.CLLocationDistance, primaryInstruction: NbmapCoreNavigation.VisualInstruction, secondaryInstruction: NbmapCoreNavigation.VisualInstruction?, tertiaryInstruction: NbmapCoreNavigation.VisualInstruction?, drivingSide: NbmapCoreNavigation.DrivingSide)
+  @objc required public init?(coder decoder: Foundation.NSCoder)
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc public func encode(with coder: Foundation.NSCoder)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc(NBTracepoint) public class Tracepoint : NbmapCoreNavigation.Waypoint {
+  @objc open var alternateCount: Swift.Int
+  @objc required public init?(coder decoder: Foundation.NSCoder)
+  @objc override public func encode(with coder: Foundation.NSCoder)
+  @objc override public class var supportsSecureCoding: Swift.Bool {
+    @objc get
+  }
+  @objc deinit
+}
 public protocol ReadableSpan : NbmapCoreNavigation.Span {
   var name: Swift.String { get set }
   var instrumentationScopeInfo: NbmapCoreNavigation.InstrumentationScopeInfo { get }
@@ -154,6 +192,15 @@ extension NbmapCoreNavigation.Google_Protobuf_FieldMask : NbmapCoreNavigation.Me
 public protocol Tracer : AnyObject {
   func spanBuilder(spanName: Swift.String) -> any NbmapCoreNavigation.SpanBuilder
 }
+@objc(NBLaneIndicationComponent) open class LaneIndicationComponent : ObjectiveC.NSObject, NbmapCoreNavigation.ComponentRepresentable {
+  @objc public var indications: NbmapCoreNavigation.LaneIndication
+  @objc public var isUsable: Swift.Bool
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc public init(indications: NbmapCoreNavigation.LaneIndication, isUsable: Swift.Bool)
+  @objc required public init?(coder decoder: Foundation.NSCoder)
+  @objc public func encode(with coder: Foundation.NSCoder)
+  @objc deinit
+}
 public class JaegerPropagator : NbmapCoreNavigation.TextMapPropagator {
   public var fields: Swift.Set<Swift.String>
   public init()
@@ -197,6 +244,43 @@ public struct BatchSpanProcessor : NbmapCoreNavigation.SpanProcessor {
   public func shutdown()
   public func forceFlush(timeout: Foundation.TimeInterval? = nil)
 }
+@_inheritsConvenienceInitializers @objc(NBRouteOptionss) open class RouteOptions : NbmapCoreNavigation.DirectionsOptions {
+  @objc convenience public init(origin: CoreLocation.CLLocation, destination: CoreLocation.CLLocation, with locations: [CoreLocation.CLLocation]? = nil, mode: NbmapCoreNavigation.NBNavigationMode? = nil)
+  @objc convenience public init(from origin: CoreLocation.CLLocationCoordinate2D, to destination: CoreLocation.CLLocationCoordinate2D, with coordinates: [CoreLocation.CLLocationCoordinate2D]? = nil, mode: NbmapCoreNavigation.NBNavigationMode? = nil)
+  @objc convenience public init(origin: NbmapCoreNavigation.Waypoint, destination: NbmapCoreNavigation.Waypoint, waypoints: [NbmapCoreNavigation.Waypoint]? = nil, mode: NbmapCoreNavigation.NBNavigationMode? = nil)
+  @objc required public init(waypoints: [NbmapCoreNavigation.Waypoint], profile: NbmapCoreNavigation.NBNavigationMode)
+  @objc required public init?(coder decoder: Foundation.NSCoder)
+  @objc override public func encode(with coder: Foundation.NSCoder)
+  open var path: Swift.String {
+    get
+  }
+  open var apiEndpoint: Foundation.URL {
+    get
+  }
+  open var accessToken: Swift.String {
+    get
+  }
+  open var apiKeyHeaderName: Swift.String? {
+    get
+  }
+  @objc open var includesAlternativeRoutes: Swift.Bool
+  @objc open var alternativeCount: Swift.Int
+  @objc open var roadClassesToAvoid: NbmapCoreNavigation.RoadClasses
+  @objc open var mapOption: NbmapCoreNavigation.NBMapOption
+  @objc open var truckSize: [Swift.Int]
+  @objc open var truckWeight: Swift.Int
+  @objc open var routeType: NbmapCoreNavigation.NBNavigationRouteType?
+  @objc open var crossBorder: Swift.Bool
+  open var hazmatTypes: NbmapCoreNavigation.NavigationHazmatTypes
+  @objc open var truckAxleLoad: Swift.Double
+  @objc override public class var supportsSecureCoding: Swift.Bool {
+    @objc get
+  }
+  @objc override open func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  @objc override dynamic open func isEqual(_ object: Any?) -> Swift.Bool
+  @objc(isEqualToRouteOptions:) open func isEqual(to routeOptions: NbmapCoreNavigation.RouteOptions?) -> Swift.Bool
+  @objc deinit
+}
 extension NbmapCoreNavigation.Message {
   public func jsonString(options: NbmapCoreNavigation.JSONEncodingOptions = JSONEncodingOptions()) throws -> Swift.String
   public func jsonUTF8Data(options: NbmapCoreNavigation.JSONEncodingOptions = JSONEncodingOptions()) throws -> Foundation.Data
@@ -206,7 +290,7 @@ extension NbmapCoreNavigation.Message {
   public init(jsonUTF8Data: Foundation.Data, extensions: (any NbmapCoreNavigation.ExtensionMap)? = nil, options: NbmapCoreNavigation.JSONDecodingOptions = JSONDecodingOptions()) throws
 }
 public protocol RoutingProvider {
-  func calculateRoutes(options: NbmapDirections.RouteOptions, completionHandler: @escaping NbmapDirections.Directions.RouteCompletionHandler) -> (any NbmapCoreNavigation.NavigationProviderRequest)?
+  func calculateRoutes(options: NbmapCoreNavigation.RouteOptions, completionHandler: @escaping NbmapCoreNavigation.Directions.RouteCompletionHandler) -> (any NbmapCoreNavigation.NavigationProviderRequest)?
 }
 public protocol NavigationProviderRequest {
   func cancel()
@@ -233,10 +317,15 @@ public protocol NavigationProviderRequest {
 extension UIKit.UIApplication.State : Swift.Encodable {
   public func encode(to encoder: any Swift.Encoder) throws
 }
+@_hasMissingDesignatedInitializers public class StepLink {
+  @objc deinit
+}
 open class BoundRawCounterMetric<T> {
   public init()
   open func record(sum: T, startDate: Foundation.Date, endDate: Foundation.Date)
   @objc deinit
+}
+@objc(NBComponentRepresentable) public protocol ComponentRepresentable : Foundation.NSSecureCoding {
 }
 public struct Google_Protobuf_SourceContext {
   public var fileName: Swift.String
@@ -271,6 +360,19 @@ public protocol Telemetry {
   func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, eventWithAttributes: [Swift.String : [Swift.String : Any]?]?, end: Swift.Bool?) -> any NbmapCoreNavigation.Span
   func enqueueEvent(withName: Swift.String, attributes: [Swift.String : Any])
   func flush()
+}
+public let NBDirectionsErrorDomain: Swift.String
+@_inheritsConvenienceInitializers @objc(NBDirections) open class Directions : ObjectiveC.NSObject {
+  public typealias RouteCompletionHandler = (_ routes: [NbmapCoreNavigation.Route]?, _ error: Foundation.NSError?) -> Swift.Void
+  @objc(sharedDirections) public static let shared: NbmapCoreNavigation.Directions
+  final public let nbId: Swift.String
+  public var crossInfo: Swift.String
+  @discardableResult
+  @objc(calculateNavigationWithOptions:completionHandler:) open func calculate(_ options: NbmapCoreNavigation.RouteOptions, completionHandler: @escaping NbmapCoreNavigation.Directions.RouteCompletionHandler) -> Foundation.URLSessionDataTask
+  @objc(URLForCalculatingDirectionsWithOptions:) open func url(forCalculating options: NbmapCoreNavigation.DirectionsOptions) -> Foundation.URL
+  open func requestBody(forCalculating options: NbmapCoreNavigation.DirectionsOptions) -> Foundation.Data?
+  @objc override dynamic public init()
+  @objc deinit
 }
 extension NbmapCoreNavigation.Google_Protobuf_Timestamp {
   public init(seconds: Swift.Int64 = 0, nanos: Swift.Int32 = 0)
@@ -470,6 +572,20 @@ open class BoundCounterMetric<T> {
   open func add(value: T)
   @objc deinit
 }
+@objc(NBRouteShapeResolution) public enum RouteShapeResolution : Swift.UInt, Swift.CustomStringConvertible {
+  case none
+  case low
+  case full
+  public init?(description: Swift.String)
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.UInt)
+  public typealias RawValue = Swift.UInt
+  public var rawValue: Swift.UInt {
+    get
+  }
+}
 extension NbmapCoreNavigation.Google_Protobuf_DoubleValue : Swift.ExpressibleByFloatLiteral {
   public typealias WrappedType = NbmapCoreNavigation.ProtobufDouble
   public typealias FloatLiteralType = NbmapCoreNavigation.Google_Protobuf_DoubleValue.WrappedType.BaseType
@@ -540,7 +656,6 @@ extension NbmapCoreNavigation.Google_Protobuf_BytesValue {
   @objc final public let updatedAt: Swift.Int64
   @objc deinit
 }
-public typealias JSONDictionary = [Swift.String : Any]
 @_hasMissingDesignatedInitializers open class NBConfigurationService {
   public typealias ConfigurationServiceCompletionHandler = (_ configurationResponse: NbmapCoreNavigation.ConfigurationResponse?, _ responseCode: Swift.Int, _ error: Foundation.NSError?) -> Swift.Void
   @objc(URLForRequestingNBConfigurations:) open func url(forLookUp configurationRequestParams: NbmapCoreNavigation.ConfigurationRequestParams) -> Foundation.URL
@@ -559,11 +674,11 @@ public enum SignStandard {
     get
   }
 }
-extension NbmapDirections.RouteStep {
+extension NbmapCoreNavigation.RouteStep {
   public var isMotorway: Swift.Bool {
     get
   }
-  public var lastInstruction: NbmapDirections.SpokenInstruction? {
+  public var lastInstruction: NbmapCoreNavigation.SpokenInstruction? {
     get
   }
   public var shape: Turf.LineString? {
@@ -578,6 +693,13 @@ extension NbmapDirections.RouteStep {
   public var isUturn: Swift.Bool {
     get
   }
+}
+extension NbmapCoreNavigation.RouteStep {
+  public func modifyInstructionsDisplayStep(previousStep: NbmapCoreNavigation.RouteStep?, upcomingStep: NbmapCoreNavigation.RouteStep?, followUpStep: NbmapCoreNavigation.RouteStep?, finalStepInLeg: Swift.Bool)
+  public func modifyVoiceInstructionsInStep(upcomingStep: NbmapCoreNavigation.RouteStep?, finalStepInLeg: Swift.Bool)
+  public func getPrimaryText(step: NbmapCoreNavigation.RouteStep, finalStep: Swift.Bool) -> Swift.String
+  public func getInstruction(step: NbmapCoreNavigation.RouteStep?) -> Swift.String
+  public func isOnArrivalVoiceInstruction(distanceAlongGeometry: Swift.Double, currentStepDistance: Swift.Double) -> Swift.Bool
 }
 public protocol AnyExtensionField : Swift.CustomDebugStringConvertible {
   func hash(into hasher: inout Swift.Hasher)
@@ -874,7 +996,7 @@ public class NbRoutingProvider : NbmapCoreNavigation.RoutingProvider {
     public func cancel()
   }
   public init(settings: NbmapCoreNavigation.NavigationSettings = .shared)
-  public func calculateRoutes(options: NbmapDirections.RouteOptions, completionHandler: @escaping NbmapDirections.Directions.RouteCompletionHandler) -> (any NbmapCoreNavigation.NavigationProviderRequest)?
+  public func calculateRoutes(options: NbmapCoreNavigation.RouteOptions, completionHandler: @escaping NbmapCoreNavigation.Directions.RouteCompletionHandler) -> (any NbmapCoreNavigation.NavigationProviderRequest)?
   @objc deinit
 }
 extension Swift.Double {
@@ -899,6 +1021,13 @@ extension Swift.Array where Element == CoreLocation.CLLocationCoordinate2D {
     get
   }
 }
+public typealias AttributeOptions = NbmapCoreNavigation.NBAttributeOptions
+extension NbmapCoreNavigation.NBAttributeOptions : Swift.CustomStringConvertible {
+  public init?(descriptions: [Swift.String])
+  public var description: Swift.String {
+    get
+  }
+}
 public struct ExtensionFieldValueSet : Swift.Hashable {
   public static func == (lhs: NbmapCoreNavigation.ExtensionFieldValueSet, rhs: NbmapCoreNavigation.ExtensionFieldValueSet) -> Swift.Bool
   public init()
@@ -919,31 +1048,31 @@ public protocol RouterDelegate : AnyObject, NbmapCoreNavigation.UnimplementedLog
   func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
   func routeController(_ routeController: NbmapCoreNavigation.RouteController, willRerouteFrom location: CoreLocation.CLLocation)
   func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldDiscard location: CoreLocation.CLLocation) -> Swift.Bool
-  func routeController(_ routeController: NbmapCoreNavigation.RouteController, didRerouteAlong route: NbmapDirections.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
+  func routeController(_ routeController: NbmapCoreNavigation.RouteController, didRerouteAlong route: NbmapCoreNavigation.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
   func routeController(_ routeController: NbmapCoreNavigation.RouteController, didFailToRerouteWith error: any Swift.Error)
   func routeController(_ router: NbmapCoreNavigation.RouteController, didUpdate progress: NbmapCoreNavigation.RouteProgress, with location: CoreLocation.CLLocation, rawLocation: CoreLocation.CLLocation)
-  func routeController(_ routeController: NbmapCoreNavigation.RouteController, didArriveAt waypoint: NbmapDirections.Waypoint)
-  func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  func routeController(_ routeController: NbmapCoreNavigation.RouteController, didArriveAt waypoint: NbmapCoreNavigation.Waypoint)
+  func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldPreventReroutesWhenArrivingAt waypoint: NbmapCoreNavigation.Waypoint) -> Swift.Bool
   func routeControllerShouldDisableBatteryMonitoring(_ routeController: NbmapCoreNavigation.RouteController) -> Swift.Bool
-  func routeController(_ router: NbmapCoreNavigation.RouteController, didPassVisualInstructionPoint instruction: NbmapDirections.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
-  func routeController(_ router: NbmapCoreNavigation.RouteController, didPassSpokenInstructionPoint instruction: NbmapDirections.SpokenInstruction, routeProgress: NbmapCoreNavigation.RouteProgress)
+  func routeController(_ router: NbmapCoreNavigation.RouteController, didPassVisualInstructionPoint instruction: NbmapCoreNavigation.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
+  func routeController(_ router: NbmapCoreNavigation.RouteController, didPassSpokenInstructionPoint instruction: NbmapCoreNavigation.SpokenInstruction, routeProgress: NbmapCoreNavigation.RouteProgress)
   func routeController(_ router: NbmapCoreNavigation.RouteController, didRefresh progress: NbmapCoreNavigation.RouteProgress)
 }
 extension NbmapCoreNavigation.RouterDelegate {
   public func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
   public func routeController(_ routeController: NbmapCoreNavigation.RouteController, willRerouteFrom location: CoreLocation.CLLocation)
   public func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldDiscard location: CoreLocation.CLLocation) -> Swift.Bool
-  public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didRerouteAlong route: NbmapDirections.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
+  public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didRerouteAlong route: NbmapCoreNavigation.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
   public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didFailToRerouteWith error: any Swift.Error)
   public func routeController(_ router: NbmapCoreNavigation.RouteController, didUpdate progress: NbmapCoreNavigation.RouteProgress, with location: CoreLocation.CLLocation, rawLocation: CoreLocation.CLLocation)
-  public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didArriveAt waypoint: NbmapDirections.Waypoint)
-  public func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didArriveAt waypoint: NbmapCoreNavigation.Waypoint)
+  public func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldPreventReroutesWhenArrivingAt waypoint: NbmapCoreNavigation.Waypoint) -> Swift.Bool
   public func routeControllerShouldDisableBatteryMonitoring(_ routeController: NbmapCoreNavigation.RouteController) -> Swift.Bool
-  public func routeController(_ router: NbmapCoreNavigation.RouteController, didPassVisualInstructionPoint instruction: NbmapDirections.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
-  public func routeController(_ router: NbmapCoreNavigation.RouteController, didPassSpokenInstructionPoint instruction: NbmapDirections.SpokenInstruction, routeProgress: NbmapCoreNavigation.RouteProgress)
+  public func routeController(_ router: NbmapCoreNavigation.RouteController, didPassVisualInstructionPoint instruction: NbmapCoreNavigation.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
+  public func routeController(_ router: NbmapCoreNavigation.RouteController, didPassSpokenInstructionPoint instruction: NbmapCoreNavigation.SpokenInstruction, routeProgress: NbmapCoreNavigation.RouteProgress)
   public func routeController(_ router: NbmapCoreNavigation.RouteController, didRefresh progress: NbmapCoreNavigation.RouteProgress)
 }
-extension NbmapDirections.Route {
+extension NbmapCoreNavigation.Route {
   public var shape: Turf.LineString? {
     get
   }
@@ -1499,12 +1628,13 @@ public struct TraceFlags : Swift.Equatable, Swift.CustomStringConvertible, Swift
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
 }
+public typealias LocationCoordinate2D = CoreLocation.CLLocationCoordinate2D
 public protocol Router : CoreLocation.CLLocationManagerDelegate, NbmapCoreNavigation.AlternativeRouteDelegate {
   var routeProgress: NbmapCoreNavigation.RouteProgress { get }
   var location: CoreLocation.CLLocation? { get }
   var rawLocation: CoreLocation.CLLocation? { get }
-  var route: NbmapDirections.Route { get }
-  var routes: [NbmapDirections.Route] { get }
+  var route: NbmapCoreNavigation.Route { get }
+  var routes: [NbmapCoreNavigation.Route] { get }
   var delegate: (any NbmapCoreNavigation.RouterDelegate)? { get set }
   var simulationModel: Swift.Bool { get set }
   var routingProvider: any NbmapCoreNavigation.RoutingProvider { get }
@@ -1549,10 +1679,137 @@ extension NbmapCoreNavigation.Clock {
   }
 }
 public func == (lhs: any NbmapCoreNavigation.Clock, rhs: any NbmapCoreNavigation.Clock) -> Swift.Bool
-@_inheritsConvenienceInitializers @objc(NBNavigationRouteOptions) @_objcRuntimeName(NBNavigationRouteOptions) open class NavigationRouteOptions : NbmapDirections.RouteOptions {
-  @objc required public init(waypoints: [NbmapDirections.Waypoint], profile: NbmapDirections.NBNavigationMode)
-  @objc convenience public init(locations: [CoreLocation.CLLocation], profileIdentifier: NbmapDirections.NBNavigationMode? = .car)
-  @objc convenience public init(coordinates: [CoreLocation.CLLocationCoordinate2D], profileIdentifier: NbmapDirections.NBNavigationMode? = .car)
+@objc(NBTransportType) public enum TransportType : Swift.Int, Swift.CustomStringConvertible {
+  case none
+  case automobile
+  case ferry
+  case movableBridge
+  case inaccessible
+  case walking
+  case cycling
+  case train
+  public init?(description: Swift.String)
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc(NBManeuverType) public enum ManeuverType : Swift.Int, Swift.CustomStringConvertible {
+  case none
+  case depart
+  case turn
+  case `continue`
+  case passNameChange
+  case merge
+  case takeOnRamp
+  case takeOffRamp
+  case reachFork
+  case reachEnd
+  case useLane
+  case takeRoundabout
+  case takeRotary
+  case turnAtRoundabout
+  case exitRoundabout
+  case exitRotary
+  case heedWarning
+  case arrive
+  case passWaypoint
+  public init?(description: Swift.String)
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc(NBManeuverDirection) public enum ManeuverDirection : Swift.Int, Swift.CustomStringConvertible {
+  case none
+  case sharpRight
+  case right
+  case slightRight
+  case straightAhead
+  case slightLeft
+  case left
+  case sharpLeft
+  case uTurn
+  public init?(description: Swift.String)
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc(NBDrivingSide) public enum DrivingSide : Swift.Int, Swift.CustomStringConvertible {
+  case left
+  case right
+  public init?(description: Swift.String)
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers @objc(NBRouteStep) open class RouteStep : ObjectiveC.NSObject, Foundation.NSSecureCoding {
+  public init(transportType: NbmapCoreNavigation.TransportType, maneuverType: NbmapCoreNavigation.ManeuverType, maneuverDirection: NbmapCoreNavigation.ManeuverDirection, maneuverLocation: CoreLocation.CLLocationCoordinate2D, exitIndex: Swift.Int?, instructions: Swift.String, stepCoordinates: [CoreLocation.CLLocationCoordinate2D]?, initialHeading: CoreLocation.CLLocationDirection?, finalHeading: CoreLocation.CLLocationDirection?, startLocation: CoreLocation.CLLocationCoordinate2D?, endLocation: CoreLocation.CLLocationCoordinate2D?, drivingSide: NbmapCoreNavigation.DrivingSide, exitCodes: [Swift.String]?, exitNames: [Swift.String]?, phoneticExitNames: [Swift.String]?, distance: CoreLocation.CLLocationDistance, expectedTravelTime: Foundation.TimeInterval, names: [Swift.String]?, phoneticNames: [Swift.String]?, codes: [Swift.String]?, destinationCodes: [Swift.String]?, destinations: [Swift.String]?, shiledImageUrl: Foundation.URL?, shiledLabel: Swift.String?, intersections: [NbmapCoreNavigation.Intersection]?, instructionsSpokenAlongStep: [NbmapCoreNavigation.SpokenInstruction]?, instructionsDisplayedAlongStep: [NbmapCoreNavigation.VisualInstructionBanner]?, muted: Swift.Bool?, bearing: CoreLocation.CLLocationDirection? = nil, displayInstruction: Swift.String?)
+  @objc(initWithJSON:options:) convenience public init(json: [Swift.String : Any], options: NbmapCoreNavigation.DirectionsOptions)
+  @objc required public init?(coder decoder: Foundation.NSCoder)
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc public func encode(with coder: Foundation.NSCoder)
+  @objc final public let coordinates: [CoreLocation.CLLocationCoordinate2D]?
+  @objc open var coordinateCount: Swift.UInt {
+    @objc get
+  }
+  @objc open func getCoordinates(_ coordinates: Swift.UnsafeMutablePointer<CoreLocation.CLLocationCoordinate2D>) -> Swift.Bool
+  @objc final public let instructions: Swift.String
+  @objc final public let displayInstruction: Swift.String?
+  @objc public var instructionsSpokenAlongStep: [NbmapCoreNavigation.SpokenInstruction]?
+  @objc public var instructionsDisplayedAlongStep: [NbmapCoreNavigation.VisualInstructionBanner]?
+  @objc override dynamic open var description: Swift.String {
+    @objc get
+  }
+  final public let startLocation: CoreLocation.CLLocationCoordinate2D?
+  final public let endLocation: CoreLocation.CLLocationCoordinate2D?
+  final public let initialHeading: CoreLocation.CLLocationDirection?
+  final public let finalHeading: CoreLocation.CLLocationDirection?
+  final public let bearing: CoreLocation.CLLocationDirection?
+  @objc final public let maneuverType: NbmapCoreNavigation.ManeuverType
+  @objc final public let maneuverDirection: NbmapCoreNavigation.ManeuverDirection
+  final public let muted: Swift.Bool?
+  final public let drivingSide: NbmapCoreNavigation.DrivingSide
+  @objc final public let maneuverLocation: CoreLocation.CLLocationCoordinate2D
+  final public let exitIndex: Swift.Int?
+  @objc final public let exitCodes: [Swift.String]?
+  @objc final public let exitNames: [Swift.String]?
+  @objc final public let phoneticExitNames: [Swift.String]?
+  @objc final public let distance: CoreLocation.CLLocationDistance
+  @objc final public let expectedTravelTime: Foundation.TimeInterval
+  @objc final public let names: [Swift.String]?
+  @objc final public let phoneticNames: [Swift.String]?
+  @objc final public let codes: [Swift.String]?
+  @objc final public let transportType: NbmapCoreNavigation.TransportType
+  @objc final public let destinationCodes: [Swift.String]?
+  @objc final public let destinations: [Swift.String]?
+  @objc final public let intersections: [NbmapCoreNavigation.Intersection]?
+  @objc final public let shiledImageUrl: Foundation.URL?
+  @objc final public let shiledLabel: Swift.String?
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc(NBNavigationRouteOptions) open class NavigationRouteOptions : NbmapCoreNavigation.RouteOptions {
+  @objc required public init(waypoints: [NbmapCoreNavigation.Waypoint], profile: NbmapCoreNavigation.NBNavigationMode)
+  @objc convenience public init(locations: [CoreLocation.CLLocation], profileIdentifier: NbmapCoreNavigation.NBNavigationMode? = .car)
+  @objc convenience public init(coordinates: [CoreLocation.CLLocationCoordinate2D], profileIdentifier: NbmapCoreNavigation.NBNavigationMode? = .car)
   @objc required public init?(coder decoder: Foundation.NSCoder)
   override open var apiEndpoint: Foundation.URL {
     get
@@ -1576,6 +1833,7 @@ public struct _NameMap : Swift.ExpressibleByDictionaryLiteral {
   public typealias Key = Swift.Int
   public typealias Value = NbmapCoreNavigation._NameMap.NameDescription
 }
+public typealias JSONDictionary = [Swift.String : Any]
 public struct EnvVarHeaders {
   public static let attributes: [(Swift.String, Swift.String)]?
   public static func attributes(for rawEnvAttributes: Swift.String? = ProcessInfo.processInfo.environment["OTEL_EXPORTER_OTLP_HEADERS"]) -> [(Swift.String, Swift.String)]?
@@ -1794,6 +2052,20 @@ public struct Attribute : Swift.Codable {
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
 }
+@objc(NBVisualInstruction) open class VisualInstruction : ObjectiveC.NSObject, Foundation.NSSecureCoding {
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc final public let text: Swift.String?
+  @objc final public let instruction: Swift.String?
+  @objc public var maneuverType: NbmapCoreNavigation.ManeuverType
+  @objc public var maneuverDirection: NbmapCoreNavigation.ManeuverDirection
+  @objc final public let components: [any NbmapCoreNavigation.ComponentRepresentable]
+  @objc public var finalHeading: Swift.Double
+  @objc public init(text: Swift.String?, instruction: Swift.String?, maneuverType: NbmapCoreNavigation.ManeuverType, maneuverDirection: NbmapCoreNavigation.ManeuverDirection, components: [any NbmapCoreNavigation.ComponentRepresentable], degrees: CoreLocation.CLLocationDegrees = 180)
+  @objc(initWithJSON:) convenience public init(json: [Swift.String : Any])
+  @objc required public init?(coder decoder: Foundation.NSCoder)
+  @objc public func encode(with coder: Foundation.NSCoder)
+  @objc deinit
+}
 public protocol ExtensionMap {
   subscript(messageType: any NbmapCoreNavigation.Message.Type, fieldNumber: Swift.Int) -> (any NbmapCoreNavigation.AnyMessageExtension)? { get }
   func fieldNumberForProto(messageType: any NbmapCoreNavigation.Message.Type, protoFieldName: Swift.String) -> Swift.Int?
@@ -1824,6 +2096,9 @@ public struct BinaryDecodingOptions {
   public var messageDepthLimit: Swift.Int
   public var discardUnknownFields: Swift.Bool
   public init()
+}
+@_hasMissingDesignatedInitializers open class NBDrivingSideUtils {
+  @objc deinit
 }
 public struct Google_Protobuf_DoubleValue {
   public var value: Swift.Double
@@ -1992,6 +2267,19 @@ public struct Resource : Swift.Equatable, Swift.Hashable, Swift.Codable {
   }
   public init(from decoder: any Swift.Decoder) throws
 }
+@objc(NBMeasurementSystem) public enum MeasurementSystem : Swift.UInt, Swift.CustomStringConvertible {
+  case imperial
+  case metric
+  public init?(description: Swift.String)
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.UInt)
+  public typealias RawValue = Swift.UInt
+  public var rawValue: Swift.UInt {
+    get
+  }
+}
 extension Foundation.DateComponentsFormatter {
   public static let fullDateComponentsFormatter: Foundation.DateComponentsFormatter
   public static let shortDateComponentsFormatter: Foundation.DateComponentsFormatter
@@ -2011,10 +2299,10 @@ public struct EnvironmentContextPropagator : NbmapCoreNavigation.TextMapPropagat
   public func extract<G>(carrier: [Swift.String : Swift.String], getter: G) -> NbmapCoreNavigation.SpanContext? where G : NbmapCoreNavigation.Getter
 }
 public protocol OffRouteDetectorDelegate : ObjectiveC.NSObjectProtocol {
-  func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldPreventReroutesWhenArrivingAt waypoint: NbmapCoreNavigation.Waypoint) -> Swift.Bool
   func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
-  func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldAdvanceStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
-  func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldForwardStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
+  func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldAdvanceStepIndex to: Swift.Array<NbmapCoreNavigation.RouteStep>.Index?)
+  func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldForwardStepIndex to: Swift.Array<NbmapCoreNavigation.RouteStep>.Index?)
   func offRouteDetactorEnableStationaryDetector() -> Swift.Bool
   func offRouteDetactorIsMoving() -> Swift.Bool
 }
@@ -2087,8 +2375,22 @@ public class TelemetryDataSource : NbmapCoreNavigation.ITelemetryDataSource {
 }
 @objc @_inheritsConvenienceInitializers open class AlternativeRouteManager : ObjectiveC.NSObject {
   weak public var delegate: (any NbmapCoreNavigation.AlternativeRouteDelegate)?
-  public func getFirstToForkManeuverPoint(routes: [NbmapDirections.Route], currentRoute: NbmapDirections.Route, routeProgress: NbmapCoreNavigation.RouteProgress) -> CoreLocation.CLLocationCoordinate2D?
+  public func getFirstToForkManeuverPoint(routes: [NbmapCoreNavigation.Route], currentRoute: NbmapCoreNavigation.Route, routeProgress: NbmapCoreNavigation.RouteProgress) -> CoreLocation.CLLocationCoordinate2D?
   @objc override dynamic public init()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc(NBIntersection) public class Intersection : ObjectiveC.NSObject, Foundation.NSSecureCoding {
+  @objc final public let location: CoreLocation.CLLocationCoordinate2D
+  @objc final public let headings: [CoreLocation.CLLocationDirection]
+  @objc final public let outletIndexes: Foundation.IndexSet
+  @objc final public let approachIndex: Swift.Int
+  @objc final public let outletIndex: Swift.Int
+  @objc final public let approachLanes: [NbmapCoreNavigation.Lane]?
+  @objc final public let usableApproachLanes: Foundation.IndexSet?
+  final public let outletRoadClasses: NbmapCoreNavigation.RoadClasses?
+  @objc required public init?(coder decoder: Foundation.NSCoder)
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc public func encode(with coder: Foundation.NSCoder)
   @objc deinit
 }
 public protocol IntObserverMetricHandle {
@@ -2256,6 +2558,28 @@ public struct NavigationEngineConfig {
   public var enableRoadNetworkDetector: Swift.Bool
   public var enableStationaryDetector: Swift.Bool
 }
+public struct PolylineEncoder {
+  public let coordinates: [NbmapCoreNavigation.LocationCoordinate2D]?
+  public let encodedPolyline: Swift.String
+  public let levels: [Swift.UInt32]?
+  public let encodedLevels: Swift.String?
+  public var locations: [CoreLocation.CLLocation]? {
+    get
+  }
+  @available(tvOS 9.2, *)
+  public var mkPolyline: MapKit.MKPolyline? {
+    get
+  }
+  public init(coordinates: [NbmapCoreNavigation.LocationCoordinate2D], levels: [Swift.UInt32]? = nil, precision: Swift.Double = 1e5)
+  public init(encodedPolyline: Swift.String, encodedLevels: Swift.String? = nil, precision: Swift.Double = 1e5)
+  public init(locations: [CoreLocation.CLLocation], levels: [Swift.UInt32]? = nil, precision: Swift.Double = 1e5)
+}
+public func encodeCoordinates(_ coordinates: [NbmapCoreNavigation.LocationCoordinate2D], precision: Swift.Double = 1e5) -> Swift.String
+public func encodeLocations(_ locations: [CoreLocation.CLLocation], precision: Swift.Double = 1e5) -> Swift.String
+public func encodeLevels(_ levels: [Swift.UInt32]) -> Swift.String
+public func decodePolyline(_ encodedPolyline: Swift.String, precision: Swift.Double = 1e5) -> [NbmapCoreNavigation.LocationCoordinate2D]?
+public func decodePolyline(_ encodedPolyline: Swift.String, precision: Swift.Double = 1e5) -> [CoreLocation.CLLocation]?
+public func decodeLevels(_ encodedLevels: Swift.String) -> [Swift.UInt32]?
 public struct EntryValue : Swift.Equatable {
   public var string: Swift.String {
     get
@@ -2288,6 +2612,33 @@ public struct SimpleSpanProcessor : NbmapCoreNavigation.SpanProcessor {
   public func forceFlush(timeout: Foundation.TimeInterval? = nil)
   public init(spanExporter: any NbmapCoreNavigation.SpanExporter)
   public func reportingOnlySampled(sampled: Swift.Bool) -> NbmapCoreNavigation.SimpleSpanProcessor
+}
+@objc(NBRouteShapeFormat) public enum RouteShapeFormat : Swift.UInt, Swift.CustomStringConvertible {
+  case geoJSON
+  case polyline
+  case polyline6
+  public init?(description: Swift.String)
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.UInt)
+  public typealias RawValue = Swift.UInt
+  public var rawValue: Swift.UInt {
+    get
+  }
+}
+@objc(NBInstructionFormat) public enum InstructionFormat : Swift.UInt, Swift.CustomStringConvertible {
+  case text
+  case html
+  public init?(description: Swift.String)
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.UInt)
+  public typealias RawValue = Swift.UInt
+  public var rawValue: Swift.UInt {
+    get
+  }
 }
 public struct Entry : Swift.Equatable, Swift.Comparable {
   public var key: NbmapCoreNavigation.EntryKey {
@@ -3899,11 +4250,27 @@ extension NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo.Annotation : Nbm
 extension NbmapCoreNavigation.Google_Protobuf_GeneratedCodeInfo.Annotation.Semantic : NbmapCoreNavigation._ProtoNameProviding {
   public static let _protobuf_nameMap: NbmapCoreNavigation._NameMap
 }
+@_inheritsConvenienceInitializers @objc(NBNavRoute) open class Route : NbmapCoreNavigation.DirectionsResult {
+  @objc(initWithJson:legs:distance:expectedTravelTime:coordinates:speechLocale:options:) public init(json: Swift.String?, legs: [NbmapCoreNavigation.RouteLeg], distance: CoreLocation.CLLocationDistance, expectedTravelTime: Foundation.TimeInterval, coordinates: [CoreLocation.CLLocationCoordinate2D]?, speechLocale: Foundation.Locale?, options: NbmapCoreNavigation.DirectionsOptions)
+  @objc(initWithJSON:waypoints:routeOptions:countryCode:) public init(json: [Swift.String : Any], waypoints: [NbmapCoreNavigation.Waypoint], options: NbmapCoreNavigation.DirectionsOptions, countryCode: Swift.String?)
+  public var routeOptions: NbmapCoreNavigation.RouteOptions {
+    get
+  }
+  @objc required public init?(coder decoder: Foundation.NSCoder)
+  @objc deinit
+}
 @_hasMissingDesignatedInitializers public class DefaultBaggageManager : NbmapCoreNavigation.BaggageManager {
   public static var instance: NbmapCoreNavigation.DefaultBaggageManager
   public func baggageBuilder() -> any NbmapCoreNavigation.BaggageBuilder
   public func getCurrentBaggage() -> (any NbmapCoreNavigation.Baggage)?
   @objc deinit
+}
+public typealias LaneIndication = NbmapCoreNavigation.NBLaneIndication
+extension NbmapCoreNavigation.NBLaneIndication : Swift.CustomStringConvertible {
+  public init?(descriptions: [Swift.String])
+  public var description: Swift.String {
+    get
+  }
 }
 public enum SpanKind : Swift.String, Swift.Equatable, Swift.Codable {
   case `internal`
@@ -3925,11 +4292,11 @@ public enum SpanKind : Swift.String, Swift.Equatable, Swift.Codable {
     public static let shouldPreventReroutesWhenArrivingAtWaypoint: Swift.Bool
     public static let shouldDisableBatteryMonitoring: Swift.Bool
   }
-  public var route: NbmapDirections.Route {
+  public var route: NbmapCoreNavigation.Route {
     get
   }
   public var simulationModel: Swift.Bool
-  public var routes: [NbmapDirections.Route] {
+  public var routes: [NbmapCoreNavigation.Route] {
     get
     set
   }
@@ -3946,7 +4313,7 @@ public enum SpanKind : Swift.String, Swift.Equatable, Swift.Codable {
   public var resolvedRoutingProvider: any NbmapCoreNavigation.RoutingProvider {
     get
   }
-  required public init(from routes: [NbmapDirections.Route], alongIndex index: Swift.Int, customRoutingProvider: (any NbmapCoreNavigation.RoutingProvider)? = nil, navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig? = nil, offRouteDetector: (any NbmapCoreNavigation.OffRouteDetector)? = nil, speedCalibrator: (any NbmapCoreNavigation.SpeedCalibrator)? = nil, deadReckoning: NbmapCoreNavigation.DeadReckoning? = nil)
+  required public init(from routes: [NbmapCoreNavigation.Route], alongIndex index: Swift.Int, customRoutingProvider: (any NbmapCoreNavigation.RoutingProvider)? = nil, navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig? = nil, offRouteDetector: (any NbmapCoreNavigation.OffRouteDetector)? = nil, speedCalibrator: (any NbmapCoreNavigation.SpeedCalibrator)? = nil, deadReckoning: NbmapCoreNavigation.DeadReckoning? = nil)
   public func finishRouting()
   @objc deinit
   public var location: CoreLocation.CLLocation? {
@@ -3967,19 +4334,19 @@ extension NbmapCoreNavigation.RouteController : CoreLocation.CLLocationManagerDe
 extension NbmapCoreNavigation.RouteController : NbmapCoreNavigation.OffRouteDetectorDelegate {
   public func offRouteDetactorEnableStationaryDetector() -> Swift.Bool
   public func offRouteDetactorIsMoving() -> Swift.Bool
-  public func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  public func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldPreventReroutesWhenArrivingAt waypoint: NbmapCoreNavigation.Waypoint) -> Swift.Bool
   public func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
-  public func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldAdvanceStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
-  public func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldForwardStepIndex to: Swift.Array<NbmapDirections.RouteStep>.Index?)
+  public func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldAdvanceStepIndex to: Swift.Array<NbmapCoreNavigation.RouteStep>.Index?)
+  public func offRouteDetactor(_ detactor: any NbmapCoreNavigation.OffRouteDetector, shouldForwardStepIndex to: Swift.Array<NbmapCoreNavigation.RouteStep>.Index?)
 }
 extension NbmapCoreNavigation.RouteController : NbmapCoreNavigation.RerouteDelegate {
   public func willRerouteFrom(location: CoreLocation.CLLocation)
-  public func didToReRouteWith(location: CoreLocation.CLLocation, routes: [NbmapDirections.Route])
+  public func didToReRouteWith(location: CoreLocation.CLLocation, routes: [NbmapCoreNavigation.Route])
   public func failToReRouteWith(error: any Swift.Error)
 }
 extension NbmapCoreNavigation.RouteController : NbmapCoreNavigation.AlternativeRouteDelegate {
-  public func didSelectNewRoute(route: NbmapDirections.Route)
-  public func shouldRefreshRoutes(routes: [NbmapDirections.Route])
+  public func didSelectNewRoute(route: NbmapCoreNavigation.Route)
+  public func shouldRefreshRoutes(routes: [NbmapCoreNavigation.Route])
 }
 extension NbmapCoreNavigation.RouteController {
   public func onStationaryStatusUpdate(isMoving: Swift.Bool)
@@ -4180,10 +4547,10 @@ extension CoreLocation.CLLocation {
     get
   }
   convenience public init(dictionary: [Swift.String : Any])
-  public func isCloseToManuver(_ maximumDistance: CoreLocation.CLLocationDistance, of routeStep: NbmapDirections.RouteStep) -> Swift.Bool
+  public func isCloseToManuver(_ maximumDistance: CoreLocation.CLLocationDistance, of routeStep: NbmapCoreNavigation.RouteStep) -> Swift.Bool
   public func withinIntersection(routeProgress: NbmapCoreNavigation.RouteProgress, radius: CoreLocation.CLLocationDistance) -> Swift.Bool
   public func withinDistanceAndBearingInIntersection(routeProgress: NbmapCoreNavigation.RouteProgress, radius: CoreLocation.CLLocationDistance, bearingDiff: CoreLocation.CLLocationDirection) -> Swift.Bool
-  public func isWithin(_ maximumDistance: CoreLocation.CLLocationDistance, of routeStep: NbmapDirections.RouteStep) -> Swift.Bool
+  public func isWithin(_ maximumDistance: CoreLocation.CLLocationDistance, of routeStep: NbmapCoreNavigation.RouteStep) -> Swift.Bool
   public func coordinates(for legProgress: NbmapCoreNavigation.RouteLegProgress) -> [CoreLocation.CLLocationCoordinate2D]
   public func nearbyCoordinates(for routeProgress: NbmapCoreNavigation.RouteProgress) -> [CoreLocation.CLLocationCoordinate2D]
   public var toRecordDic: [Swift.String : Any] {
@@ -4201,7 +4568,7 @@ extension NbmapCoreNavigation.Google_Protobuf_FieldMask {
   public init?(jsonPaths: Swift.String...)
 }
 @objc open class SimulatedLocationModelManager : NbmapCoreNavigation.NavigationLocationManager {
-  public init(route: NbmapDirections.Route, simulateSpeed: Swift.Double? = 45)
+  public init(route: NbmapCoreNavigation.Route, simulateSpeed: Swift.Double? = 45)
   public init(routeProgress: NbmapCoreNavigation.RouteProgress, simulateSpeed: Swift.Double? = 45)
   @objc deinit
   public var speedMultiplier: Swift.Double {
@@ -4221,8 +4588,8 @@ extension NbmapCoreNavigation.Google_Protobuf_FieldMask {
   @objc override dynamic open func copy() -> Any
 }
 public protocol AlternativeRouteDelegate : ObjectiveC.NSObjectProtocol {
-  func didSelectNewRoute(route: NbmapDirections.Route)
-  func shouldRefreshRoutes(routes: [NbmapDirections.Route])
+  func didSelectNewRoute(route: NbmapCoreNavigation.Route)
+  func shouldRefreshRoutes(routes: [NbmapCoreNavigation.Route])
 }
 public class MultiLogRecordProcessor : NbmapCoreNavigation.LogRecordProcessor {
   public func forceFlush() -> NbmapCoreNavigation.ExportResult
@@ -4428,6 +4795,28 @@ public struct W3CTraceContextPropagator : NbmapCoreNavigation.TextMapPropagator 
   public func inject<S>(spanContext: NbmapCoreNavigation.SpanContext, carrier: inout [Swift.String : Swift.String], setter: S) where S : NbmapCoreNavigation.Setter
   public func extract<G>(carrier: [Swift.String : Swift.String], getter: G) -> NbmapCoreNavigation.SpanContext? where G : NbmapCoreNavigation.Getter
 }
+@_hasMissingDesignatedInitializers @objc(NBNavRouteLeg) open class RouteLeg : ObjectiveC.NSObject, Foundation.NSSecureCoding {
+  public init(steps: [NbmapCoreNavigation.RouteStep], name: Swift.String, distance: CoreLocation.CLLocationDistance, expectedTravelTime: Foundation.TimeInterval, source: NbmapCoreNavigation.Waypoint, destination: NbmapCoreNavigation.Waypoint, profileIdentifier: NbmapCoreNavigation.NBNavigationMode, segmentDistances: [CoreLocation.CLLocationDistance]? = nil, expectedSegmentTravelTimes: [Foundation.TimeInterval]? = nil, segmentSpeeds: [CoreLocation.CLLocationSpeed]? = nil, congestionLevels: [NbmapCoreNavigation.CongestionLevel]? = nil)
+  @objc(initWithJSON:source:destination:options:) convenience public init(json: [Swift.String : Any], source: NbmapCoreNavigation.Waypoint, destination: NbmapCoreNavigation.Waypoint, options: NbmapCoreNavigation.DirectionsOptions)
+  @objc required public init?(coder decoder: Foundation.NSCoder)
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc public func encode(with coder: Foundation.NSCoder)
+  @objc final public let source: NbmapCoreNavigation.Waypoint
+  @objc final public let destination: NbmapCoreNavigation.Waypoint
+  @objc final public let steps: [NbmapCoreNavigation.RouteStep]
+  @objc final public let segmentDistances: [CoreLocation.CLLocationDistance]?
+  @objc final public let expectedSegmentTravelTimes: [Foundation.TimeInterval]?
+  @objc final public let segmentSpeeds: [CoreLocation.CLLocationSpeed]?
+  final public let segmentCongestionLevels: [NbmapCoreNavigation.CongestionLevel]?
+  @objc final public let name: Swift.String
+  @objc override dynamic open var description: Swift.String {
+    @objc get
+  }
+  @objc final public let distance: CoreLocation.CLLocationDistance
+  @objc final public let expectedTravelTime: Foundation.TimeInterval
+  @objc final public let profileIdentifier: NbmapCoreNavigation.NBNavigationMode
+  @objc deinit
+}
 public class LoggerProviderBuilder {
   public var clock: any NbmapCoreNavigation.Clock {
     get
@@ -4575,7 +4964,7 @@ public protocol NavigationService : CoreLocation.CLLocationManagerDelegate, Nbma
   var router: any NbmapCoreNavigation.Router { get }
   var dataTrackingEnable: Swift.Bool { get set }
   var dataTracking: NbmapCoreNavigation.DataTracking? { get }
-  var route: NbmapDirections.Route { get }
+  var route: NbmapCoreNavigation.Route { get }
   func start()
   func stop()
   func endNavigation(feedback: NbmapCoreNavigation.EndOfRouteFeedback?)
@@ -4605,7 +4994,7 @@ public protocol NavigationService : CoreLocation.CLLocationManagerDelegate, Nbma
   public var routingProvider: (any NbmapCoreNavigation.RoutingProvider)? {
     get
   }
-  public var route: NbmapDirections.Route {
+  public var route: NbmapCoreNavigation.Route {
     get
   }
   public var stationaryDetection: (any NbmapCoreNavigation.StationaryDetection)?
@@ -4622,7 +5011,7 @@ public protocol NavigationService : CoreLocation.CLLocationManagerDelegate, Nbma
     set
   }
   public func isInTunnel(at location: CoreLocation.CLLocation, along progress: NbmapCoreNavigation.RouteProgress) -> Swift.Bool
-  required public init(routes: [NbmapDirections.Route], routeIndex: Swift.Int, locationSource: NbmapCoreNavigation.NavigationLocationManager? = nil, routerController: (any NbmapCoreNavigation.Router)? = nil, dataTracking: NbmapCoreNavigation.DataTracking? = nil, simulating simulationMode: NbmapCoreNavigation.SimulationMode? = nil, navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig? = nil, routingProvider: (any NbmapCoreNavigation.RoutingProvider)? = nil, stationarySetection: (any NbmapCoreNavigation.StationaryDetection)? = nil)
+  required public init(routes: [NbmapCoreNavigation.Route], routeIndex: Swift.Int, locationSource: NbmapCoreNavigation.NavigationLocationManager? = nil, routerController: (any NbmapCoreNavigation.Router)? = nil, dataTracking: NbmapCoreNavigation.DataTracking? = nil, simulating simulationMode: NbmapCoreNavigation.SimulationMode? = nil, navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig? = nil, routingProvider: (any NbmapCoreNavigation.RoutingProvider)? = nil, stationarySetection: (any NbmapCoreNavigation.StationaryDetection)? = nil)
   @objc deinit
   @objc public func suspendLocationUpdates()
   public func start()
@@ -4645,14 +5034,14 @@ extension NbmapCoreNavigation.NavigationService {
 extension NbmapCoreNavigation.NBNavigationService : NbmapCoreNavigation.RouterDelegate {
   public func routeControllerShouldDisableBatteryMonitoring(_ routeController: NbmapCoreNavigation.RouteController) -> Swift.Bool
   public func routeController(_ router: NbmapCoreNavigation.RouteController, didUpdate progress: NbmapCoreNavigation.RouteProgress, with location: CoreLocation.CLLocation, rawLocation: CoreLocation.CLLocation)
-  public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didPassVisualInstructionPoint instruction: NbmapDirections.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
-  public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didPassSpokenInstructionPoint instruction: NbmapDirections.SpokenInstruction, routeProgress: NbmapCoreNavigation.RouteProgress)
+  public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didPassVisualInstructionPoint instruction: NbmapCoreNavigation.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
+  public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didPassSpokenInstructionPoint instruction: NbmapCoreNavigation.SpokenInstruction, routeProgress: NbmapCoreNavigation.RouteProgress)
   @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
   @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, willRerouteFrom location: CoreLocation.CLLocation)
-  @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didRerouteAlong route: NbmapDirections.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
+  @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didRerouteAlong route: NbmapCoreNavigation.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
   @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didFailToRerouteWith error: any Swift.Error)
   @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, shouldDiscard location: CoreLocation.CLLocation) -> Swift.Bool
-  @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didArriveAt waypoint: NbmapDirections.Waypoint)
+  @objc dynamic public func routeController(_ routeController: NbmapCoreNavigation.RouteController, didArriveAt waypoint: NbmapCoreNavigation.Waypoint)
   public func routeController(_ router: NbmapCoreNavigation.RouteController, didRefresh progress: NbmapCoreNavigation.RouteProgress)
 }
 extension NbmapCoreNavigation.NBNavigationService : CoreLocation.CLLocationManagerDelegate {
@@ -4663,6 +5052,10 @@ extension NbmapCoreNavigation.NBNavigationService : CoreLocation.CLLocationManag
 extension NbmapCoreNavigation.NBNavigationService : NbmapCoreNavigation.StationaryDetectionDelegate {
   public func onStatusUpdate(isMoving: Swift.Bool)
   public func onSensorUpdate(angularSpeed: Swift.Double?, acceleration: Swift.Double?, speed: Swift.Double?)
+}
+open class RoundaboutCalibrator {
+  required public init(drivingSide: NbmapCoreNavigation.DrivingSide, bearingFrom before: CoreLocation.CLLocationDegrees, to after: CoreLocation.CLLocationDegrees, startFrom position: CoreLocation.CLLocationCoordinate2D, endOf endPosition: CoreLocation.CLLocationCoordinate2D)
+  @objc deinit
 }
 public protocol BaggageManagerProvider {
   func create() -> any NbmapCoreNavigation.BaggageManager
@@ -4679,8 +5072,8 @@ public enum Severity : Swift.Int, Swift.Comparable, Swift.CustomStringConvertibl
     get
   }
 }
-extension NbmapDirections.RouteOptions {
-  public func without(waypoint: NbmapDirections.Waypoint) -> NbmapDirections.RouteOptions
+extension NbmapCoreNavigation.RouteOptions {
+  public func without(waypoint: NbmapCoreNavigation.Waypoint) -> NbmapCoreNavigation.RouteOptions
 }
 @_hasMissingDesignatedInitializers public class OSResourceProvider : NbmapCoreNavigation.ResourceProvider {
   public init(source: any NbmapCoreNavigation.IOperatingSystemDataSource)
@@ -4724,6 +5117,22 @@ extension NbmapCoreNavigation.Status : Swift.CustomStringConvertible {
 extension NbmapCoreNavigation.Status : Swift.Codable {
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
+}
+@objc(NBCongestionLevel) public enum CongestionLevel : Swift.Int, Swift.CustomStringConvertible {
+  case unknown
+  case low
+  case moderate
+  case heavy
+  case severe
+  public init?(description: Swift.String)
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
 }
 extension NbmapCoreNavigation.Message {
   public func textFormatString() -> Swift.String
@@ -4956,7 +5365,7 @@ public struct NoopRawHistogramMetric<T> : NbmapCoreNavigation.RawHistogramMetric
   @objc deinit
 }
 @objc open class SimulatedLocationManager : NbmapCoreNavigation.NavigationLocationManager {
-  public init(route: NbmapDirections.Route)
+  public init(route: NbmapCoreNavigation.Route)
   public init(routeProgress: NbmapCoreNavigation.RouteProgress)
   @objc deinit
   public var speedMultiplier: Swift.Double {
@@ -5246,6 +5655,14 @@ open class BoundMeasureMetric<T> {
   public static let TYPE_ALTERNATIVE_LOCATION: Swift.String
   @objc deinit
 }
+@objc(NBLane) public class Lane : ObjectiveC.NSObject, Foundation.NSSecureCoding {
+  @objc final public let indications: NbmapCoreNavigation.LaneIndication
+  @objc public init(indications: NbmapCoreNavigation.LaneIndication)
+  @objc required public init?(coder decoder: Foundation.NSCoder)
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc public func encode(with coder: Foundation.NSCoder)
+  @objc deinit
+}
 public struct DefaultContextPropagators : NbmapCoreNavigation.ContextPropagators {
   public var textMapPropagator: any NbmapCoreNavigation.TextMapPropagator
   public var textMapBaggagePropagator: any NbmapCoreNavigation.TextMapBaggagePropagator
@@ -5400,12 +5817,12 @@ public struct SpanContext : Swift.Equatable, Swift.CustomStringConvertible, Swif
   public init(from decoder: any Swift.Decoder) throws
 }
 @objc(NBRouteProgress) open class RouteProgress : ObjectiveC.NSObject {
-  @objc final public let route: NbmapDirections.Route
+  @objc final public let route: NbmapCoreNavigation.Route
   @objc public var legIndex: Swift.Int {
     @objc get
     @objc set
   }
-  @objc public var currentLeg: NbmapDirections.RouteLeg {
+  @objc public var currentLeg: NbmapCoreNavigation.RouteLeg {
     @objc get
   }
   public var isFinalLeg: Swift.Bool {
@@ -5423,53 +5840,53 @@ public struct SpanContext : Swift.Equatable, Swift.CustomStringConvertible, Swif
   @objc public var distanceRemaining: CoreLocation.CLLocationDistance {
     @objc get
   }
-  @objc public var remainingWaypoints: [NbmapDirections.Waypoint] {
+  @objc public var remainingWaypoints: [NbmapCoreNavigation.Waypoint] {
     @objc get
   }
-  @objc public func remainingWaypointsWithoutLeg(removeIndex: Swift.Int) -> [NbmapDirections.Waypoint]
+  @objc public func remainingWaypointsWithoutLeg(removeIndex: Swift.Int) -> [NbmapCoreNavigation.Waypoint]
   @objc public var currentLegProgress: NbmapCoreNavigation.RouteLegProgress
-  public var priorLeg: NbmapDirections.RouteLeg? {
+  public var priorLeg: NbmapCoreNavigation.RouteLeg? {
     get
   }
-  public var upcomingLeg: NbmapDirections.RouteLeg? {
+  public var upcomingLeg: NbmapCoreNavigation.RouteLeg? {
     get
   }
-  public var priorStep: NbmapDirections.RouteStep? {
+  public var priorStep: NbmapCoreNavigation.RouteStep? {
     get
   }
-  public var priorStepWithoutLastStepOfLeg: NbmapDirections.RouteStep? {
+  public var priorStepWithoutLastStepOfLeg: NbmapCoreNavigation.RouteStep? {
     get
   }
-  public var upcomingStep: NbmapDirections.RouteStep? {
+  public var upcomingStep: NbmapCoreNavigation.RouteStep? {
     get
   }
-  public typealias TimedCongestionLevel = (NbmapDirections.CongestionLevel, Foundation.TimeInterval)
+  public typealias TimedCongestionLevel = (NbmapCoreNavigation.CongestionLevel, Foundation.TimeInterval)
   public var congestionTravelTimesSegmentsByStep: [[[NbmapCoreNavigation.RouteProgress.TimedCongestionLevel]]]
-  public var congestionTimesPerStep: [[[NbmapDirections.CongestionLevel : Foundation.TimeInterval]]]
-  public var remainingLegs: [NbmapDirections.RouteLeg] {
+  public var congestionTimesPerStep: [[[NbmapCoreNavigation.CongestionLevel : Foundation.TimeInterval]]]
+  public var remainingLegs: [NbmapCoreNavigation.RouteLeg] {
     get
   }
-  public var remainingSteps: [NbmapDirections.RouteStep] {
+  public var remainingSteps: [NbmapCoreNavigation.RouteStep] {
     get
   }
   public var nearbyShape: Turf.LineString {
     get
   }
-  public var travelledRawLocations: NbmapCoreNavigation.RingBuffer<NbmapDirections.TravelledRawLocation>
-  @objc public init(route: NbmapDirections.Route, legIndex: Swift.Int = 0, stepIndex: Swift.Int = 0, spokenInstructionIndex: Swift.Int = 0)
-  public var averageCongestionLevelRemainingOnLeg: NbmapDirections.CongestionLevel? {
+  public var travelledRawLocations: NbmapCoreNavigation.RingBuffer<NbmapCoreNavigation.TravelledRawLocation>
+  @objc public init(route: NbmapCoreNavigation.Route, legIndex: Swift.Int = 0, stepIndex: Swift.Int = 0, spokenInstructionIndex: Swift.Int = 0)
+  public var averageCongestionLevelRemainingOnLeg: NbmapCoreNavigation.CongestionLevel? {
     get
   }
   @objc deinit
 }
 @objc(NBRouteLegProgress) open class RouteLegProgress : ObjectiveC.NSObject {
-  @objc final public let leg: NbmapDirections.RouteLeg
+  @objc final public let leg: NbmapCoreNavigation.RouteLeg
   @objc public var stepIndex: Swift.Int {
     @objc get
     @objc set
   }
   @objc public var currentLegComplete: Swift.Bool
-  @objc public var remainingSteps: [NbmapDirections.RouteStep] {
+  @objc public var remainingSteps: [NbmapCoreNavigation.RouteStep] {
     @objc get
   }
   @objc public var distanceTraveled: CoreLocation.CLLocationDistance {
@@ -5485,23 +5902,23 @@ public struct SpanContext : Swift.Equatable, Swift.CustomStringConvertible, Swif
     @objc get
   }
   @objc public var userHasArrivedAtWaypoint: Swift.Bool
-  @objc public func stepBefore(_ step: NbmapDirections.RouteStep) -> NbmapDirections.RouteStep?
-  @objc public func stepAfter(_ step: NbmapDirections.RouteStep) -> NbmapDirections.RouteStep?
-  @objc public var priorStep: NbmapDirections.RouteStep? {
+  @objc public func stepBefore(_ step: NbmapCoreNavigation.RouteStep) -> NbmapCoreNavigation.RouteStep?
+  @objc public func stepAfter(_ step: NbmapCoreNavigation.RouteStep) -> NbmapCoreNavigation.RouteStep?
+  @objc public var priorStep: NbmapCoreNavigation.RouteStep? {
     @objc get
   }
-  @objc public var currentStep: NbmapDirections.RouteStep {
+  @objc public var currentStep: NbmapCoreNavigation.RouteStep {
     @objc get
   }
-  @objc public var upComingStep: NbmapDirections.RouteStep? {
+  @objc public var upComingStep: NbmapCoreNavigation.RouteStep? {
     @objc get
   }
-  @objc public var followOnStep: NbmapDirections.RouteStep? {
+  @objc public var followOnStep: NbmapCoreNavigation.RouteStep? {
     @objc get
   }
-  @objc public func isCurrentStep(_ step: NbmapDirections.RouteStep) -> Swift.Bool
+  @objc public func isCurrentStep(_ step: NbmapCoreNavigation.RouteStep) -> Swift.Bool
   @objc public var currentStepProgress: NbmapCoreNavigation.RouteStepProgress
-  @objc public init(leg: NbmapDirections.RouteLeg, stepIndex: Swift.Int = 0, spokenInstructionIndex: Swift.Int = 0)
+  @objc public init(leg: NbmapCoreNavigation.RouteLeg, stepIndex: Swift.Int = 0, spokenInstructionIndex: Swift.Int = 0)
   @objc public var nearbyCoordinates: [CoreLocation.CLLocationCoordinate2D] {
     @objc get
   }
@@ -5512,7 +5929,7 @@ public struct SpanContext : Swift.Equatable, Swift.CustomStringConvertible, Swif
   @objc deinit
 }
 @objc(NBRouteStepProgress) open class RouteStepProgress : ObjectiveC.NSObject {
-  @objc final public let step: NbmapDirections.RouteStep
+  @objc final public let step: NbmapCoreNavigation.RouteStep
   @objc public var distanceTraveled: Swift.Double
   @objc public var userDistanceToManeuverLocation: Swift.Double
   @objc public var distanceRemaining: CoreLocation.CLLocationDistance {
@@ -5524,31 +5941,83 @@ public struct SpanContext : Swift.Equatable, Swift.CustomStringConvertible, Swif
   @objc public var durationRemaining: Foundation.TimeInterval {
     @objc get
   }
-  @objc public init(step: NbmapDirections.RouteStep, spokenInstructionIndex: Swift.Int = 0)
-  @objc public var intersectionsIncludingUpcomingManeuverIntersection: [NbmapDirections.Intersection]?
-  @objc public var upcomingIntersection: NbmapDirections.Intersection? {
+  @objc public init(step: NbmapCoreNavigation.RouteStep, spokenInstructionIndex: Swift.Int = 0)
+  @objc public var intersectionsIncludingUpcomingManeuverIntersection: [NbmapCoreNavigation.Intersection]?
+  @objc public var upcomingIntersection: NbmapCoreNavigation.Intersection? {
     @objc get
   }
   @objc public var intersectionIndex: Swift.Int
-  @objc public var currentIntersection: NbmapDirections.Intersection? {
+  @objc public var currentIntersection: NbmapCoreNavigation.Intersection? {
     @objc get
   }
   @objc public var intersectionDistances: Swift.Array<CoreLocation.CLLocationDistance>?
   public var userDistanceToUpcomingIntersection: CoreLocation.CLLocationDistance?
   @objc public var visualInstructionIndex: Swift.Int
-  @objc public var remainingVisualInstructions: [NbmapDirections.VisualInstructionBanner]? {
+  @objc public var remainingVisualInstructions: [NbmapCoreNavigation.VisualInstructionBanner]? {
     @objc get
   }
   @objc public var spokenInstructionIndex: Swift.Int
-  @objc public var remainingSpokenInstructions: [NbmapDirections.SpokenInstruction]? {
+  @objc public var remainingSpokenInstructions: [NbmapCoreNavigation.SpokenInstruction]? {
     @objc get
   }
-  @objc public var currentSpokenInstruction: NbmapDirections.SpokenInstruction? {
+  @objc public var currentSpokenInstruction: NbmapCoreNavigation.SpokenInstruction? {
     @objc get
   }
-  @objc public var currentVisualInstruction: NbmapDirections.VisualInstructionBanner? {
+  @objc public var currentVisualInstruction: NbmapCoreNavigation.VisualInstructionBanner? {
     @objc get
   }
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc(NBDirectionsResult) open class DirectionsResult : ObjectiveC.NSObject, Foundation.NSSecureCoding {
+  @objc required public init?(coder decoder: Foundation.NSCoder)
+  @objc public class var supportsSecureCoding: Swift.Bool {
+    @objc get
+  }
+  @objc public func encode(with coder: Foundation.NSCoder)
+  @objc final public let coordinates: [CoreLocation.CLLocationCoordinate2D]?
+  @objc open var coordinateCount: Swift.UInt {
+    @objc get
+  }
+  @objc open func getCoordinates(_ coordinates: Swift.UnsafeMutablePointer<CoreLocation.CLLocationCoordinate2D>)
+  @objc final public let legs: [NbmapCoreNavigation.RouteLeg]
+  @objc override dynamic open var description: Swift.String {
+    @objc get
+  }
+  @objc final public let distance: CoreLocation.CLLocationDistance
+  @objc final public let expectedTravelTime: Foundation.TimeInterval
+  @objc final public let directionsOptions: NbmapCoreNavigation.DirectionsOptions
+  @objc open var accessToken: Swift.String?
+  @objc open var apiEndpoint: Foundation.URL?
+  @objc open var routeIdentifier: Swift.String?
+  @objc open var speechLocale: Foundation.Locale?
+  @objc open var json: Swift.String?
+  @objc open var fetchStartDate: Foundation.Date?
+  @objc open var responseEndDate: Foundation.Date?
+  @objc deinit
+}
+@objc(NBDirectionsOptions) open class DirectionsOptions : ObjectiveC.NSObject, Foundation.NSSecureCoding, Foundation.NSCopying {
+  @objc required public init(waypoints: [NbmapCoreNavigation.Waypoint], profile: NbmapCoreNavigation.NBNavigationMode)
+  @objc public class var supportsSecureCoding: Swift.Bool {
+    @objc get
+  }
+  @objc open func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  @objc override dynamic open func isEqual(_ object: Any?) -> Swift.Bool
+  @objc(isEqualToDirectionsOptions:) open func isEqual(to directionsOptions: NbmapCoreNavigation.DirectionsOptions?) -> Swift.Bool
+  @objc public func encode(with coder: Foundation.NSCoder)
+  @objc required public init?(coder decoder: Foundation.NSCoder)
+  @objc open var waypoints: [NbmapCoreNavigation.Waypoint]
+  @objc open var travelledRawLocations: [NbmapCoreNavigation.TravelledRawLocation]
+  @objc open var profileIdentifier: NbmapCoreNavigation.NBNavigationMode
+  @objc open var shapeFormat: NbmapCoreNavigation.RouteShapeFormat
+  @objc open var originalShape: Swift.String
+  open var originalShapFormat: NbmapCoreNavigation.RouteShapeFormat?
+  @objc open var routeShapeResolution: NbmapCoreNavigation.RouteShapeResolution
+  @objc open var locale: Foundation.Locale
+  @objc open var distanceMeasurementSystem: NbmapCoreNavigation.MeasurementSystem {
+    @objc get
+    @objc set
+  }
+  @objc open var departureTime: Swift.Int
   @objc deinit
 }
 public class LoggerProviderSdk : NbmapCoreNavigation.LoggerProvider {
@@ -5569,7 +6038,7 @@ public struct RouteLineDistancesIndex {
   public var point: CoreLocation.CLLocationCoordinate2D
   public var distanceRemaining: Swift.Double
 }
-public func parseRoutePoints(route: NbmapDirections.Route) -> NbmapCoreNavigation.RoutePoints
+public func parseRoutePoints(route: NbmapCoreNavigation.Route) -> NbmapCoreNavigation.RoutePoints
 public func calculateGranularDistances(_ coordinates: [CoreLocation.CLLocationCoordinate2D]) -> NbmapCoreNavigation.RouteLineGranularDistances?
 public func calculateDistance(coordinate1: CoreLocation.CLLocationCoordinate2D, coordinate2: CoreLocation.CLLocationCoordinate2D) -> Swift.Double
 public typealias Log = NbmapCoreNavigation.NavigationLog
@@ -5592,6 +6061,13 @@ public struct NavigationLogCategory : Swift.RawRepresentable {
     get
   }
   public typealias RawValue = Swift.String
+}
+public typealias RoadClasses = NbmapCoreNavigation.NBRoadClasses
+extension NbmapCoreNavigation.NBRoadClasses : Swift.CustomStringConvertible {
+  public init?(descriptions: [Swift.String])
+  public var description: Swift.String {
+    get
+  }
 }
 public func md5(_ string: Swift.String) -> Swift.String
 public struct RingBuffer<T> {
@@ -6036,7 +6512,7 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Collector_Trace_V1_ExportTrace
 public typealias LocationDistance = CoreLocation.CLLocationDistance
 public typealias DistanceIndex = (distance: NbmapCoreNavigation.LocationDistance, index: Swift.Int)
 extension Turf.LineString {
-  public func closestCoordinate(to coordinate: NbmapDirections.LocationCoordinate2D, startingIndex: Swift.Int) -> NbmapCoreNavigation.DistanceIndex?
+  public func closestCoordinate(to coordinate: NbmapCoreNavigation.LocationCoordinate2D, startingIndex: Swift.Int) -> NbmapCoreNavigation.DistanceIndex?
   public func indexedCoordinateFromStart(distance: CoreLocation.CLLocationDistance) -> Turf.LineString.IndexedCoordinate?
   public func distance() -> CoreLocation.CLLocationDistance?
 }
@@ -6294,6 +6770,32 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_Status.StatusCode : N
 }
 public enum AlternativeRouteError : Swift.Error {
   case failedToUpdateAlternativeRoutes(reason: Swift.String)
+}
+public struct NavigationHazmatTypes : Swift.OptionSet {
+  public let rawValue: Swift.UInt
+  public init(rawValue: Swift.UInt)
+  public static let general: NbmapCoreNavigation.NavigationHazmatTypes
+  public static let circumstantial: NbmapCoreNavigation.NavigationHazmatTypes
+  public static let explosive: NbmapCoreNavigation.NavigationHazmatTypes
+  public static let harmfulToWater: NbmapCoreNavigation.NavigationHazmatTypes
+  public typealias ArrayLiteralElement = NbmapCoreNavigation.NavigationHazmatTypes
+  public typealias Element = NbmapCoreNavigation.NavigationHazmatTypes
+  public typealias RawValue = Swift.UInt
+}
+extension NbmapCoreNavigation.NavigationHazmatTypes : Swift.CustomStringConvertible {
+  public init?(descriptions: [Swift.String])
+  public var description: Swift.String {
+    get
+  }
+}
+@objc open class TravelledRawLocation : ObjectiveC.NSObject {
+  final public let latitude: Swift.Double
+  final public let longitude: Swift.Double
+  final public let accuracy: Swift.Double
+  final public let bearing: Swift.Double
+  public init(latitude: Swift.Double, longitude: Swift.Double, accuracy: Swift.Double, bearing: Swift.Double)
+  public func toJSONDictionary() -> NbmapCoreNavigation.JSONDictionary
+  @objc deinit
 }
 public protocol EventBuilder : NbmapCoreNavigation.LogRecordBuilder {
 }
@@ -6661,6 +7163,20 @@ public class DefaultBaggageBuilder : NbmapCoreNavigation.BaggageBuilder {
   }
   @objc deinit
 }
+@objc(NBVisualInstructionComponent) open class VisualInstructionComponent : ObjectiveC.NSObject, NbmapCoreNavigation.ComponentRepresentable {
+  @objc public var imageURL: Foundation.URL?
+  @objc public var label: Swift.String?
+  @objc public var abbreviation: Swift.String?
+  @objc public var abbreviationPriority: Swift.Int
+  @objc public var text: Swift.String?
+  @objc public var type: NbmapCoreNavigation.VisualInstructionComponentType
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc(initWithJSON:) convenience public init(json: [Swift.String : Any])
+  @objc public init(type: NbmapCoreNavigation.VisualInstructionComponentType, text: Swift.String?, imageURL: Foundation.URL?, label: Swift.String?, abbreviation: Swift.String?, abbreviationPriority: Swift.Int)
+  @objc required public init?(coder decoder: Foundation.NSCoder)
+  @objc public func encode(with coder: Foundation.NSCoder)
+  @objc deinit
+}
 public enum Samplers {
   public static var alwaysOn: any NbmapCoreNavigation.Sampler
   public static var alwaysOff: any NbmapCoreNavigation.Sampler
@@ -6710,7 +7226,7 @@ public class MessageExtension<FieldType, MessageType> : NbmapCoreNavigation.AnyM
 public protocol RerouteDelegate : ObjectiveC.NSObjectProtocol {
   func willRerouteFrom(location: CoreLocation.CLLocation)
   func failToReRouteWith(error: any Swift.Error)
-  func didToReRouteWith(location: CoreLocation.CLLocation, routes: [NbmapDirections.Route])
+  func didToReRouteWith(location: CoreLocation.CLLocation, routes: [NbmapCoreNavigation.Route])
 }
 public struct TraceState : Swift.Equatable, Swift.Codable {
   public var entries: [NbmapCoreNavigation.TraceState.Entry] {
@@ -6736,6 +7252,18 @@ public struct TraceState : Swift.Equatable, Swift.Codable {
   public static func == (a: NbmapCoreNavigation.TraceState, b: NbmapCoreNavigation.TraceState) -> Swift.Bool
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
+}
+@objc(NBSpokenInstruction) open class SpokenInstruction : ObjectiveC.NSObject, Foundation.NSSecureCoding {
+  @objc final public let distanceAlongStep: CoreLocation.CLLocationDistance
+  @objc final public let text: Swift.String
+  @objc final public let ssmlText: Swift.String?
+  @objc final public let unit: Foundation.UnitLength?
+  @objc(initWithJSON:) convenience public init(json: [Swift.String : Any])
+  @objc public init(distanceAlongStep: CoreLocation.CLLocationDistance, text: Swift.String, ssmlText: Swift.String?, unit: Foundation.UnitLength?)
+  @objc required public init?(coder decoder: Foundation.NSCoder)
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc public func encode(with coder: Foundation.NSCoder)
+  @objc deinit
 }
 @_hasMissingDesignatedInitializers open class LabelSet : Swift.Hashable {
   public var labels: [Swift.String : Swift.String] {
@@ -6804,19 +7332,19 @@ open class SnapDistanceTracker {
 public protocol NavigationServiceDelegate : AnyObject, NbmapCoreNavigation.UnimplementedLogging {
   func navigationService(_ service: any NbmapCoreNavigation.NavigationService, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
   func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willRerouteFrom location: CoreLocation.CLLocation)
-  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willTakeAlternativeRoute route: NbmapDirections.Route, at location: CoreLocation.CLLocation?)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willTakeAlternativeRoute route: NbmapCoreNavigation.Route, at location: CoreLocation.CLLocation?)
   func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didTakeAlternativeRouteAt location: CoreLocation.CLLocation?)
   func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didFailToTakeAlternativeRouteAt location: CoreLocation.CLLocation?)
   func navigationService(_ service: any NbmapCoreNavigation.NavigationService, shouldDiscard location: CoreLocation.CLLocation) -> Swift.Bool
-  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didRerouteAlong route: NbmapDirections.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didRerouteAlong route: NbmapCoreNavigation.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
   func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didFailToRerouteWith error: any Swift.Error)
   func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didRefresh routeProgress: NbmapCoreNavigation.RouteProgress)
   func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didUpdate progress: NbmapCoreNavigation.RouteProgress, with location: CoreLocation.CLLocation, rawLocation: CoreLocation.CLLocation)
-  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
-  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willArriveAt waypoint: NbmapDirections.Waypoint, after remainingTimeInterval: Foundation.TimeInterval, distance: CoreLocation.CLLocationDistance)
-  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didArriveAt waypoint: NbmapDirections.Waypoint)
-  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didPassVisualInstructionPoint instruction: NbmapDirections.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
-  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didPassSpokenInstructionPoint instruction: NbmapDirections.SpokenInstruction, routeProgress: NbmapCoreNavigation.RouteProgress)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, shouldPreventReroutesWhenArrivingAt waypoint: NbmapCoreNavigation.Waypoint) -> Swift.Bool
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willArriveAt waypoint: NbmapCoreNavigation.Waypoint, after remainingTimeInterval: Foundation.TimeInterval, distance: CoreLocation.CLLocationDistance)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didArriveAt waypoint: NbmapCoreNavigation.Waypoint)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didPassVisualInstructionPoint instruction: NbmapCoreNavigation.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
+  func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didPassSpokenInstructionPoint instruction: NbmapCoreNavigation.SpokenInstruction, routeProgress: NbmapCoreNavigation.RouteProgress)
   func navigationServiceDidChangeAuthorization(_ service: any NbmapCoreNavigation.NavigationService, didChangeAuthorizationFor locationManager: CoreLocation.CLLocationManager)
   func navigationServiceShouldDisableBatteryMonitoring(_ service: any NbmapCoreNavigation.NavigationService) -> Swift.Bool
   func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willBeginSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
@@ -6828,18 +7356,18 @@ extension NbmapCoreNavigation.NavigationServiceDelegate {
   public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, shouldRerouteFrom location: CoreLocation.CLLocation) -> Swift.Bool
   public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willRerouteFrom location: CoreLocation.CLLocation)
   public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, shouldDiscard location: CoreLocation.CLLocation) -> Swift.Bool
-  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didRerouteAlong route: NbmapDirections.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
-  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willTakeAlternativeRoute route: NbmapDirections.Route, at location: CoreLocation.CLLocation?)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didRerouteAlong route: NbmapCoreNavigation.Route, at location: CoreLocation.CLLocation?, proactive: Swift.Bool)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willTakeAlternativeRoute route: NbmapCoreNavigation.Route, at location: CoreLocation.CLLocation?)
   public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didTakeAlternativeRouteAt location: CoreLocation.CLLocation?)
   public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didFailToTakeAlternativeRouteAt location: CoreLocation.CLLocation?)
   public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didFailToRerouteWith error: any Swift.Error)
   public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didRefresh routeProgress: NbmapCoreNavigation.RouteProgress)
   public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didUpdate progress: NbmapCoreNavigation.RouteProgress, with location: CoreLocation.CLLocation, rawLocation: CoreLocation.CLLocation)
-  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didPassVisualInstructionPoint instruction: NbmapDirections.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
-  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didPassSpokenInstructionPoint instruction: NbmapDirections.SpokenInstruction, routeProgress: NbmapCoreNavigation.RouteProgress)
-  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willArriveAt waypoint: NbmapDirections.Waypoint, after remainingTimeInterval: Foundation.TimeInterval, distance: CoreLocation.CLLocationDistance)
-  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didArriveAt waypoint: NbmapDirections.Waypoint)
-  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, shouldPreventReroutesWhenArrivingAt waypoint: NbmapDirections.Waypoint) -> Swift.Bool
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didPassVisualInstructionPoint instruction: NbmapCoreNavigation.VisualInstructionBanner, routeProgress: NbmapCoreNavigation.RouteProgress)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didPassSpokenInstructionPoint instruction: NbmapCoreNavigation.SpokenInstruction, routeProgress: NbmapCoreNavigation.RouteProgress)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willArriveAt waypoint: NbmapCoreNavigation.Waypoint, after remainingTimeInterval: Foundation.TimeInterval, distance: CoreLocation.CLLocationDistance)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didArriveAt waypoint: NbmapCoreNavigation.Waypoint)
+  public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, shouldPreventReroutesWhenArrivingAt waypoint: NbmapCoreNavigation.Waypoint) -> Swift.Bool
   public func navigationServiceDidChangeAuthorization(_ service: any NbmapCoreNavigation.NavigationService, didChangeAuthorizationFor locationManager: CoreLocation.CLLocationManager)
   public func navigationServiceShouldDisableBatteryMonitoring(_ service: any NbmapCoreNavigation.NavigationService) -> Swift.Bool
   public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, willBeginSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
@@ -6848,6 +7376,9 @@ extension NbmapCoreNavigation.NavigationServiceDelegate {
   public func navigationService(_ service: any NbmapCoreNavigation.NavigationService, didEndSimulating progress: NbmapCoreNavigation.RouteProgress, becauseOf reason: NbmapCoreNavigation.SimulationIntent)
 }
 extension Foundation.Locale {
+  public static let DEFAULT_LANGUAGE_VALUE: Swift.String
+  public static let LANGUAGE_ZH_VALUE: Swift.String
+  public static let LANGUAGE_ZH_HANS_VALUE: Swift.String
   public static var preferredLocalLanguageCountryCode: Swift.String {
     get
   }
@@ -7140,6 +7671,29 @@ open class BoundHistogramMetric<T> {
   open func record(value: T)
   @objc deinit
 }
+@objc(NBWaypoint) open class Waypoint : ObjectiveC.NSObject, Foundation.NSCopying, Foundation.NSSecureCoding {
+  @objc public class var supportsSecureCoding: Swift.Bool {
+    @objc get
+  }
+  @objc public init(coordinate: CoreLocation.CLLocationCoordinate2D, coordinateAccuracy: CoreLocation.CLLocationAccuracy = -1, name: Swift.String? = nil)
+  @objc public init(location: CoreLocation.CLLocation, heading: CoreLocation.CLHeading? = nil, name: Swift.String? = nil)
+  @objc required public init?(coder decoder: Foundation.NSCoder)
+  @objc open func encode(with coder: Foundation.NSCoder)
+  @objc open func copy(with zone: ObjectiveC.NSZone?) -> Any
+  @objc final public let coordinate: CoreLocation.CLLocationCoordinate2D
+  @objc open var coordinateAccuracy: Swift.Double
+  @objc open var heading: Swift.Double
+  @objc open var headingAccuracy: Swift.Double
+  @objc open var name: Swift.String?
+  @objc open var allowsArrivingOnOppositeSide: Swift.Bool
+  @objc override dynamic open var description: Swift.String {
+    @objc get
+  }
+  @objc open var latLngString: Swift.String {
+    @objc get
+  }
+  @objc deinit
+}
 public protocol DoubleObserverMetric {
   func observe(value: Swift.Double, labelset: NbmapCoreNavigation.LabelSet)
   func observe(value: Swift.Double, labels: [Swift.String : Swift.String])
@@ -7218,8 +7772,17 @@ public protocol BinaryFormattable {
   public func get(instrumentationName: Swift.String, instrumentationVersion: Swift.String? = nil) -> any NbmapCoreNavigation.Tracer
   @objc deinit
 }
+extension NbmapCoreNavigation.VisualInstructionComponentType : Swift.Equatable {}
+extension NbmapCoreNavigation.VisualInstructionComponentType : Swift.Hashable {}
+extension NbmapCoreNavigation.VisualInstructionComponentType : Swift.RawRepresentable {}
 extension NbmapCoreNavigation.TextFormatDecodingError : Swift.Equatable {}
 extension NbmapCoreNavigation.TextFormatDecodingError : Swift.Hashable {}
+extension NbmapCoreNavigation.RouteShapeResolution : Swift.Equatable {}
+extension NbmapCoreNavigation.RouteShapeResolution : Swift.Hashable {}
+extension NbmapCoreNavigation.RouteShapeResolution : Swift.RawRepresentable {}
+extension NbmapCoreNavigation.RouteShapeFormat : Swift.Equatable {}
+extension NbmapCoreNavigation.RouteShapeFormat : Swift.Hashable {}
+extension NbmapCoreNavigation.RouteShapeFormat : Swift.RawRepresentable {}
 extension NbmapCoreNavigation.SignStandard : Swift.Equatable {}
 extension NbmapCoreNavigation.SignStandard : Swift.Hashable {}
 extension NbmapCoreNavigation.AnyUnpackError : Swift.Equatable {}
@@ -7250,6 +7813,24 @@ extension NbmapCoreNavigation.SemanticAttributes.MessageTypeValues : Swift.Hasha
 extension NbmapCoreNavigation.SemanticAttributes.MessageTypeValues : Swift.RawRepresentable {}
 extension NbmapCoreNavigation.OffRouteStatus : Swift.Equatable {}
 extension NbmapCoreNavigation.OffRouteStatus : Swift.Hashable {}
+extension NbmapCoreNavigation.TransportType : Swift.Equatable {}
+extension NbmapCoreNavigation.TransportType : Swift.Hashable {}
+extension NbmapCoreNavigation.TransportType : Swift.RawRepresentable {}
+extension NbmapCoreNavigation.ManeuverType : Swift.Equatable {}
+extension NbmapCoreNavigation.ManeuverType : Swift.Hashable {}
+extension NbmapCoreNavigation.ManeuverType : Swift.RawRepresentable {}
+extension NbmapCoreNavigation.ManeuverDirection : Swift.Equatable {}
+extension NbmapCoreNavigation.ManeuverDirection : Swift.Hashable {}
+extension NbmapCoreNavigation.ManeuverDirection : Swift.RawRepresentable {}
+extension NbmapCoreNavigation.DrivingSide : Swift.Equatable {}
+extension NbmapCoreNavigation.DrivingSide : Swift.Hashable {}
+extension NbmapCoreNavigation.DrivingSide : Swift.RawRepresentable {}
+extension NbmapCoreNavigation.MeasurementSystem : Swift.Equatable {}
+extension NbmapCoreNavigation.MeasurementSystem : Swift.Hashable {}
+extension NbmapCoreNavigation.MeasurementSystem : Swift.RawRepresentable {}
+extension NbmapCoreNavigation.InstructionFormat : Swift.Equatable {}
+extension NbmapCoreNavigation.InstructionFormat : Swift.Hashable {}
+extension NbmapCoreNavigation.InstructionFormat : Swift.RawRepresentable {}
 extension NbmapCoreNavigation.ExportResult : Swift.Equatable {}
 extension NbmapCoreNavigation.ExportResult : Swift.Hashable {}
 extension NbmapCoreNavigation.SpanKind : Swift.Hashable {}
@@ -7262,6 +7843,9 @@ extension NbmapCoreNavigation.Severity : Swift.Hashable {}
 extension NbmapCoreNavigation.Severity : Swift.RawRepresentable {}
 extension NbmapCoreNavigation.BinaryEncodingError : Swift.Equatable {}
 extension NbmapCoreNavigation.BinaryEncodingError : Swift.Hashable {}
+extension NbmapCoreNavigation.CongestionLevel : Swift.Equatable {}
+extension NbmapCoreNavigation.CongestionLevel : Swift.Hashable {}
+extension NbmapCoreNavigation.CongestionLevel : Swift.RawRepresentable {}
 extension NbmapCoreNavigation.RingBuffer.OverwriteOperation : Swift.Equatable {}
 extension NbmapCoreNavigation.RingBuffer.OverwriteOperation : Swift.Hashable {}
 extension NbmapCoreNavigation.ResourceAttributes : Swift.Equatable {}

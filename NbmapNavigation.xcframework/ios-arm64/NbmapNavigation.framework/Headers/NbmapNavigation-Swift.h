@@ -284,7 +284,6 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @import Foundation;
 @import Nbmap;
 @import NbmapCoreNavigation;
-@import NbmapDirections;
 @import ObjectiveC;
 @import UIKit;
 #endif
