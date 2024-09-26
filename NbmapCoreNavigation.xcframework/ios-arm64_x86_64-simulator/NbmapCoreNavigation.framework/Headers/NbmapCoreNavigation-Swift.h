@@ -613,7 +613,7 @@ SWIFT_CLASS_NAMED("DistanceFormatter")
 /// The user’s <code>Locale</code> is used here to set the units.
 - (NSString * _Nonnull)stringFrom:(CLLocationDistance)distance SWIFT_WARN_UNUSED_RESULT;
 - (NSString * _Nonnull)stringFromMeters:(double)numberInMeters SWIFT_WARN_UNUSED_RESULT;
-- (NSMeasurement<NSUnitLength *> * _Nonnull)measurementOfDistance:(CLLocationDistance)distance SWIFT_WARN_UNUSED_RESULT SWIFT_AVAILABILITY(ios,introduced=10.0);
+- (NSMeasurement<NSUnitLength *> * _Nonnull)measurementOfDistance:(CLLocationDistance)distance SWIFT_WARN_UNUSED_RESULT;
 /// Returns an attributed string containing the formatted, converted distance.
 /// <code>NSAttributedStringKey.quantity</code> is applied to the numeric quantity.
 - (NSAttributedString * _Nullable)attributedStringForObjectValue:(id _Nonnull)obj withDefaultAttributes:(NSDictionary<NSAttributedStringKey, id> * _Nullable)attrs SWIFT_WARN_UNUSED_RESULT;
@@ -2429,7 +2429,7 @@ SWIFT_CLASS_NAMED("DistanceFormatter")
 /// The user’s <code>Locale</code> is used here to set the units.
 - (NSString * _Nonnull)stringFrom:(CLLocationDistance)distance SWIFT_WARN_UNUSED_RESULT;
 - (NSString * _Nonnull)stringFromMeters:(double)numberInMeters SWIFT_WARN_UNUSED_RESULT;
-- (NSMeasurement<NSUnitLength *> * _Nonnull)measurementOfDistance:(CLLocationDistance)distance SWIFT_WARN_UNUSED_RESULT SWIFT_AVAILABILITY(ios,introduced=10.0);
+- (NSMeasurement<NSUnitLength *> * _Nonnull)measurementOfDistance:(CLLocationDistance)distance SWIFT_WARN_UNUSED_RESULT;
 /// Returns an attributed string containing the formatted, converted distance.
 /// <code>NSAttributedStringKey.quantity</code> is applied to the numeric quantity.
 - (NSAttributedString * _Nullable)attributedStringForObjectValue:(id _Nonnull)obj withDefaultAttributes:(NSDictionary<NSAttributedStringKey, id> * _Nullable)attrs SWIFT_WARN_UNUSED_RESULT;

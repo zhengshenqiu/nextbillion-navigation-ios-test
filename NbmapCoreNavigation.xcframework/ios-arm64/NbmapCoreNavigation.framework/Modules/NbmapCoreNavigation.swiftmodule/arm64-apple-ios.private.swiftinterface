@@ -160,10 +160,14 @@ extension UIKit.UIDevice {
 }
 @objc open class RerouteController : ObjectiveC.NSObject {
   weak public var delegate: (any NbmapCoreNavigation.RerouteDelegate)?
+  public var routeTask: (any NbmapCoreNavigation.NavigationProviderRequest)? {
+    get
+  }
   public var routeProgress: NbmapCoreNavigation.RouteProgress?
   public var lastRerouteLocation: CoreLocation.CLLocation?
   public init(navConfig: NbmapCoreNavigation.NavigationEngineConfig, routingProvider: (any NbmapCoreNavigation.RoutingProvider)? = nil)
   @objc deinit
+  public func getTravelledLocationList(travelledLocations: NbmapCoreNavigation.RingBuffer<NbmapCoreNavigation.TravelledRawLocation>) -> [NbmapCoreNavigation.TravelledRawLocation]
 }
 public protocol Sampler : AnyObject, Swift.CustomStringConvertible {
   func shouldSample(parentContext: NbmapCoreNavigation.SpanContext?, traceId: NbmapCoreNavigation.TraceId, name: Swift.String, kind: NbmapCoreNavigation.SpanKind, attributes: [Swift.String : NbmapCoreNavigation.AttributeValue], parentLinks: [NbmapCoreNavigation.SpanData.Link]) -> any NbmapCoreNavigation.Decision
@@ -273,6 +277,7 @@ public struct BatchSpanProcessor : NbmapCoreNavigation.SpanProcessor {
   @objc open var crossBorder: Swift.Bool
   open var hazmatTypes: NbmapCoreNavigation.NavigationHazmatTypes
   @objc open var truckAxleLoad: Swift.Double
+  public func response(from json: NbmapCoreNavigation.JSONDictionary) -> [NbmapCoreNavigation.Route]?
   @objc override public class var supportsSecureCoding: Swift.Bool {
     @objc get
   }
@@ -939,6 +944,10 @@ public struct W3CBaggagePropagator : NbmapCoreNavigation.TextMapBaggagePropagato
   public static func getIsTravelledLocationEnabled() -> Swift.Bool
   @objc deinit
 }
+public struct SessionState {
+  public mutating func reportChange(to orientation: UIKit.UIDeviceOrientation)
+  public mutating func reportChange(to applicationState: UIKit.UIApplication.State)
+}
 public protocol Logger {
   func eventBuilder(name: Swift.String) -> any NbmapCoreNavigation.EventBuilder
   func logRecordBuilder() -> any NbmapCoreNavigation.LogRecordBuilder
@@ -992,6 +1001,9 @@ public protocol NavigationEventsManagerDataSource : AnyObject {
   var locationManagerType: NbmapCoreNavigation.NavigationLocationManager.Type { get }
 }
 public class NbRoutingProvider : NbmapCoreNavigation.RoutingProvider {
+  public var settings: NbmapCoreNavigation.NavigationSettings {
+    get
+  }
   public struct Request : NbmapCoreNavigation.NavigationProviderRequest {
     public func cancel()
   }
@@ -2527,7 +2539,7 @@ extension NbmapCoreNavigation.Opentelemetry_Proto_Trace_V1_RateLimitingSampler :
     get
   }
 }
-public struct NavigationEngineConfig {
+public struct NavigationEngineConfig : Swift.Equatable {
   public init()
   public var maxTurnCompletionOffset: Swift.Double
   public var maneuverZoneRadius: CoreLocation.CLLocationDistance
@@ -2558,6 +2570,7 @@ public struct NavigationEngineConfig {
   public var enableSnapDistanceTracker: Swift.Bool
   public var enableRoadNetworkDetector: Swift.Bool
   public var enableStationaryDetector: Swift.Bool
+  public static func == (a: NbmapCoreNavigation.NavigationEngineConfig, b: NbmapCoreNavigation.NavigationEngineConfig) -> Swift.Bool
 }
 public struct PolylineEncoder {
   public let coordinates: [NbmapCoreNavigation.LocationCoordinate2D]?
@@ -2589,6 +2602,9 @@ public struct EntryValue : Swift.Equatable {
   public static func == (a: NbmapCoreNavigation.EntryValue, b: NbmapCoreNavigation.EntryValue) -> Swift.Bool
 }
 @objc(NBEventsManager) open class DataTracking : ObjectiveC.NSObject {
+  public var sessionState: NbmapCoreNavigation.SessionState {
+    get
+  }
   public var userInfo: [Swift.String : Swift.String?]?
   required public init(dataSource: (any NbmapCoreNavigation.NavigationEventsManagerDataSource)? = nil, accessToken possibleToken: Swift.String? = nil, telemetry: any NbmapCoreNavigation.Telemetry = NBTelemetryManager.shared)
   @objc deinit
@@ -4421,6 +4437,24 @@ public protocol DoubleObserverMetricHandle {
   func observe(value: Swift.Double)
 }
 @objc @_hasMissingDesignatedInitializers public class NBTelemetryManager : ObjectiveC.NSObject, NbmapCoreNavigation.Telemetry {
+  public var tracer: NbmapCoreNavigation.TracerSdk {
+    get
+  }
+  public var jaegerExporter: NbmapCoreNavigation.OtlpHttpTraceExporter {
+    get
+  }
+  public var eventConfigration: NbmapCoreNavigation.EventConfigration {
+    get
+  }
+  public var telemetry: NbmapCoreNavigation.OpenTelemetry {
+    get
+  }
+  public var enqueuedEvents: [any NbmapCoreNavigation.Span] {
+    get
+  }
+  public var accessToken: Swift.String? {
+    get
+  }
   public static let shared: NbmapCoreNavigation.NBTelemetryManager
   convenience public init(_ telemetry: NbmapCoreNavigation.OpenTelemetry? = nil, eventConfigration: NbmapCoreNavigation.EventConfigration? = nil, tracerProvider: (any NbmapCoreNavigation.TracerProvider)? = nil, tracer: NbmapCoreNavigation.TracerSdk? = nil, spanProcessor: (any NbmapCoreNavigation.SpanProcessor)? = nil, jaegerExporter: NbmapCoreNavigation.OtlpHttpTraceExporter? = nil, resources: NbmapCoreNavigation.Resource? = nil)
   public func setup(withAccessToken: Swift.String, userAgentBase: Swift.String, hostSDKVersion: Swift.String)
@@ -5011,6 +5045,9 @@ public protocol NavigationService : CoreLocation.CLLocationManagerDelegate, Nbma
     get
     set
   }
+  public var isSimulating: Swift.Bool {
+    get
+  }
   public func isInTunnel(at location: CoreLocation.CLLocation, along progress: NbmapCoreNavigation.RouteProgress) -> Swift.Bool
   required public init(routes: [NbmapCoreNavigation.Route], routeIndex: Swift.Int, locationSource: NbmapCoreNavigation.NavigationLocationManager? = nil, routerController: (any NbmapCoreNavigation.Router)? = nil, dataTracking: NbmapCoreNavigation.DataTracking? = nil, simulating simulationMode: NbmapCoreNavigation.SimulationMode? = nil, navigationEngConfig: NbmapCoreNavigation.NavigationEngineConfig? = nil, routingProvider: (any NbmapCoreNavigation.RoutingProvider)? = nil, stationarySetection: (any NbmapCoreNavigation.StationaryDetection)? = nil)
   @objc deinit
@@ -5287,10 +5324,6 @@ public class MultiLogRecordExporter : NbmapCoreNavigation.LogRecordExporter {
   public func shutdown()
   public func forceFlush() -> NbmapCoreNavigation.ExportResult
   @objc deinit
-}
-public struct ToleranceUtils {
-  public static func onRouteProbability(trueDistance: Swift.Double, onRouteRadius: Swift.Double, locationAccuracy: Swift.Double) -> Swift.Double
-  public static func cumulativeOffRouteProbability(probalites: [Swift.Double]) -> Swift.Double
 }
 public struct ProxyMeter : NbmapCoreNavigation.Meter {
   public func createRawDoubleCounter(name: Swift.String) -> NbmapCoreNavigation.AnyRawCounterMetric<Swift.Double>
@@ -5725,7 +5758,6 @@ extension Foundation.NSAttributedString.Key {
   @objc override dynamic open func encode(with aCoder: Foundation.NSCoder)
   @objc public func string(from distance: CoreLocation.CLLocationDistance) -> Swift.String
   @objc override dynamic open func string(fromMeters numberInMeters: Swift.Double) -> Swift.String
-  @available(iOS 10.0, *)
   @objc(measurementOfDistance:) public func measurement(of distance: CoreLocation.CLLocationDistance) -> Foundation.Measurement<Foundation.UnitLength>
   @objc override dynamic open func attributedString(for obj: Any, withDefaultAttributes attrs: [Foundation.NSAttributedString.Key : Any]? = nil) -> Foundation.NSAttributedString?
   @objc deinit
@@ -6041,7 +6073,6 @@ public struct RouteLineDistancesIndex {
   public var point: CoreLocation.CLLocationCoordinate2D
   public var distanceRemaining: Swift.Double
 }
-public func parseRoutePoints(route: NbmapCoreNavigation.Route) -> NbmapCoreNavigation.RoutePoints
 public func calculateGranularDistances(_ coordinates: [CoreLocation.CLLocationCoordinate2D]) -> NbmapCoreNavigation.RouteLineGranularDistances?
 public func calculateDistance(coordinate1: CoreLocation.CLLocationCoordinate2D, coordinate2: CoreLocation.CLLocationCoordinate2D) -> Swift.Double
 public typealias Log = NbmapCoreNavigation.NavigationLog
