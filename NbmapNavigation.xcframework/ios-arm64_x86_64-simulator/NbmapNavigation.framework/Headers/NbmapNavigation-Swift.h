@@ -573,7 +573,7 @@ SWIFT_CLASS_NAMED("CancelButton")
 /// <code>CarPlayManager</code> is the main object responsible for orchestrating interactions with a Nbmap map on CarPlay.
 /// You do not create instances of this object yourself; instead, use the <code>CarPlayManager.shared</code> class property.
 /// Messages declared in the <code>CPApplicationDelegate</code> protocol should be sent to this object in the containing application’s application delegate. Implement <code>CarPlayManagerDelegate</code> in the containing application and assign an instance to the <code>delegate</code> property of the <code>CarPlayManager</code> shared instance.
-SWIFT_CLASS("_TtC15NbmapNavigation14CarPlayManager") SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_CLASS("_TtC15NbmapNavigation14CarPlayManager") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager : NSObject
 /// If set to <code>true</code>, turn-by-turn directions will simulate the user traveling along the selected route when initiated from CarPlay.
 @property (nonatomic) BOOL simulatesLocations;
@@ -587,7 +587,7 @@ SWIFT_CLASS("_TtC15NbmapNavigation14CarPlayManager") SWIFT_AVAILABILITY(ios,intr
 @class CarPlayNavigationViewController;
 
 /// The <code>CarPlayNavigationDelegate</code> protocol provides methods for reacting to significant events during turn-by-turn navigation with <code>CarPlayNavigationViewController</code>.
-SWIFT_PROTOCOL_NAMED("CarPlayNavigationDelegate") SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_PROTOCOL_NAMED("CarPlayNavigationDelegate") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @protocol NBNavigationCarPlayDelegate
 /// Called when the CarPlay navigation view controller is dismissed, such as when the user ends a trip.
 /// \param carPlayNavigationViewController The CarPlay navigation view controller that was dismissed.
@@ -602,7 +602,7 @@ SWIFT_PROTOCOL_NAMED("CarPlayNavigationDelegate") SWIFT_AVAILABILITY(ios,introdu
 @end
 
 
-SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <NBNavigationCarPlayDelegate>
 - (void)carPlayNavigationViewControllerDidArrive:(CarPlayNavigationViewController * _Nonnull)_;
 - (void)carPlayNavigationViewControllerDidDismiss:(CarPlayNavigationViewController * _Nonnull)carPlayNavigationViewController byCanceling:(BOOL)canceled;
@@ -613,7 +613,7 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 @class CPInterfaceController;
 @class CPWindow;
 
-SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPApplicationDelegate>
 - (void)application:(UIApplication * _Nonnull)application didConnectCarInterfaceController:(CPInterfaceController * _Nonnull)interfaceController toWindow:(CPWindow * _Nonnull)window;
 - (void)application:(UIApplication * _Nonnull)application didDisconnectCarInterfaceController:(CPInterfaceController * _Nonnull)interfaceController fromWindow:(CPWindow * _Nonnull)window;
@@ -632,14 +632,14 @@ SWIFT_AVAILABILITY(ios,introduced=13.0)
 @class CPListTemplate;
 @class CPListItem;
 
-SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPListTemplateDelegate>
 - (void)listTemplate:(CPListTemplate * _Nonnull)listTemplate didSelectListItem:(CPListItem * _Nonnull)item completionHandler:(void (^ _Nonnull)(void))completionHandler;
 @end
 
 @class CPTemplate;
 
-SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPInterfaceControllerDelegate>
 - (void)templateWillAppear:(CPTemplate * _Nonnull)template_ animated:(BOOL)animated;
 - (void)templateDidAppear:(CPTemplate * _Nonnull)template_ animated:(BOOL)animated;
@@ -651,7 +651,7 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 @class CPTrip;
 @class CPRouteChoice;
 
-SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPMapTemplateDelegate>
 - (void)mapTemplate:(CPMapTemplate * _Nonnull)mapTemplate startedTrip:(CPTrip * _Nonnull)trip usingRouteChoice:(CPRouteChoice * _Nonnull)routeChoice;
 - (void)mapTemplate:(CPMapTemplate * _Nonnull)mapTemplate selectedPreviewForTrip:(CPTrip * _Nonnull)trip usingRouteChoice:(CPRouteChoice * _Nonnull)routeChoice;
@@ -665,7 +665,7 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 
 @class CPSearchTemplate;
 
-SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPSearchTemplateDelegate>
 - (void)searchTemplate:(CPSearchTemplate * _Nonnull)searchTemplate updatedSearchText:(NSString * _Nonnull)searchText completionHandler:(void (^ _Nonnull)(NSArray<CPListItem *> * _Nonnull))completionHandler;
 - (void)searchTemplateSearchButtonPressed:(CPSearchTemplate * _Nonnull)searchTemplate;
@@ -678,7 +678,7 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 /// <code>CarPlayNavigationViewController</code> is a fully-featured turn-by-turn navigation UI for CarPlay.
 /// seealso:
 /// NavigationViewController
-SWIFT_CLASS("_TtC15NbmapNavigation31CarPlayNavigationViewController") SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_CLASS("_TtC15NbmapNavigation31CarPlayNavigationViewController") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayNavigationViewController : UIViewController <NGLMapViewDelegate>
 /// The view controller’s delegate.
 @property (nonatomic, weak) id <NBNavigationCarPlayDelegate> _Nullable delegate;
@@ -709,9 +709,9 @@ SWIFT_CLASS("_TtC15NbmapNavigation31CarPlayNavigationViewController") SWIFT_AVAI
 
 @class CPSessionConfiguration;
 
-SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <CPSessionConfigurationDelegate>
-- (void)sessionConfiguration:(CPSessionConfiguration * _Nonnull)sessionConfiguration contentStyleChanged:(CPContentStyle)contentStyle SWIFT_AVAILABILITY(ios,introduced=13.0);
+- (void)sessionConfiguration:(CPSessionConfiguration * _Nonnull)sessionConfiguration contentStyleChanged:(CPContentStyle)contentStyle;
 @end
 
 
@@ -839,6 +839,7 @@ SWIFT_PROTOCOL_NAMED("NavigationMapViewDelegate")
 @class NGLMapView;
 @class NGLStyle;
 
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBNavigationMapViewDelegate>
 - (void)mapView:(NGLMapView * _Nonnull)mapView didFinishLoadingStyle:(NGLStyle * _Nonnull)style;
 @end
@@ -860,7 +861,7 @@ SWIFT_PROTOCOL_NAMED("StyleManagerDelegate")
 @end
 
 
-SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBStyleManagerDelegate>
 - (CLLocation * _Nullable)locationForStyleManager:(NBStyleManager * _Nonnull)styleManager SWIFT_WARN_UNUSED_RESULT;
 - (void)styleManager:(NBStyleManager * _Nonnull)styleManager didApply:(NBStyle * _Nonnull)style;
@@ -1730,6 +1731,7 @@ SWIFT_CLASS_NAMED("ResumeButton")
 
 
 
+/// A view that displays the duration of a route as a symbol on the map.
 SWIFT_CLASS("_TtC15NbmapNavigation19RouteDurationSymbol")
 @interface RouteDurationSymbol : UIView
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
@@ -2693,7 +2695,7 @@ SWIFT_CLASS_NAMED("CancelButton")
 /// <code>CarPlayManager</code> is the main object responsible for orchestrating interactions with a Nbmap map on CarPlay.
 /// You do not create instances of this object yourself; instead, use the <code>CarPlayManager.shared</code> class property.
 /// Messages declared in the <code>CPApplicationDelegate</code> protocol should be sent to this object in the containing application’s application delegate. Implement <code>CarPlayManagerDelegate</code> in the containing application and assign an instance to the <code>delegate</code> property of the <code>CarPlayManager</code> shared instance.
-SWIFT_CLASS("_TtC15NbmapNavigation14CarPlayManager") SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_CLASS("_TtC15NbmapNavigation14CarPlayManager") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager : NSObject
 /// If set to <code>true</code>, turn-by-turn directions will simulate the user traveling along the selected route when initiated from CarPlay.
 @property (nonatomic) BOOL simulatesLocations;
@@ -2707,7 +2709,7 @@ SWIFT_CLASS("_TtC15NbmapNavigation14CarPlayManager") SWIFT_AVAILABILITY(ios,intr
 @class CarPlayNavigationViewController;
 
 /// The <code>CarPlayNavigationDelegate</code> protocol provides methods for reacting to significant events during turn-by-turn navigation with <code>CarPlayNavigationViewController</code>.
-SWIFT_PROTOCOL_NAMED("CarPlayNavigationDelegate") SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_PROTOCOL_NAMED("CarPlayNavigationDelegate") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @protocol NBNavigationCarPlayDelegate
 /// Called when the CarPlay navigation view controller is dismissed, such as when the user ends a trip.
 /// \param carPlayNavigationViewController The CarPlay navigation view controller that was dismissed.
@@ -2722,7 +2724,7 @@ SWIFT_PROTOCOL_NAMED("CarPlayNavigationDelegate") SWIFT_AVAILABILITY(ios,introdu
 @end
 
 
-SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <NBNavigationCarPlayDelegate>
 - (void)carPlayNavigationViewControllerDidArrive:(CarPlayNavigationViewController * _Nonnull)_;
 - (void)carPlayNavigationViewControllerDidDismiss:(CarPlayNavigationViewController * _Nonnull)carPlayNavigationViewController byCanceling:(BOOL)canceled;
@@ -2733,7 +2735,7 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 @class CPInterfaceController;
 @class CPWindow;
 
-SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPApplicationDelegate>
 - (void)application:(UIApplication * _Nonnull)application didConnectCarInterfaceController:(CPInterfaceController * _Nonnull)interfaceController toWindow:(CPWindow * _Nonnull)window;
 - (void)application:(UIApplication * _Nonnull)application didDisconnectCarInterfaceController:(CPInterfaceController * _Nonnull)interfaceController fromWindow:(CPWindow * _Nonnull)window;
@@ -2752,14 +2754,14 @@ SWIFT_AVAILABILITY(ios,introduced=13.0)
 @class CPListTemplate;
 @class CPListItem;
 
-SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPListTemplateDelegate>
 - (void)listTemplate:(CPListTemplate * _Nonnull)listTemplate didSelectListItem:(CPListItem * _Nonnull)item completionHandler:(void (^ _Nonnull)(void))completionHandler;
 @end
 
 @class CPTemplate;
 
-SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPInterfaceControllerDelegate>
 - (void)templateWillAppear:(CPTemplate * _Nonnull)template_ animated:(BOOL)animated;
 - (void)templateDidAppear:(CPTemplate * _Nonnull)template_ animated:(BOOL)animated;
@@ -2771,7 +2773,7 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 @class CPTrip;
 @class CPRouteChoice;
 
-SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPMapTemplateDelegate>
 - (void)mapTemplate:(CPMapTemplate * _Nonnull)mapTemplate startedTrip:(CPTrip * _Nonnull)trip usingRouteChoice:(CPRouteChoice * _Nonnull)routeChoice;
 - (void)mapTemplate:(CPMapTemplate * _Nonnull)mapTemplate selectedPreviewForTrip:(CPTrip * _Nonnull)trip usingRouteChoice:(CPRouteChoice * _Nonnull)routeChoice;
@@ -2785,7 +2787,7 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 
 @class CPSearchTemplate;
 
-SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPSearchTemplateDelegate>
 - (void)searchTemplate:(CPSearchTemplate * _Nonnull)searchTemplate updatedSearchText:(NSString * _Nonnull)searchText completionHandler:(void (^ _Nonnull)(NSArray<CPListItem *> * _Nonnull))completionHandler;
 - (void)searchTemplateSearchButtonPressed:(CPSearchTemplate * _Nonnull)searchTemplate;
@@ -2798,7 +2800,7 @@ SWIFT_AVAILABILITY(ios,introduced=12.0)
 /// <code>CarPlayNavigationViewController</code> is a fully-featured turn-by-turn navigation UI for CarPlay.
 /// seealso:
 /// NavigationViewController
-SWIFT_CLASS("_TtC15NbmapNavigation31CarPlayNavigationViewController") SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_CLASS("_TtC15NbmapNavigation31CarPlayNavigationViewController") SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayNavigationViewController : UIViewController <NGLMapViewDelegate>
 /// The view controller’s delegate.
 @property (nonatomic, weak) id <NBNavigationCarPlayDelegate> _Nullable delegate;
@@ -2829,9 +2831,9 @@ SWIFT_CLASS("_TtC15NbmapNavigation31CarPlayNavigationViewController") SWIFT_AVAI
 
 @class CPSessionConfiguration;
 
-SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <CPSessionConfigurationDelegate>
-- (void)sessionConfiguration:(CPSessionConfiguration * _Nonnull)sessionConfiguration contentStyleChanged:(CPContentStyle)contentStyle SWIFT_AVAILABILITY(ios,introduced=13.0);
+- (void)sessionConfiguration:(CPSessionConfiguration * _Nonnull)sessionConfiguration contentStyleChanged:(CPContentStyle)contentStyle;
 @end
 
 
@@ -2959,6 +2961,7 @@ SWIFT_PROTOCOL_NAMED("NavigationMapViewDelegate")
 @class NGLMapView;
 @class NGLStyle;
 
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBNavigationMapViewDelegate>
 - (void)mapView:(NGLMapView * _Nonnull)mapView didFinishLoadingStyle:(NGLStyle * _Nonnull)style;
 @end
@@ -2980,7 +2983,7 @@ SWIFT_PROTOCOL_NAMED("StyleManagerDelegate")
 @end
 
 
-SWIFT_AVAILABILITY(ios,introduced=12.0)
+SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBStyleManagerDelegate>
 - (CLLocation * _Nullable)locationForStyleManager:(NBStyleManager * _Nonnull)styleManager SWIFT_WARN_UNUSED_RESULT;
 - (void)styleManager:(NBStyleManager * _Nonnull)styleManager didApply:(NBStyle * _Nonnull)style;
@@ -3850,6 +3853,7 @@ SWIFT_CLASS_NAMED("ResumeButton")
 
 
 
+/// A view that displays the duration of a route as a symbol on the map.
 SWIFT_CLASS("_TtC15NbmapNavigation19RouteDurationSymbol")
 @interface RouteDurationSymbol : UIView
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
