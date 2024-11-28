@@ -269,7 +269,9 @@ public struct BatchSpanProcessor : NbmapCoreNavigation.SpanProcessor {
   }
   @objc open var includesAlternativeRoutes: Swift.Bool
   @objc open var alternativeCount: Swift.Int
+  @available(*, deprecated, message: "Use `avoid` instead.")
   @objc open var roadClassesToAvoid: NbmapCoreNavigation.RoadClasses
+  @objc open var avoid: [Swift.String]
   @objc open var mapOption: NbmapCoreNavigation.NBMapOption
   @objc open var truckSize: [Swift.Int]
   @objc open var truckWeight: Swift.Int
@@ -277,6 +279,7 @@ public struct BatchSpanProcessor : NbmapCoreNavigation.SpanProcessor {
   @objc open var crossBorder: Swift.Bool
   open var hazmatTypes: NbmapCoreNavigation.NavigationHazmatTypes
   @objc open var truckAxleLoad: Swift.Double
+  @objc open var allow: Swift.String
   public func response(from json: NbmapCoreNavigation.JSONDictionary) -> [NbmapCoreNavigation.Route]?
   @objc override public class var supportsSecureCoding: Swift.Bool {
     @objc get
@@ -2400,7 +2403,7 @@ public class TelemetryDataSource : NbmapCoreNavigation.ITelemetryDataSource {
   @objc final public let outletIndex: Swift.Int
   @objc final public let approachLanes: [NbmapCoreNavigation.Lane]?
   @objc final public let usableApproachLanes: Foundation.IndexSet?
-  final public let outletRoadClasses: NbmapCoreNavigation.RoadClasses?
+  final public let outletRoadClasses: [Swift.String]?
   @objc required public init?(coder decoder: Foundation.NSCoder)
   @objc public static var supportsSecureCoding: Swift.Bool
   @objc public func encode(with coder: Foundation.NSCoder)
@@ -2606,7 +2609,7 @@ public struct EntryValue : Swift.Equatable {
     get
   }
   public var userInfo: [Swift.String : Swift.String?]?
-  required public init(dataSource: (any NbmapCoreNavigation.NavigationEventsManagerDataSource)? = nil, accessToken possibleToken: Swift.String? = nil, telemetry: any NbmapCoreNavigation.Telemetry = NBTelemetryManager.shared)
+  required public init(dataSource: (any NbmapCoreNavigation.NavigationEventsManagerDataSource)? = nil, accessToken possibleToken: Swift.String? = nil, telemetry: any NbmapCoreNavigation.Telemetry = NBTelemetryManager.init())
   @objc deinit
   @objc public var delaysEventFlushing: Swift.Bool
 }
@@ -2693,6 +2696,17 @@ public protocol ContextManager : AnyObject {
   @objc deinit
   @objc override dynamic open func startUpdatingLocation()
   @objc override dynamic open func stopUpdatingLocation()
+}
+public class NBTripSession : NbmapCoreNavigation.TripSession {
+  public static let minDurationOfLegStart: Swift.Int
+  public static let halfDayDurationOfLegStart: Swift.Int
+  weak public var delegate: (any NbmapCoreNavigation.NBTripSessionDelegate)?
+  public init(routes: [NbmapCoreNavigation.Route], delegate: (any NbmapCoreNavigation.NBTripSessionDelegate)? = nil)
+  public func getFiredEvents() -> [Swift.String : Swift.Bool]
+  public func getEventKey(forLegIndex legIndex: Swift.Int, isFirstEvent: Swift.Bool) -> Swift.String
+  public func onTripSession(didUpdate progress: NbmapCoreNavigation.RouteProgress)
+  public func onTripSession(didSet routes: [NbmapCoreNavigation.Route])
+  @objc deinit
 }
 extension NbmapCoreNavigation.Google_Protobuf_Duration {
   public init(seconds: Swift.Int64 = 0, nanos: Swift.Int32 = 0)
@@ -4376,6 +4390,9 @@ extension NbmapCoreNavigation.RouteController : NbmapCoreNavigation.SpeedCalibra
   public func isOnMoving() -> Swift.Bool
   public func onSpeedChanged(speed: CoreLocation.CLLocationSpeed)
 }
+public protocol NBTripSessionDelegate : AnyObject {
+  func tripSessionShouldFireEvent() -> Swift.Bool
+}
 public struct Version {
   public static let major: Swift.Int
   public static let minor: Swift.Int
@@ -4455,7 +4472,6 @@ public protocol DoubleObserverMetricHandle {
   public var accessToken: Swift.String? {
     get
   }
-  public static let shared: NbmapCoreNavigation.NBTelemetryManager
   convenience public init(_ telemetry: NbmapCoreNavigation.OpenTelemetry? = nil, eventConfigration: NbmapCoreNavigation.EventConfigration? = nil, tracerProvider: (any NbmapCoreNavigation.TracerProvider)? = nil, tracer: NbmapCoreNavigation.TracerSdk? = nil, spanProcessor: (any NbmapCoreNavigation.SpanProcessor)? = nil, jaegerExporter: NbmapCoreNavigation.OtlpHttpTraceExporter? = nil, resources: NbmapCoreNavigation.Resource? = nil)
   public func setup(withAccessToken: Swift.String, userAgentBase: Swift.String, hostSDKVersion: Swift.String)
   public func track(spanName: Swift.String, with attributes: [Swift.String : Any]?, end: Swift.Bool? = true) -> any NbmapCoreNavigation.Span
@@ -5091,6 +5107,9 @@ extension NbmapCoreNavigation.NBNavigationService : NbmapCoreNavigation.Stationa
   public func onStatusUpdate(isMoving: Swift.Bool)
   public func onSensorUpdate(angularSpeed: Swift.Double?, acceleration: Swift.Double?, speed: Swift.Double?)
 }
+extension NbmapCoreNavigation.NBNavigationService : NbmapCoreNavigation.NBTripSessionDelegate {
+  public func tripSessionShouldFireEvent() -> Swift.Bool
+}
 open class RoundaboutCalibrator {
   required public init(drivingSide: NbmapCoreNavigation.DrivingSide, bearingFrom before: CoreLocation.CLLocationDegrees, to after: CoreLocation.CLLocationDegrees, startFrom position: CoreLocation.CLLocationCoordinate2D, endOf endPosition: CoreLocation.CLLocationCoordinate2D)
   @objc deinit
@@ -5688,6 +5707,11 @@ open class BoundMeasureMetric<T> {
   public static let TYPE_NAVIGATION_FINISHED: Swift.String
   public static let TYPE_ALTERNATIVE_LOCATION: Swift.String
   @objc deinit
+}
+public protocol TripSession {
+  var delegate: (any NbmapCoreNavigation.NBTripSessionDelegate)? { get set }
+  func onTripSession(didUpdate progress: NbmapCoreNavigation.RouteProgress)
+  func onTripSession(didSet routes: [NbmapCoreNavigation.Route])
 }
 @objc(NBLane) public class Lane : ObjectiveC.NSObject, Foundation.NSSecureCoding {
   @objc final public let indications: NbmapCoreNavigation.LaneIndication
@@ -7105,6 +7129,7 @@ public let NBEventTypeNavigationFeedback: Swift.String
 public let NBEventTypeNavigationRouteRetrieval: Swift.String
 public let NBEventTypeNavigationBillingStart: Swift.String
 public let NBEventTypeNavigationBillingEnd: Swift.String
+public let NBEventTypeNavigationTrip: Swift.String
 public let NBDataTrackingKeyEvent: Swift.String
 public let NBDataTrackingKeyCreated: Swift.String
 public let BaseUrlKey: Swift.String

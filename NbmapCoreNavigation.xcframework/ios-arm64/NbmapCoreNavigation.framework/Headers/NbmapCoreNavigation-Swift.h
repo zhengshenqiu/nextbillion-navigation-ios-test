@@ -867,6 +867,7 @@ SWIFT_CLASS("_TtC19NbmapCoreNavigation19NBNavigationService")
 
 
 
+
 @class CLLocationManager;
 @class CLHeading;
 @class CLLocation;
@@ -954,7 +955,11 @@ SWIFT_CLASS_NAMED("RouteOptions")
 @property (nonatomic) NSInteger alternativeCount;
 /// The route classes that the calculated routes will avoid.
 /// We can set an array road class to avoid.
-@property (nonatomic) NBRoadClasses roadClassesToAvoid;
+@property (nonatomic) NBRoadClasses roadClassesToAvoid SWIFT_DEPRECATED_MSG("Use `avoid` instead.");
+/// The route classes that the calculated routes will avoid.
+/// We can set an array road class to avoid.
+/// Allowed Values:  <code>toll</code> <code>highway</code> <code>ferry</code> <code>sharp_turn</code> <code>uturn</code> <code>service_road</code> <code>left_turn</code> <code>right_turn</code> <code>bbox</code> <code>geofence_id</code> <code>none</code>
+@property (nonatomic, copy) NSArray<NSString *> * _Nonnull avoid;
 @property (nonatomic) NBMapOption _Nonnull mapOption;
 /// This defines the dimensions of a truck in centimeters (cm). This parameter is effective only when the <code>profileIdentifier</code> is<code>NBNavigationMode6W</code>. Maximum dimensions are as follows:
 /// Height = 1000 cm
@@ -975,6 +980,8 @@ SWIFT_CLASS_NAMED("RouteOptions")
 /// Specify the total load per axle (including the weight of trailers and shipped goods) of the truck, in tonnes. When used, the service will return routes which are legally allowed to carry the load specified per axle.
 /// Please note this parameter is effective only when <code>profileIdentifier</code> is <code>.truck</code> and <code>mapOption</code> is<code>.valhalla</code>
 @property (nonatomic) double truckAxleLoad;
+/// Allowed Values:  <code>taxi</code> <code>hov</code>
+@property (nonatomic, copy) NSString * _Nonnull allow;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) BOOL supportsSecureCoding;)
 + (BOOL)supportsSecureCoding SWIFT_WARN_UNUSED_RESULT;
 - (id _Nonnull)copyWithZone:(struct _NSZone * _Nullable)zone SWIFT_WARN_UNUSED_RESULT;

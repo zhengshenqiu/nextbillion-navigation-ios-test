@@ -306,6 +306,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #endif
 
 #if defined(__OBJC__)
+
 @class UIColor;
 @class UIFont;
 @class NSCoder;
@@ -584,6 +585,7 @@ SWIFT_CLASS("_TtC15NbmapNavigation14CarPlayManager") SWIFT_AVAILABILITY(ios,intr
 
 
 
+
 @class CarPlayNavigationViewController;
 
 /// The <code>CarPlayNavigationDelegate</code> protocol provides methods for reacting to significant events during turn-by-turn navigation with <code>CarPlayNavigationViewController</code>.
@@ -608,7 +610,6 @@ SWIFT_AVAILABILITY(ios,introduced=13.0)
 - (void)carPlayNavigationViewControllerDidDismiss:(CarPlayNavigationViewController * _Nonnull)carPlayNavigationViewController byCanceling:(BOOL)canceled;
 @end
 
-
 @class UIApplication;
 @class CPInterfaceController;
 @class CPWindow;
@@ -628,15 +629,6 @@ SWIFT_AVAILABILITY(ios,introduced=13.0)
 @end
 
 
-
-@class CPListTemplate;
-@class CPListItem;
-
-SWIFT_AVAILABILITY(ios,introduced=13.0)
-@interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPListTemplateDelegate>
-- (void)listTemplate:(CPListTemplate * _Nonnull)listTemplate didSelectListItem:(CPListItem * _Nonnull)item completionHandler:(void (^ _Nonnull)(void))completionHandler;
-@end
-
 @class CPTemplate;
 
 SWIFT_AVAILABILITY(ios,introduced=13.0)
@@ -646,6 +638,15 @@ SWIFT_AVAILABILITY(ios,introduced=13.0)
 - (void)templateWillDisappear:(CPTemplate * _Nonnull)template_ animated:(BOOL)animated;
 - (void)templateDidDisappear:(CPTemplate * _Nonnull)template_ animated:(BOOL)animated;
 @end
+
+@class CPListTemplate;
+@class CPListItem;
+
+SWIFT_AVAILABILITY(ios,introduced=13.0)
+@interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPListTemplateDelegate>
+- (void)listTemplate:(CPListTemplate * _Nonnull)listTemplate didSelectListItem:(CPListItem * _Nonnull)item completionHandler:(void (^ _Nonnull)(void))completionHandler;
+@end
+
 
 @class CPMapTemplate;
 @class CPTrip;
@@ -704,14 +705,6 @@ SWIFT_CLASS("_TtC15NbmapNavigation31CarPlayNavigationViewController") SWIFT_AVAI
 /// When this property is true, the map follows the user’s location and rotates when their course changes. Otherwise, the map shows an overview of the route.
 @property (nonatomic) BOOL tracksUserCourse;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
-@end
-
-
-@class CPSessionConfiguration;
-
-SWIFT_AVAILABILITY(ios,introduced=13.0)
-@interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <CPSessionConfigurationDelegate>
-- (void)sessionConfiguration:(CPSessionConfiguration * _Nonnull)sessionConfiguration contentStyleChanged:(CPContentStyle)contentStyle;
 @end
 
 
@@ -843,6 +836,14 @@ SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBNavigationMapViewDelegate>
 - (void)mapView:(NGLMapView * _Nonnull)mapView didFinishLoadingStyle:(NGLStyle * _Nonnull)style;
 @end
+
+@class CPSessionConfiguration;
+
+SWIFT_AVAILABILITY(ios,introduced=13.0)
+@interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <CPSessionConfigurationDelegate>
+- (void)sessionConfiguration:(CPSessionConfiguration * _Nonnull)sessionConfiguration contentStyleChanged:(CPContentStyle)contentStyle;
+@end
+
 
 @class NBStyleManager;
 @class CLLocation;
@@ -1751,10 +1752,10 @@ SWIFT_CLASS_NAMED("RouteVoiceController")
 @property (nonatomic) BOOL playRerouteSound;
 /// Sound to play prior to reroute. Inherits volume level from <code>volume</code>.
 @property (nonatomic, strong) AVAudioPlayer * _Nonnull rerouteSoundPlayer;
-/// Default initializer for <code>RouteVoiceController</code>.
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 - (void)speechSynthesizer:(AVSpeechSynthesizer * _Nonnull)synthesizer didFinishSpeechUtterance:(AVSpeechUtterance * _Nonnull)utterance;
 - (void)didPassSpokenInstructionPointWithNotification:(NSNotification * _Nonnull)notification;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 
@@ -1954,6 +1955,22 @@ SWIFT_CLASS_NAMED("SubtitleLabel")
 @end
 
 
+/// <code>SpeechSynthesizing</code> implementation, using <code>AVSpeechSynthesizer</code>.
+SWIFT_CLASS("_TtC15NbmapNavigation23SystemSpeechSynthesizer")
+@interface SystemSpeechSynthesizer : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+@interface SystemSpeechSynthesizer (SWIFT_EXTENSION(NbmapNavigation)) <AVSpeechSynthesizerDelegate>
+- (void)speechSynthesizer:(AVSpeechSynthesizer * _Nonnull)synthesizer didStartSpeechUtterance:(AVSpeechUtterance * _Nonnull)utterance;
+- (void)speechSynthesizer:(AVSpeechSynthesizer * _Nonnull)synthesizer didContinueSpeechUtterance:(AVSpeechUtterance * _Nonnull)utterance;
+- (void)speechSynthesizer:(AVSpeechSynthesizer * _Nonnull)synthesizer didFinishSpeechUtterance:(AVSpeechUtterance * _Nonnull)utterance;
+- (void)speechSynthesizer:(AVSpeechSynthesizer * _Nonnull)synthesizer didPauseSpeechUtterance:(AVSpeechUtterance * _Nonnull)utterance;
+- (void)speechSynthesizer:(AVSpeechSynthesizer * _Nonnull)synthesizer didCancelSpeechUtterance:(AVSpeechUtterance * _Nonnull)utterance;
+@end
+
+
 /// :nodoc:
 SWIFT_CLASS_NAMED("TimeRemainingLabel")
 @interface NBTimeRemainingLabel : NBStylableLabel
@@ -2035,38 +2052,6 @@ SWIFT_CLASS("_TtC15NbmapNavigation18UserPuckCourseView")
 @end
 
 
-
-@class NBSpokenInstruction;
-@class NBRouteProgress;
-
-/// The <code>VoiceControllerDelegate</code> protocol defines methods that allow an object to respond to significant events related to spoken instructions.
-SWIFT_PROTOCOL_NAMED("VoiceControllerDelegate")
-@protocol NBVoiceControllerDelegate
-@optional
-/// Called when the voice controller failed to speak an instruction.
-/// \param voiceController The voice controller that experienced the failure.
-///
-/// \param error An error explaining the failure and its cause. The <code>NBSpokenInstructionErrorCodeKey</code> key of the error’s user info dictionary is a <code>SpokenInstructionErrorCode</code> indicating the cause of the failure.
-///
-- (void)voiceController:(NBRouteVoiceController * _Nonnull)voiceController spokenInstrucionsDidFailWithError:(NSError * _Nonnull)error;
-/// Called when one spoken instruction interrupts another instruction currently being spoken.
-/// \param voiceController The voice controller that experienced the interruption.
-///
-/// \param interruptedInstruction The spoken instruction currently in progress that has been interrupted.
-///
-/// \param interruptingInstruction The spoken instruction that is interrupting the current instruction.
-///
-- (void)voiceController:(NBRouteVoiceController * _Nonnull)voiceController didInterruptSpokenInstruction:(NBSpokenInstruction * _Nonnull)interruptedInstruction withInstruction:(NBSpokenInstruction * _Nonnull)interruptingInstruction;
-/// Called when a spoken is about to speak. Useful if it is necessary to give a custom instruction instead. Noting, changing the <code>distanceAlongStep</code> property on <code>SpokenInstruction</code> will have no impact on when the instruction will be said.
-/// \code
-/// - parameter voiceController: The voice controller that will speak an instruction.
-/// - parameter instruction: The spoken instruction that will be said.
-/// - parameter routeProgress: The `RouteProgress` just before when the instruction is scheduled to be spoken.
-/// *
-///
-/// \endcode
-- (NBSpokenInstruction * _Nullable)voiceController:(NBRouteVoiceController * _Nonnull)voiceController willSpeakSpokenInstruction:(NBSpokenInstruction * _Nonnull)instruction routeProgress:(NBRouteProgress * _Nonnull)routeProgress SWIFT_WARN_UNUSED_RESULT;
-@end
 
 
 /// :nodoc:
@@ -2428,6 +2413,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #endif
 
 #if defined(__OBJC__)
+
 @class UIColor;
 @class UIFont;
 @class NSCoder;
@@ -2706,6 +2692,7 @@ SWIFT_CLASS("_TtC15NbmapNavigation14CarPlayManager") SWIFT_AVAILABILITY(ios,intr
 
 
 
+
 @class CarPlayNavigationViewController;
 
 /// The <code>CarPlayNavigationDelegate</code> protocol provides methods for reacting to significant events during turn-by-turn navigation with <code>CarPlayNavigationViewController</code>.
@@ -2730,7 +2717,6 @@ SWIFT_AVAILABILITY(ios,introduced=13.0)
 - (void)carPlayNavigationViewControllerDidDismiss:(CarPlayNavigationViewController * _Nonnull)carPlayNavigationViewController byCanceling:(BOOL)canceled;
 @end
 
-
 @class UIApplication;
 @class CPInterfaceController;
 @class CPWindow;
@@ -2750,15 +2736,6 @@ SWIFT_AVAILABILITY(ios,introduced=13.0)
 @end
 
 
-
-@class CPListTemplate;
-@class CPListItem;
-
-SWIFT_AVAILABILITY(ios,introduced=13.0)
-@interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPListTemplateDelegate>
-- (void)listTemplate:(CPListTemplate * _Nonnull)listTemplate didSelectListItem:(CPListItem * _Nonnull)item completionHandler:(void (^ _Nonnull)(void))completionHandler;
-@end
-
 @class CPTemplate;
 
 SWIFT_AVAILABILITY(ios,introduced=13.0)
@@ -2768,6 +2745,15 @@ SWIFT_AVAILABILITY(ios,introduced=13.0)
 - (void)templateWillDisappear:(CPTemplate * _Nonnull)template_ animated:(BOOL)animated;
 - (void)templateDidDisappear:(CPTemplate * _Nonnull)template_ animated:(BOOL)animated;
 @end
+
+@class CPListTemplate;
+@class CPListItem;
+
+SWIFT_AVAILABILITY(ios,introduced=13.0)
+@interface CarPlayManager (SWIFT_EXTENSION(NbmapNavigation)) <CPListTemplateDelegate>
+- (void)listTemplate:(CPListTemplate * _Nonnull)listTemplate didSelectListItem:(CPListItem * _Nonnull)item completionHandler:(void (^ _Nonnull)(void))completionHandler;
+@end
+
 
 @class CPMapTemplate;
 @class CPTrip;
@@ -2826,14 +2812,6 @@ SWIFT_CLASS("_TtC15NbmapNavigation31CarPlayNavigationViewController") SWIFT_AVAI
 /// When this property is true, the map follows the user’s location and rotates when their course changes. Otherwise, the map shows an overview of the route.
 @property (nonatomic) BOOL tracksUserCourse;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
-@end
-
-
-@class CPSessionConfiguration;
-
-SWIFT_AVAILABILITY(ios,introduced=13.0)
-@interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <CPSessionConfigurationDelegate>
-- (void)sessionConfiguration:(CPSessionConfiguration * _Nonnull)sessionConfiguration contentStyleChanged:(CPContentStyle)contentStyle;
 @end
 
 
@@ -2965,6 +2943,14 @@ SWIFT_AVAILABILITY(ios,introduced=13.0)
 @interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <NBNavigationMapViewDelegate>
 - (void)mapView:(NGLMapView * _Nonnull)mapView didFinishLoadingStyle:(NGLStyle * _Nonnull)style;
 @end
+
+@class CPSessionConfiguration;
+
+SWIFT_AVAILABILITY(ios,introduced=13.0)
+@interface CarPlayNavigationViewController (SWIFT_EXTENSION(NbmapNavigation)) <CPSessionConfigurationDelegate>
+- (void)sessionConfiguration:(CPSessionConfiguration * _Nonnull)sessionConfiguration contentStyleChanged:(CPContentStyle)contentStyle;
+@end
+
 
 @class NBStyleManager;
 @class CLLocation;
@@ -3873,10 +3859,10 @@ SWIFT_CLASS_NAMED("RouteVoiceController")
 @property (nonatomic) BOOL playRerouteSound;
 /// Sound to play prior to reroute. Inherits volume level from <code>volume</code>.
 @property (nonatomic, strong) AVAudioPlayer * _Nonnull rerouteSoundPlayer;
-/// Default initializer for <code>RouteVoiceController</code>.
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 - (void)speechSynthesizer:(AVSpeechSynthesizer * _Nonnull)synthesizer didFinishSpeechUtterance:(AVSpeechUtterance * _Nonnull)utterance;
 - (void)didPassSpokenInstructionPointWithNotification:(NSNotification * _Nonnull)notification;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 
@@ -4076,6 +4062,22 @@ SWIFT_CLASS_NAMED("SubtitleLabel")
 @end
 
 
+/// <code>SpeechSynthesizing</code> implementation, using <code>AVSpeechSynthesizer</code>.
+SWIFT_CLASS("_TtC15NbmapNavigation23SystemSpeechSynthesizer")
+@interface SystemSpeechSynthesizer : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+@interface SystemSpeechSynthesizer (SWIFT_EXTENSION(NbmapNavigation)) <AVSpeechSynthesizerDelegate>
+- (void)speechSynthesizer:(AVSpeechSynthesizer * _Nonnull)synthesizer didStartSpeechUtterance:(AVSpeechUtterance * _Nonnull)utterance;
+- (void)speechSynthesizer:(AVSpeechSynthesizer * _Nonnull)synthesizer didContinueSpeechUtterance:(AVSpeechUtterance * _Nonnull)utterance;
+- (void)speechSynthesizer:(AVSpeechSynthesizer * _Nonnull)synthesizer didFinishSpeechUtterance:(AVSpeechUtterance * _Nonnull)utterance;
+- (void)speechSynthesizer:(AVSpeechSynthesizer * _Nonnull)synthesizer didPauseSpeechUtterance:(AVSpeechUtterance * _Nonnull)utterance;
+- (void)speechSynthesizer:(AVSpeechSynthesizer * _Nonnull)synthesizer didCancelSpeechUtterance:(AVSpeechUtterance * _Nonnull)utterance;
+@end
+
+
 /// :nodoc:
 SWIFT_CLASS_NAMED("TimeRemainingLabel")
 @interface NBTimeRemainingLabel : NBStylableLabel
@@ -4157,38 +4159,6 @@ SWIFT_CLASS("_TtC15NbmapNavigation18UserPuckCourseView")
 @end
 
 
-
-@class NBSpokenInstruction;
-@class NBRouteProgress;
-
-/// The <code>VoiceControllerDelegate</code> protocol defines methods that allow an object to respond to significant events related to spoken instructions.
-SWIFT_PROTOCOL_NAMED("VoiceControllerDelegate")
-@protocol NBVoiceControllerDelegate
-@optional
-/// Called when the voice controller failed to speak an instruction.
-/// \param voiceController The voice controller that experienced the failure.
-///
-/// \param error An error explaining the failure and its cause. The <code>NBSpokenInstructionErrorCodeKey</code> key of the error’s user info dictionary is a <code>SpokenInstructionErrorCode</code> indicating the cause of the failure.
-///
-- (void)voiceController:(NBRouteVoiceController * _Nonnull)voiceController spokenInstrucionsDidFailWithError:(NSError * _Nonnull)error;
-/// Called when one spoken instruction interrupts another instruction currently being spoken.
-/// \param voiceController The voice controller that experienced the interruption.
-///
-/// \param interruptedInstruction The spoken instruction currently in progress that has been interrupted.
-///
-/// \param interruptingInstruction The spoken instruction that is interrupting the current instruction.
-///
-- (void)voiceController:(NBRouteVoiceController * _Nonnull)voiceController didInterruptSpokenInstruction:(NBSpokenInstruction * _Nonnull)interruptedInstruction withInstruction:(NBSpokenInstruction * _Nonnull)interruptingInstruction;
-/// Called when a spoken is about to speak. Useful if it is necessary to give a custom instruction instead. Noting, changing the <code>distanceAlongStep</code> property on <code>SpokenInstruction</code> will have no impact on when the instruction will be said.
-/// \code
-/// - parameter voiceController: The voice controller that will speak an instruction.
-/// - parameter instruction: The spoken instruction that will be said.
-/// - parameter routeProgress: The `RouteProgress` just before when the instruction is scheduled to be spoken.
-/// *
-///
-/// \endcode
-- (NBSpokenInstruction * _Nullable)voiceController:(NBRouteVoiceController * _Nonnull)voiceController willSpeakSpokenInstruction:(NBSpokenInstruction * _Nonnull)instruction routeProgress:(NBRouteProgress * _Nonnull)routeProgress SWIFT_WARN_UNUSED_RESULT;
-@end
 
 
 /// :nodoc:
